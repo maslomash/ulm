@@ -1,0 +1,106 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+
+\title{Formale Grundlagen: Übung 1}
+\author{Alexander Waldenmaier, Tutorin: Vanessa Hiebeler}
+
+\begin{document}
+    \maketitle
+    \subsection*{Aufgabe 1.1}
+    Hinweis: Ich verstehe es so, dass die Menge einer Zahl nicht das selbe wie die Zahl selbst ist, also
+    $x \neq \{x\}$, aber $x \in \{x\}$.
+    \begin{enumerate}[(a)]
+        \item $M_a = \{3\}$
+        \item $M_b = \{2,4,5,6\}$
+        \item $M_c = \{1, \{3\}\}$
+        \item $M_d = \{\{1\}, \{2\}, \{1, 2\}\}\Delta\{1, \{1, 2\}, \emptyset\} = \{\{1\}, \{2\}, 1\}$
+        \item $M_e = \{7, 14, 21, 28, 35, 42\}$
+        \item $M_f = \{\{3, 4, 5\}, \{4, 3, 5\}, \{6, 8, 10\}, \{8, 6, 10\} \}$
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 1.2}
+    \begin{enumerate}[(a)]
+        \item 
+        \begin{align*}
+            |M_a| &= \binom{|\{a, b, c, d\}|}{3} = \frac{|\{a, b, c, d\}|!}{3!(|\{a, b, c, d\}-3)!} = \frac{4!}{3!(4-3)!} = \frac{24}{6*1}=4
+        \end{align*}
+        \item 
+        \begin{align*}
+            |M_b| =& |\{\{1\}, \{3\}, \{4\}, \{1,3\}, \{1,4\}, \{3,4\}, \{1,3,4\}\}\Delta ... \\
+            &\{\{1\}, \{2\}, \{4\}, \{1,2\}, \{1,4\}, \{2,4\}, \{1,2,4\}\}| \\
+            =& |\{\{2\}, \{3\}, \{1, 2\}, \{1,3\}, \{2,4\}, \{3,4\}, \{1,2,4\}, \{1,3,4\}\}| = 8
+        \end{align*}
+        \item $|M_c| = |\emptyset| = 0$
+        \item $|M_d| = |\emptyset| = 0$
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 1.3}
+    \begin{enumerate}[(a)]
+        \item Bijektiv, da für alle Elemente des Wertebereichs $y \in Y$ genau ein Element aus dem Definitionsbereich 
+        $x \in X$ existiert. (Frage: Müsste hier nicht korrekterweise der Wertebereich alle natürlichen Zahlen UND Null enthalten?)
+        \item Nicht injektiv, da beispielsweise $(x, y) = (1, -1)$ das selbe Ergebnis liefert wie $(x,y) = (-1, 1)$. Surjektiv, 
+        da für jedes Element des Wertebereichs mindestens eine Wertekombination des Definitionsbereichs existiert, für den
+        $f_b(x,y) = \frac{x}{y}$ gilt (Grund: Definition der rationalen Zahlenmenge). Da nicht sowohl injektiv als auch surjektiv, ist
+        die Funktion nicht bijektiv. 
+        \item Nicht injektiv, da beispielsweise $x=1$ und $x=-1$ beide das Ergebnis $f_c(x) = 1$ liefern. Surjektiv, da alle
+        natürlichen Zahlen genau die Menge aller positiver ganzen Zahlen ist, was durch die Betragsfunktion dargstellt wird. Da nicht sowohl injektiv als auch surjektiv, ist
+        die Funktion nicht bijektiv. 
+        \item Nicht surjektiv, da beispielsweise für die Zahl $y=0.5$ aus dem Wertebereich keine zugehörige Zahl aus dem Definitionsbereich
+        gefunden werden kann, die $f_d(x) = x^2$ erfüllt. Injektiv, da für jede Zahl aus dem Wertebereich entweder genau eine Zahl aus dem
+        Definitionsbereich vorliegt, die die Funktionsvorschrift erfüllt, oder keine. Ersteres tritt für alle Zahlen auf, die
+        Quadratzahlen sind, da in diesem Fall ausschließlich $x=|\sqrt{y}|$ möglich ist ($x=-|\sqrt{y}|$ liegt bspw. nicht
+        im Definitionsbereich). Zweiteres tritt für alle Zahlen auf, die keine Quadratzahlen sind. Da nicht sowohl injektiv als auch surjektiv, ist
+        die Funktion nicht bijektiv. 
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 1.4}
+    Zu beweisen:
+    \begin{align*}
+        \sum^n_{i=1}(-1)^i=-1
+    \end{align*}
+    Wenn $n$ ungerade ist, so lässt es sich darstellen als $i=2k+1$ wobei $k \in \mathbb{N}_0$. Eingesetzt in die obige Gleichung
+    ergibt das:
+    \begin{align*}
+        A(k): \sum^{2k+1}_{i=1}(-1)^i=-1
+    \end{align*}
+    Beweis durch vollständige Induktion:
+
+    \paragraph*{Induktionsanfang:} $A(k_0), k_0=0$
+    \begin{align*}
+        \sum^{1}_{i=1}(-1)^i= (-1)^1 = -1
+    \end{align*}
+    
+    \paragraph*{Induktionsschritt:} $A(k) \rightarrow A(k+1)$ \\\\
+    Induktionsbehauptung: $\sum^{2k+1}_{i=1}(-1)^i=-1$
+    \begin{align*}
+        A(k+1): \sum^{2(k+1)+1}_{i=1}(-1)^i &= -1\\
+        \sum^{2k+3)+1}_{i=1}(-1)^i &= -1 \\
+        \sum^{2k+1}_{i=1}(-1)^i + (-1)^{2k+2} + (-1)^{2k+3} &= -1 \\
+        \sum^{2k+1}_{i=1}(-1)^i + 1 - 1 &= -1\\
+        \sum^{2k+1}_{i=1}(-1)^i &= -1
+    \end{align*}
+    Die letzte Zeile entspricht wieder der Induktionsbehauptung, weshalb der Induktionsschritt bewiesen wurde. \\\\
+    \textbf{q.e.d.}
+
+
+    \subsection*{Aufgabe 1.5}
+    Zu beweisen:
+    \begin{align*}
+        A(n, k): \frac{n!}{k!^2} \in \mathbb{N} | n, k \in \mathbb{N} \land n = 2k
+    \end{align*}
+    \paragraph*{Direkter Beweis:}
+    \begin{align*}
+        A(n, k): \frac{n!}{k!^2} = \frac{n!}{k!k!} = \frac{n!}{k!(2k-k)!} = \frac{n!}{k!(n-k)!} = \binom{n}{k} \in \mathbb{N}
+    \end{align*}
+    Aus der Definition des Binomialkoeffizienten ergibt sich die Aussage. \\\\
+    \textbf{q.e.d.}
+
+\end{document}

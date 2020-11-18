@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+
+\title{Grundlagen der Rechnerarchitektur: Aufgabenblatt 1}
+\author{Alexander Waldenmaier}
+
+\begin{document}
+    \maketitle
+
+    \subsection*{Einleitungsfragen}
+    \begin{enumerate}
+        \item Unter Rechnerarchitektur stelle ich mir all das vor, was man traditionell als "`Hardware"' bezeichnen würde, und wie diese aufgebaut ist. Dazu zählen beispielsweise der Prozessor, der Speicher oder die Festplatte. Der Prozessor selbst kann dann wiederum zerlegt werden in Taktgeber, Rechenwerk, Busse, ... 
+        \item Die Grundlagen der Rechnerarchitektur behandeln somit die Kernbausteine eines jeden Rechners, den wir heute kennen. Dazu gehört nicht nur der physikalische Aufbau, sondern auch die Beweggründe hinter den Designentscheidungen und die Auswirkungen, die die unterschiedlichen Architekturen auf das Programmieren haben. Ein Grundverstänis der elementaren Rechenoperationen, die in einem Rechner ablaufen, ist unabdingbar. Wie beispielsweise werden Addition und Subtraktion durchgeführt? Wie werden zwei Werte miteinander verglichen? Zum physikalischen Aufbau zählen insbesondere auch die Schnittstellen, an denen aus einer Programmdatei ("`Software"') dann eine Abfolge von elektronischen Signalen ("`Hardware"') wird. 
+        \item Für mich ist gerade dieser Aspekt der spannendste an der Vorlesung zu den Grundlagen der Rechnerarchitektur: Wie genau wird aus dem Programmcode, den ich auf dem Bildschirm sehe, ein Programm, das auf dem Prozessor berechnet werden kann? Welche Stufen der Abstraktion führen schließlich zu den grundsätzigen Rechenoperationen, die hardwareseitig auf dem Prozessor laufen - also knapp ausgedrückt: Wie wird z.B. aus einem "`for-loop"' eine Abfolge von binären Vergleichen und Wertzuweisungen auf Hardwareniveau? Prozessoren, oder generell Halbleitertechnologie, haben für mich einen fast mystischen Schleier, der sich auch nach zahlreichen Artikeln, die ich dazu bereits gelesen habe, oder Videos, die ich dazu gesehen habe, nioch nicht gelüftet. Ich hoffe, dass mich diese Vorlesung ein Stück weiter zum Verständis bringt! 
+    \end{enumerate}
+
+
+    \subsection*{Historische Entwicklung}
+    \begin{enumerate}
+        \item Mechanische Rechner hatten insbesondere mit Verschleis zu kämpfen, der aufgrund der zahlreichen aufeinander reibenden Komponenten zustande kam. Erschwerend kam dazu, dass bei besonders großen Zahlen simulatan zahlreiche Schieber bewegt oder Zylinder rotiert werden mussten, was mit einem enormen Kraftaufwand verbunden war. Darüberhinaus führte unpräzise Fertigung gelegentlich dazu, dass das System "`stecken"' blieb oder gar falsch rechnete.
+        \item Lochkarten waren eine erste Form der Datenspeicherung. Erstmals kam die Methode im Zusammenhang mit der Volkszählung in den USA auf, die aufgrund der enormen Datenmengen einen immer größeren Aufwand mit sich brachte. In den Karten konnten beispielsweise Alter, Geschlecht oder andere Merkmale kodiert werden, die dann mithilfe von rotierenden Walzen mit Stiften ausgelesen wurden. War ein Loch vorhanden, hakte der Stift ein - sonst nicht. Durch tangentiale Bewegung der Lochkarten konnten Zählwerke in Drehung versetzt werden und somit die Anzahl aller "`Löcher"' in einem Kartenstapel bestimmt werden. Charles Babbage (1792 - 1871), Professor für Mathematik an der Universität Cambridge, hatte bereits einige Zeit früher die Idee, für seine "`Analytical Engine"' Lochkarten zur Ein- und Ausgabe zu verwenden. Leider erlaubten ihm die damaligen Fertigungsmethoden nicht die technische Umsetzung seiner Erfindung. 
+        \item Anfangs mussten Rechner speziell zugeschnitten auf ihre zugrundeliegende Architektur programmiert werden. Befehle, wie wir sie heute im abstrahierten Sinne kennen, gab es zunächst nicht. Folglich war ein Programm mit einem neuen Rechner völlig inkompatibel. Aufgrund zunehmender Verwendung von Rechnern im kommerziellen Bereich wurde jedoch der Wunsch nach Übertragbarkeit von Programmen immer größer: Daraufhin wurden sogenannte "`Befehlssätze"' eingeführt. Schrieb man Programme mithilfe der im Befehlssatz befindlichen Befehle, so verstand auch ein anderer Rechnertyp mit dem selben Befehlssatz das Programm. Es war die Aufgabe der Hardware-Hersteller (z.B. IBM), die Verbindung zwischen einheitlichem Befehlssatz und der darunterliegenden Rechnerarchitektur herzustellen. 
+        \item Nach den elektromechanischen Computern folgten zunächst die mit Elektronenröhren betriebenen Computer (z.B. ENIAC). Aufgrund der hohen Ausfallwahrscheinlichkeit der Röhren wurde diese Bauart jedoch bald durch die ersten Halbleitercomputer ersetzt (z.B. SEAC). Die Halbleiterkomponenten waren weitaus zuverlässiger, weshalb SEAC beispielsweise ganze 14 Jahre in Betrieb war. 
+        \item Da kommerzielle Rechner anfangs vor allem Verwendung in der Volkszählung oder Buchhaltung fanden, war es völlig ausreichend, dass diese nur mit Ganzzahlen umgehen konnten. Für wissenschaftliche Berechnungen wurden allerdings bald Rechner mit der Fähigkeit zur Fließkommaberechnung notwendig. Ein erster kommerzieller Rechner von diesem Typ war die IBM 704. 
+    \end{enumerate}
+
+
+    \subsection*{Quellen}
+    \begin{itemize}
+        \item Vorlesungsskript
+    \end{itemize}
+\end{document}

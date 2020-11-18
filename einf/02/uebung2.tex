@@ -1,0 +1,196 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+
+\title{Einführung in die Informatik: Übung 1}
+\author{Alexander Waldenmaier}
+
+\begin{document}
+    \maketitle
+    \section*{Pr"asenzaufgabe}
+    Als Input f"ur den Algorithmus k"onnte eine Liste mit $n$ Zahlen dienen, wobei das i-te Listenelement als $a_i$ bezeichnet
+    wird (mit $0\le i<n$). Der Algorithmus könnte die folgenden Schritte beinhalten:
+    \begin{enumerate}[(a)]
+        \item Setze $i=0$ (1E)
+        \item Teste $i<(n-1)$ (1E)
+        \item Gebe aus "nein, $a_i$ ist die letzte Zahl!" (1E)
+        \item Setze $j=i+1$, Teste $a_i < a_{j}$ (2E)
+        \item Gebe aus "ja, $a_j$ ist größer!", Setze $i=i+1$ (2E)
+        \item Setze $j=j+1$, Teste $j<n$ (2E)
+        \item Gebe aus "nein, es gibt keine größere Zahl!", Setze $i=i+1$ (2E)
+    \end{enumerate}
+
+    Zu Beginn des Programmdurchlaufs wird in Schritt a die Laufvariable $i=0$ gesetzt. 
+    In Schritt b wird geprüft, ob bereits das letzte Element der Liste erreicht ist. 
+    Wenn ja, dann wird in Schritt c eine entsprechende Meldung herausgegeben und das Programm terminiert.
+    Wenn nicht, wird in Schritt d die Laufvariable $j=i+1$ gesetzt und geprüft, ob das j-te Element größer
+    als da i-te Element ist. 
+    Wenn ja, wird in Schritt e eine entsprechende Meldung herausgegeben, $i$ inkrementiert und
+    wieder zu Schritt b zurückgekehrt. 
+    Wenn nicht, wird in Schritt f $j$ inkrementiert und geprüft, ob damit das Ende der Liste erreicht ist. 
+    Wenn ja, wird in Schritt g eine entsprechende Meldung herausgegeben, $i$ inkrementiert und wieder zu Schritt
+    b zurückgekehrt. Wenn nicht, wird direkt zu Schritt d zurückgekehrt. 
+
+    Im besten Fall handelt es sich um eine Liste mit $n$ Zahlen, bei denen jede Zahl gr"o"ser als ihr Vorg"anger ist (oder die erste ist).
+    Dann liegt die minmale Ausf"uhrungszeit vor, da f"ur jedes Listenelement $X$ nur das n"achste Element $Y$ "uberpr"uft werden muss
+    und dabei stets sofort $Y>X$ gilt. 
+
+    \begin{align*}
+        T_{min} &= 1*a + n*b + 1*c + (n-1)*d + (n-1)*e + (n-1)*f \\
+        &= (1 + n + 1 + 2(n-1) + 2(n-1) + 2(n-1))E \\
+        &= (7n-4)E
+    \end{align*}
+
+    Im schlechtesten Fall ist die Liste aber in fallender Reihenfolge sortiert. Dann muss f"ur jedes Listenelement $X$ jedes 
+    darauffolgende Element bis an das Ende der Liste geprüft werden. Dann gilt:
+    \begin{align*}
+        T_{max} &= 1*a + n*b + 1*c + n\frac{n-1}{2}*d + (n-1)\frac{n-2}{2}*f + (n-1)*g \\
+        &= (1 + n + 1 + 2\frac{n^2-n}{2} + 2\frac{n^2-3n+2}{2} + 2(n-1))E\\
+        &= (2n^2 - n + 2)E
+    \end{align*}
+
+    Im Fall von $n=5$ gilt also $T_{min}=31E$ und $T_{max}=47E$. Aufgrund des quadratischen Wachstums von $T_{max}$ ist dieser
+    Algorithmus bei hohen $n$ nicht praktikabel. 
+
+
+
+    \section*{Aufgabe 1: Horner-Schema}
+    Umrechnungen:
+    \begin{itemize}
+        \item $1000010_{(2)} = (((((1*2+0)*2+0)*2+0)*2+0)*2+1)*2+0 = 66_{(10)}$ \\
+        \item $10222_{(8)} = (((1*8+0)*8+2)*8+2)*8+2 = 4.242_{(10)}$ \\
+        \item $ABBA_{(16)} = ((10*16+11)*16+11)*16+10 = 43.962_{(10)}$
+    \end{itemize}
+    Schema rückwärts:
+    \begin{equation*}
+        11_{(10)} = 1*2^3+0*2^2+1^*2^1+1*2^0 = 1011_{(2)}
+    \end{equation*}
+
+
+
+    \section*{Aufgabe 2: Algorithmenkonstruktion}
+    \begin{quotation}
+        Finde die minimale, maximale und durchschnittliche Abarbeitungszeit! 
+    \end{quotation}
+
+    \subsubsection*{a) Problemspezifikation}
+    Was ist die Abarbeitungszeit? Die Abarbeitungszeit ist auf Programmniveau ein Zahlenwert aus der gegebenen
+    Menge. Folglich sind "`minimal"', "`maximal"' und "`durschnittlich"' nun als mathematische Begriffe zu verstehen, 
+    die auf die in der Menge befindlichen Zahlenwerte anzuwenden sind. 
+
+    \subsubsection*{b) Problemabstraktion}
+    \begin{itemize}
+        \item Gegeben: Eine Menge $X$ von positiven Float-Zahlen. Die Menge enthält $n$ Elemente, jedes Element sei $x_i$ genannt (wobei $0\le i <n$)
+        \item Gesucht: Das Minimum $min(X)$, das Maximum $max(X)$ sowie der Durschnitt $sum(X)/n$ der Arbarbeitungszeiten.
+    \end{itemize}
+
+
+    \subsubsection*{c) Algorithmenentwurf}
+    \paragraph*{Algorithmus "`Abarbeitungszeiten"':}
+    \begin{enumerate}[(a)]
+        \item Lese die Menge $X$ als Liste von Float-Zahlen $x_i$ mit Länge $n$ ein. (2E)
+        \item Setze die Variablen $x_{min}=x_0$, $x_{max}=x_0$, $x_{sum}=0$ und $i=0$ (4E)
+        \item Solange $i<n$, wiederhole: (1E)
+        \begin{enumerate}
+            \item Wenn $x_i$ < $x_{min}$ (1E)
+            \begin{enumerate}
+                \item Setze $x_{min} = x_i$ (1E)
+            \end{enumerate}
+            \item Wenn $x_i$ > $x_{max}$ (1E)
+            \begin{enumerate}
+                \item Setze $x_{max} = x_i$ (1E)
+            \end{enumerate} 
+            \item Setze $x_{sum} = x_{sum} + x_i$ (1E)
+            \item Setze $x_i = x_i + 1$ (1E)
+        \end{enumerate}
+        \item Gebe aus:
+        \begin{enumerate}
+            \item "Minimale Ausführungsdauer = $x_{min}$" (1E)
+            \item "Maximale Ausführungsdauer = $x_{max}$" (1E)
+            \item "Durschnittliche Ausführungsdauer = $x_{sum}/n$" (1E)
+        \end{enumerate}
+    \end{enumerate}
+
+
+    \subsubsection*{d) Korrektheitsnachweis, Verifikation}
+    \paragraph*{Behauptung:}
+    Der Algorithmus "`Abarbeitungszeiten"' terminiert und liefert die geforderten Ergebnisse.
+    \paragraph*{Beweis:}
+    Vollständige Induktion über $n$:
+    \begin{itemize}
+        \item Induktionsbehauptung: \\
+        $x_{min}$ ist das Minimum von $X$, $x_{max}$ ist das Maximum von $X$ und $x_{sum}/n$ ist der Durchschnitt von $X$. Das Programm termininiert nach $n-1$ Durchläufen.
+        \item Induktionsanfang ($n=1$): \\
+        Beweis durch Simulation (Schritte wie in Teil c)): 
+        \begin{enumerate}[(a)]
+            \item Es wird gesetzt: $X={x_0}$, $n=1$
+            \item Es wird gesetzt: $x_{min}=x_0$, $x_{max}=x_0$, $x_{sum}=0$ und $i=0$
+            \item Schleife wird einmalig ausgeführt. 
+            \item Es wird ausgegeben: 
+            \begin{enumerate}
+                \item "Minimale Ausführungsdauer = $x_{min}=x_0$"
+                \item "Maximale Ausführungsdauer = $x_{max}=x_0$"
+                \item "Durschnittliche Ausführungsdauer = $x_{sum}/n=x_0$"
+            \end{enumerate}
+        \end{enumerate} \\
+            $\Rightarrow$ Die Behauptung gilt für $n=1$.
+        \item Induktionsschritt ($n \rightarrow n+1$): \\
+        Induktionssannahme: Induktionsbehauptung gelte für $n$, betrachte nun $n' = n+1$ (Schritte wie in Teil c)):\\
+        \begin{enumerate}[(a)]
+            \item Es wird gesetzt: $X$, $n=n'$
+            \item Es wird gesetzt: $x_{min}=x_0$, $x_{max}=x_0$, $x_{sum}=0$ und $i=0$
+            \item Schleife wird $n-1$ mal ausgeführt. Dann gilt nach Induktionsannahme die Induktionsbehauptung. \\
+            Bei der letzten Ausführung der Schleife gibt es folgende Abwägungen: 
+            \begin{enumerate}
+                \item Wenn $x_{n+1}$ kleiner als $x_{min}$ ist, wird $x_{min} = x_{n+1}$ gesetzt. 
+                \item Wenn $x_{n+1}$ größer als $x_{max}$, wird $x_{max} = x_{n+1}$ gesetzt. 
+                \item Es wird $x_{sum} = x_{sum} + x_{n+1}$ gesetzt.
+            \end{enumerate}\\
+                In jedem Fall gilt die Induktionsbehauptung für $n'$. 
+            \item Es wird ausgegeben: 
+            \begin{enumerate}
+                \item "Minimale Ausführungsdauer = $x_{min}$"
+                \item "Maximale Ausführungsdauer = $x_{max}$"
+                \item "Durschnittliche Ausführungsdauer = $x_{sum}/n$"
+            \end{enumerate}
+        \end{enumerate} \\
+        
+    \end{itemize}
+    \textbf{q.e.d.}
+
+
+    \subsubsection*{e) Aufwandsanalyse}
+    Die Schritte a und b werden immer exakt einmal ausgeführt. Anschließend wird Schritt c $n-1$ mal ausgeführt. 
+    Schritt c-a wird ebenfalls $n-1$ mal ausgeführt, c-a-i hingegen nur so häufig, wie $x_i$ kleiner als $x_{min}$ ist.
+    Schritt c-b wird analog $n-1$ mal ausgeführt, c-b-i hingegen nur so häufig, wie $x_i$ größer als $x_{max}$ ist.
+    Anschließend werden immer, insgesamt $n-1$ mal, die Schritte c-c und c-d ausgeführt.
+    Schritte d-a, d-b und d-c werden jeweils exakt einmal ausgeführt. \\\\
+    Die minimale Ausführungsdauer ergibt sich für den Fall, dass alle Elemente $x_i$ aus $X$ exakt gleich sind. In diesem Fall schlägt
+    weder Test c-a noch Test c-b an und folglich werden c-a-i und c-b-i nie ausgeführt (alle Elemente sind sowohl das größte als auch 
+    das kleinste Element). Im schlimmsten Fall sind alle Elemente unterschiedlich und ihrer Größe nach sortiert. Dann schlägt bei absteigender
+    Reihenfolge jedes Mal Test c-a an und c-a-i wird ausgeführt. Bei umgekehrter Sortierung wird stets Test c-b anschlagen und c-b-i ausgeführt.
+
+    \begin{align*}
+        T_{min} = &1*a + 1*b +(n-1)*c + \\ &(n-1)*([c-a] + [c-b] + [c-c] + [c-d]) + 1 * d\\
+        = &(1*2 + 1*4 + (n-1)*1 + (n-1)*(1 + 1 + 1 + 1) + 1*3)E\\
+        = &(5n+4)E
+    \end{align*}
+    
+
+    \begin{align*}
+        T_{max} = &1*a + 1*b +(n-1)*c + \\ &(n-1)*([c-a] + [c-b] + [c-a/b-i] + [c-c] + [c-d]) + 1 * d\\
+        = &(1*2 + 1*4 + (n-1)*1 + (n-1)*(1 + 1 + 1 + 1 + 1) + 1*3)E\\
+        = &(6n+3)E
+    \end{align*}
+
+
+    \subsubsection*{Abschließende Bemerkungen}
+    Wichtig für die korrekte Funktion des Algorithmus ist, dass sich in der Menge $X$ der Abarbeitungszeiten sämtliche Szenarien wiederfinden, 
+    also insbesondere die "`Extremfälle"' bei denen Abarbeitung besonders lange gedauert hat, oder sehr schnell vonstatten ging. Wurden zufällig nur "gute" Abarbeitungszeiten erwischt, wird der Algorithmus auch nur diese
+    Situation wiedergeben. 
+\end{document}
