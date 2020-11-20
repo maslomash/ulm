@@ -1,0 +1,298 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{xcolor}
+
+\title{Grundlagen der Rechnerarchitektur: Aufgabenblatt 2}
+\author{Maryia Masla, Alexander Waldenmaier}
+
+\begin{document}
+    \maketitle
+
+    \subsection*{Aufgabe 1: Umrechnung zwischen Zahlensystemen}
+    \begin{itemize}
+        \item[a)] $11000111_2 = 1\cdot 2^7 + 1\cdot 2^6 + 0\cdot 2^5 + 0\cdot 2^4 + 0\cdot 2^3 + 1\cdot 2^2 + 1\cdot 2^1 + 1\cdot 2^0 = 128+64+4+2+1 = 199$
+        \item[b)] $1065_7 = 1\cdot 7^3 + 6\cdot 7^1 + 5\cdot 7^0 = 343 + 42 + 5 = 390$
+        \item[c)] Anwendung von Definition (2.6) aus dem Skript:\\\\
+        \begin{tabular}{llllll}
+            $i$ & $x_i$ & $b$       &       &       & $a_i$ \\
+            \hline 
+            0   & 1944  & $/2 = $   & 972   & Rest  & 0 \\
+            1   & 972   & $/2 = $   & 486   & Rest  & 0 \\
+            2   & 486   & $/2 = $   & 243   & Rest  & 0 \\
+            3   & 243   & $/2 = $   & 121   & Rest  & 1 \\
+            4   & 121   & $/2 = $   & 60    & Rest  & 1 \\
+            5   & 60    & $/2 = $   & 30    & Rest  & 0 \\
+            6   & 30    & $/2 = $   & 15    & Rest  & 0 \\
+            7   & 15    & $/2 = $   & 7     & Rest  & 1 \\
+            8   & 7     & $/2 = $   & 3     & Rest  & 1 \\
+            9   & 3     & $/2 = $   & 1     & Rest  & 1 \\
+            10  & 1     & $/2 = $   & 0     & Rest  & 1 
+        \end{tabular}\\\\
+        $\Rightarrow 1944_{10} = 11110011000_2$
+        \item[d)] (2.6):\\\\
+        \begin{tabular}{llllll}
+            $i$ & $x_i$ & $b$       &       &       & $a_i$ \\
+            \hline 
+            0   & 1535  & $/16 = $  & 95    & Rest  & $\mathrm{F} = 15_{10}$ \\
+            0   & 95    & $/16 = $  & 5     & Rest  & $\mathrm{F} = 15_{10}$ \\
+            0   & 5     & $/16 = $  & 0     & Rest  & 5
+        \end{tabular}\\\\
+        $\Rightarrow 1535_{10} = 5\mathrm{FF}_{16}$
+        \item[e)] Umwandlung via Zwischenschritt ins Binärsystem:\\\\
+        \begin{tabular}{l|cccc} 
+            $Z_{16}$ & 2 & 2 & 7 \\
+            \hline
+            $Z_{2}$  & 0010 & 0010 & 0111
+        \end{tabular} \\\\
+        \begin{tabular}{l|ccccc} 
+            $Z_{2}$ & 001 & 000 & 100 & 111 \\
+            \hline
+            $Z_{8}$ & 1   & 0   & 4   & 7
+        \end{tabular} \\\\
+        $\Rightarrow 227_{16} = 1047_8$
+        \item[f)] Da $2^3 = 8$, sind je $3$ Elemente der Binärzahl ein Element der Oktalzahl:\\\\
+        \begin{tabular}{l|cccc} 
+            $Z_{2}$ & 10 & 010 & 001 & 101\\
+            \hline
+            $Z_{8}$ & 2  & 2   & 1   & 5
+        \end{tabular} \\\\
+        $\Rightarrow 10010001101_{2} = 2215_8$
+        \item[g)] Da $2^4 = 16$, sind je $4$ Elemente der Binärzahl ein Element der Hexadezimalzahl:\\\\
+        \begin{tabular}{l|cccccccc} 
+            $Z_{2}$  & 1010 & 1111 & 1111 & 1110 & 1101 & 0000 & 0000 & 1111\\
+            \hline
+            $Z_{16}$ & A    & F    & F    & E    & D    & 0    & 0    & F
+        \end{tabular} \\\\
+         v
+        \item[h)] Da $3^2 = 9$, sind je $2$ Elemente der Ternärzahl ein Element der Zahl aus dem Neunersystem:\\\\
+        \begin{tabular}{l|cccc} 
+            $Z_{9}$ & 5  & 7  & 4  & 2 \\
+            \hline
+            $Z_{3}$ & 12 & 21 & 11 & 02
+        \end{tabular} \\\\
+        $\Rightarrow 5742_{9} = 12211102_3$
+    \end{itemize}
+
+
+    \subsection*{Aufgabe 2: Bitwertigkeit}
+    Bei dem Zahlensystem handelt sich es offensichtlich um ein Quartär-System, also ein System mit 4 verschiedenen Ziffern. Das System mit den Ziffern $\{0, 1, 2, 3\}$ verhält sich analog zum System $\{*, \#, \sim, \$\}$. Damit folgt:
+    \begin{enumerate}
+        \item[a)]
+        \begin{enumerate}
+            \item[I)] $3 \cdot 4^3 + 2 \cdot 4^2 + 0 \cdot 4^1 + 1 \cdot 4^0 = 3\cdot 64 + 2\cdot 16 + 0 \cdot 4 + 1 \cdot 1 = 225$
+            \item[II)] $1 \cdot 4^3 + 2 \cdot 4^2 + 2 \cdot 4^1 + 3 \cdot 4^0 = 1\cdot 64 + 2\cdot 16 + 2 \cdot 4 + 3 \cdot 1 = 107$
+        \end{enumerate}
+        \item[b)]
+        \begin{enumerate}
+            \item[I)] $3 \cdot 4^0 + 2 \cdot 4^1 + 0 \cdot 4^2 + 1 \cdot 4^3 = 3 \cdot 1 + 2\cdot 4 + 0 \cdot 16 + 1 \cdot 64 = 75$
+            \item[II)] $1 \cdot 4^0 + 2 \cdot 4^1 + 2 \cdot 4^2 + 3 \cdot 4^3 = 1 \cdot 1 + 2\cdot 4 + 2 \cdot 16 + 3 \cdot 64 = 233$
+        \end{enumerate}
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 3: Bytereihenfolgen}
+    Zunächst empfiehlt es sich, die beiden Zahlen in die gewohnte Binärdarstellung umzurechenen, bei der sich das LSB rechts befindet (also Big Endian). Wir machen uns dabei die Tatsache zu Nutze, dass $2^4 = 16$:
+    \begin{enumerate}
+        \item[I)] Umrechnung von $\mathrm{BEEF}_{16}$ ins Binärsystem: \\\\
+        \begin{tabular}{l|cccccccc} 
+            $Z_{16}$ & B    & E    & E    & F \\
+            \hline
+            $Z_{2}$  & 1011 & 1110 & 1110 & 1111
+        \end{tabular}\\\\
+        $\Rightarrow \mathrm{BEEF}_{16} = 10111110 \: 11101111_2$
+        \item[II)] Umrechnung von $\mathrm{FF11}_{16}$ ins Binärsystem: \\\\
+        \begin{tabular}{l|cccccccc} 
+            $Z_{16}$ & F    & F    & 1    & 1 \\
+            \hline
+            $Z_{2}$  & 1111 & 1111 & 0001 & 0001
+        \end{tabular}\\\\
+        $\Rightarrow \mathrm{FF11}_{16} = 11111111 \: 00010001_2$
+    \end{enumerate}
+
+    \begin{enumerate}
+        \item[a)]
+        \begin{enumerate}
+            \item[I)] Big Endian: $10111110 \: 11101111$, Little Endian: $11101111 \: 10111110$
+            \item[II)] Big Endian: $11111111 \: 00010001$, Little Endian: $00010001 \: 11111111$
+        \end{enumerate}
+        \item[b)]
+        \begin{enumerate}
+            \item[I)] $11101111 \: 10111110_2 = 61374_{10}$, statt $10111110 \: 11101111_2 = 48879_{10}$
+            \item[II)] $00010001 \: 11111111_2 = \phantom{0}4607_{10}$, statt $11111111 \: 00010001_2 = 65297_{10}$
+        \end{enumerate}
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 4: Komplementbildung}
+    \begin{enumerate}
+        \item[a)] 
+        \begin{minipage}[t]{0.5\textwidth}
+            \begin{tabular}[t]{llllll}
+                $i$ & $x_i$ & $b$       &       &       & $a_i$ \\
+                \hline 
+                0   & 861   & $/2 = $   & 430    & Rest  & 1 \\
+                1   & 430   & $/2 = $   & 215    & Rest  & 0 \\
+                2   & 215   & $/2 = $   & 107    & Rest  & 1 \\
+                3   & 107   & $/2 = $   & 53     & Rest  & 1 \\
+                4   & 53    & $/2 = $   & 26     & Rest  & 1 \\
+                5   & 26    & $/2 = $   & 13     & Rest  & 0 \\
+                6   & 13    & $/2 = $   & 6      & Rest  & 1 \\
+                7   & 6     & $/2 = $   & 3      & Rest  & 0 \\
+                8   & 3     & $/2 = $   & 1      & Rest  & 1 \\
+                9   & 1     & $/2 = $   & 0      & Rest  & 1
+            \end{tabular}
+        \end{minipage}
+        \begin{minipage}[t]{0.4\textwidth}
+            \begin{enumerate}
+                \item[mit Vorz.]: $11101011101_2$
+                \item[b-Komp.]: $10010100010_2$
+                \item[b-1-Komp.]: $10010100011_2$
+            \end{enumerate}
+        \end{minipage}
+        \item[b)]
+        \begin{minipage}[t]{0.5\textwidth}
+            \begin{tabular}[t]{l|ccc}  
+                $Z_{8}$ & 7   & 6   & 5   \\
+                \hline
+                $Z_{2}$ & 111 & 110 & 101
+            \end{tabular} 
+        \end{minipage}
+        \begin{minipage}[t]{0.4\textwidth}
+            \begin{enumerate}
+                \item[mit Vorz.]: $0111110101_2$
+                \item[b-Komp.]: $0111110101_2$
+                \item[b-1-Komp.]: $0111110101_2$
+            \end{enumerate}
+            \hfill
+        \end{minipage}
+        \item[c)]
+        \begin{minipage}[t]{0.5\textwidth}
+            $ 210_3 = 2\cdot 3^2 + 1\cdot 3^1 + 0\cdot 3^0 = 21_{10}$ \\\\
+            \begin{tabular}{llllll}
+                $i$ & $x_i$ & $b$       &       &       & $a_i$ \\
+                \hline 
+                0   & 21   & $/2 = $   & 10    & Rest  & 1 \\
+                1   & 10   & $/2 = $   & 5     & Rest  & 0 \\
+                2   & 5    & $/2 = $   & 2     & Rest  & 1 \\
+                3   & 2    & $/2 = $   & 1     & Rest  & 0 \\
+                4   & 1    & $/2 = $   & 0     & Rest  & 1
+            \end{tabular}
+        \end{minipage}
+        \begin{minipage}[t]{0.4\textwidth}
+            \begin{enumerate}
+                \item[mit Vorz.]: $110101_2$
+                \item[b-Komp.]: $101010_2$
+                \item[b-1-Komp.]: $101011_2$
+            \end{enumerate}
+        \end{minipage}
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 5: Rechnen mit den Natürlichen Zahlen}
+    Die dritte (graue) Zeile stellt jeweils den Übertrag dar. \\\\
+    \begin{minipage}[t]{0.2\textwidth}
+        a) \hfill\\
+        \begin{tabular}{cr}
+            &1037	\\
+           +&3802	\\
+            &\color{gray}0000  \\
+            \hline
+            &4839
+       \end{tabular}
+    \end{minipage}
+    \begin{minipage}[t]{0.2\textwidth}
+        b) \hfill\\
+        \begin{tabular}{cr}
+            &01010110	\\
+           +&01010001	\\
+            &\color{gray}10100000  \\
+            \hline
+            &10100111
+       \end{tabular}
+    \end{minipage}
+    \begin{minipage}[t]{0.2\textwidth}
+        c) \hfill\\
+        \begin{tabular}{cr}
+            &01101001	\\
+           +&00011110	\\
+            &\color{gray}11110000  \\
+            \hline
+            &10000111
+       \end{tabular}
+    \end{minipage}
+
+
+    \subsection*{Aufgabe 6: Rechnen mit ganzen Zahlen}
+    \begin{enumerate}
+        \item[a)] $1101001_2 + 11110_2 = 10000111_2$
+        \item[b)] $0101001_2 + 1011110_2 = 0101001_2 - 0011110_2$ \\\\
+        $\Rightarrow$ 
+        \begin{tabular}{cr}
+             &$0101001$	\\
+            -&$0011110$ \\
+             &$\color{gray}0111100$ \\
+             \hline
+             &$0001011$
+        \end{tabular}  
+        \item[c)] \hfill \\
+        \begin{tabular}{cr}
+            &$\phantom{0}0011110$	\\
+           +&$\phantom{0}1101001$	\\
+            &$\color{gray}\textcolor{red}{1}1110000$  \\
+           \hline
+            &$\phantom{0}0000111$
+        \end{tabular}  
+        \item[d)]  \hfill \\
+        \begin{tabular}{cr}
+            &$\phantom{0}1101001$	\\
+           +&$\phantom{0}0011110$	\\
+            &$\color{gray}11110000$  \\
+           \hline
+            &$\textcolor{red}{1}0000111$ \\
+           +&$\phantom{0}000000\textcolor{red}{1}$ \\
+            &$\color{gray}\phantom{0}0001110$ \\
+           \hline
+            &$\phantom{0}0001000$
+        \end{tabular} 
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 7: Festkommazahlen}
+    \begin{enumerate}
+        \item[a)] $10,625_{10} = 1010,101_2$\\\\
+        \begin{minipage}[t]{0.35\textwidth}
+            \begin{tabular}[t]{llllll}
+                $i$ & $x_i$ & $b$     &       &       & $a_i$ \\
+                \hline 
+                0   & 10    & $/2 = $ & 5     & Rest  & 0 \\
+                1   & 5     & $/2 = $ & 2     & Rest  & 1 \\
+                2   & 2     & $/2 = $ & 1     & Rest  & 0 \\
+                3   & 1     & $/2 = $ & 0     & Rest  & 1 \\
+            \end{tabular}\\\\
+            $\Rightarrow 10_{10} = 1010_2$
+        \end{minipage} 
+        \begin{minipage}[t]{0.35\textwidth}
+            \begin{tabular}[t]{llllll}
+                $i$ & $x_i$ & $b$     &       &       & $a_i$ \\
+                \hline 
+                0   & 0,625 & $*2 = $ & 1,25   & $>=1$: & 1 \\
+                1   & 0,25  & $*2 = $ & 0,5    & $>=1$: & 0 \\
+                2   & 0,5   & $*2 = $ & 1,0    & $>=1$: & 1
+            \end{tabular}\\\\
+            $\Rightarrow 0,625_{10} = 0,101_2$
+        \end{minipage} 
+        \item[b)] 
+        \begin{align*}
+            101101,1101_2 &= 1\cdot 2^5 + 0 \cdot 2^4 + 1\cdot 2^3 + 1\cdot 2^2 + 0\cdot 2^1 + 1\cdot 2^0 + 1\cdot 2^{-1} + 1\cdot 2^{-2} + 0\cdot 2^{-3}+1\cdot 2^{-4}\\
+            &= ((((1 \cdot 2 + 0) \cdot 2 + 1) \cdot 2 + 1) \cdot 2 + 0) \cdot 2 + 1 + (((1 / 2 + 0) / 2 + 1) / 2 + 1) / 2\\
+            &= 45,8125_{10}
+        \end{align*}
+    \end{enumerate}
+
+\end{document}

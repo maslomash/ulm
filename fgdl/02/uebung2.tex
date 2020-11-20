@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{amssymb}
+\usepackage{cancel}
+
+\title{Formale Grundlagen: Übung 2}
+\author{Alexander Waldenmaier, Tutorin: Constanze Merkt}
+
+\begin{document}
+    \maketitle
+    \subsection*{Aufgabe 2.1}
+    \begin{minipage}[t]{0.3\textwidth}
+        a)
+        \begin{tabular}[t]{lll|l}
+            A & B & C & $F_1$ \\
+            \hline
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 1 \\
+            0 & 1 & 0 & 0 \\
+            1 & 0 & 0 & 0 \\
+            0 & 1 & 1 & 1 \\
+            1 & 1 & 0 & 1 \\
+            1 & 0 & 1 & 1 \\
+            1 & 1 & 1 & 1 \\
+        \end{tabular} \\\\
+        Die Aussage ist erfüllbar.
+    \end{minipage}
+    \begin{minipage}[t]{0.3\textwidth}
+        b)
+        \begin{tabular}[t]{ll|l}
+            A & B & $F_2$ \\
+            \hline
+            0 & 0 & 1 \\
+            0 & 1 & 0 \\
+            1 & 0 & 0 \\
+            1 & 1 & 0
+        \end{tabular} \\\\
+        \vfill
+        Die Aussage ist erfüllbar.
+    \end{minipage}
+    \begin{minipage}[t]{0.3\textwidth}
+        c)
+        \begin{tabular}[t]{ll|l}
+            A & B & $F_3$ \\
+            \hline
+            0 & 0 & 1 \\
+            0 & 1 & 1 \\
+            1 & 0 & 1 \\
+            1 & 1 & 1
+        \end{tabular} \\\\
+        \vfill
+        Die Aussage ist eine Tautologie.
+    \end{minipage}
+
+
+    \subsection*{Aufgabe 2.2}
+    Zu beweisen:
+    \begin{align*}
+        A: \textrm{Längen } a, b, c \in \mathbb{R}^+ \textrm{ bilden Dreieck mit Hypotenuse } c \textrm{ und rechtem Winkel zwischen } a, b \rightarrow a+b>c
+    \end{align*}
+    Beispiel: $a=1, b=2, c=\sqrt{2^2+1^2} = \sqrt{5}: a+b = 3 > c = \sqrt{5} \quad \checkmark$
+    
+    \paragraph*{Beweis durch Widerspruch in der Gegenaussage} \hfill\\\\
+    Anhand des linksseitig stehenden Axioms folgert die Gegenaussage die Negation dessen, wass die Aussage folgert:
+    \begin{align*}
+        \bar{A}: \textrm{Längen } a, b, c \in \mathbb{R}^+ \textrm{ bilden Dreieck mit Hypotenuse } c \textrm{ und rechtem Winkel zwischen } a, b \rightarrow a+b\leq c
+    \end{align*}
+    Zu prüfen ist also, ob aus der linken Hälfte von $\bar{A}$ die Implikation $a+b\leq c$ folgt. Ist dies nicht der Fall, war die Aussage falsch und folglich die Aussage $A$ richtig. \\
+    Unter der Annahmen, dass $\bar{A}$ richtig ist, können wir die Behauptung aufstellen:
+    \begin{align*}
+        a+b &\leq c\\
+        \textrm{I}: \: (a+b)^2 &\leq c^2
+    \end{align*}
+    Die Quadratur ist erlaubt, da alle Zahlen $\in \mathbb{R}^+$ sind. Da $a,b,c$ ein rechtwinkliges Dreieck mit Hypotenuse $c$ bilden, lässt sich der Satz des Pythagoras aufstellen und schließlich mit der obigen Aussage kombinieren:
+    \begin{align*}
+        \textrm{II}: \: a^2+b^2 &= c^2 \\
+        \textrm{II in I}: \: (a+b)^2 &\leq a^2 + b^2 \\
+        a^2 + 2ab + b^2 &\leq a^2 + b^2 \\
+        2ab &\nleq 0, \textrm{ da } a,b>0
+    \end{align*}
+    Die Gegenaussage $\bar{A}$ wurde widerlegt, demnach muss $A$ gelten. \textbf{q.e.d.}
+
+
+    \subsection*{Aufgabe 2.3}
+    Zu beweisen:
+    \begin{align*}
+        A(n): \: \prod_{i=2}^n \left(1-\frac{1}{i^2}\right) = \frac{n+1}{2n}, n\in \mathbb{N}, n \ge 2
+    \end{align*}
+    \paragraph*{Induktionsanfang} 
+    \begin{align*}
+        A(2): \: \prod_{i=2}^2 \left(1-\frac{1}{i^2}\right) &= \frac{2+1}{2\cdot 2} \\
+        \left(1-\frac{1}{2^2}\right) &= \frac{3}{4} \\
+        \frac{3}{4} &= \frac{3}{4} \quad \checkmark
+    \end{align*}
+    \paragraph*{Induktionsschritt} \hfill\\\\
+    Induktionsbehauptung (IB): $A(n) \rightarrow A(n+1)$
+    \begin{align*}
+        A(n+1): \: \prod_{i=2}^{n+1} \left(1-\frac{1}{i^2}\right) &= \frac{n+1+1}{2(n+1)} \\
+        \underbrace{\prod_{i=2}^{n} \left(1-\frac{1}{i^2}\right)}_{=A(n)}\cdot \left(1-\frac{1}{(n+1)^2}\right) &= \frac{n+2}{2(n+1)} \\
+        \frac{n+1}{\cancel{2}n} \cdot \left(1-\frac{1}{(n+1)^2}\right) &= \frac{n+2}{\cancel{2}(n+1)} \\
+        \frac{n+1}{n} -\frac{\cancel{n+1}}{n(n+1)^{\cancel{2}}} &= \frac{n+2}{n+1} \\
+        \frac{(n+1)^2}{n(n+1)} - \frac{1}{n(n+1)} &= \frac{n(n+2)}{n(n+1)} \\
+        (n+1)^2 - 1 &= n(n+2) \\
+        n^2 + 2n + 1 -1 &= n^2 + 2n \\
+        0 &= 0 \quad \checkmark
+    \end{align*}
+    Unter Verwendung der Induktionsbehauptung wurde der Induktionsschritt durchgeführt. Damit gilt $A(n)$. \textbf{q.e.d}
+
+
+    \subsection*{Aufgabe 2.4}
+    Zu beweisen:
+    \begin{align*}
+        A(n): \: \forall n\in \mathbb{N}, n \ge 1 :  \frac{a_{4n}}{3} \in \mathbb{N}
+    \end{align*}
+    \paragraph*{Induktionsanfang} 
+    \begin{align*}
+        A(1): \: \frac{a_{4\cdot 1}}{3} = \frac{1}{3}(a_4) = \frac{1}{3}(a_3 + a_2) =  \frac{1}{3}(a_2 + a_1 + a_2) = \frac{1}{3}(1+1+1) = 1 \in \mathbb{N} \quad \checkmark
+    \end{align*}
+    \paragraph*{Induktionsschritt} \hfill\\\\
+    Induktionsbehauptung (IB): $A(n) \rightarrow A(n+1)$
+    \begin{align*}
+        A(n+1): \: \frac{a_{4(n+1)}}{3} &= \frac{1}{3}(a_{4n+4}) = \frac{1}{3}(a_{4n+3} + a_{4n+2}) = \frac{1}{3}(a_{4n+2} + a_{4n+1} + a_{4n+1} + a_{4n}) \\
+        &= \frac{1}{3}(a_{4n+1} + a_{4n} + a_{4n+1} + a_{4n+1} + a_{4n}) \\
+        &= \frac{1}{3}\left(3\cdot \underbrace{a_{4n+1}}_{\textrm{Fibonacci: }=c_1, c_1 \in \mathbb{N}} + 2 \cdot \underbrace{a_{4n}}_{\textrm{IB: } =3c_2, c_2\in \mathbb{N}}\right) \\
+        &= \frac{1}{3} (3\cdot c_1 + 2\cdot 3c_2) \\
+        &= c_1 + 2c_2 \in \mathbb{N} \quad \checkmark
+    \end{align*}
+    Unter Verwendung der Induktionsbehauptung wurde der Induktionsschritt durchgeführt. Damit gilt $A(n)$. \textbf{q.e.d}
+
+
+\end{document}
