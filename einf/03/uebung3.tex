@@ -1,0 +1,148 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeorange}{rgb}{0.8,0.54,0.0}
+
+\lstset{
+  basicstyle=\footnotesize\tt,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  language=Java,                 % the language of the code
+  keywordstyle=\bf,
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  tabsize=2,                   % sets default tabsize to 2 spaces
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codeorange},
+}
+
+\title{Einführung in die Informatik: Übung 3}
+\author{Alexander Waldenmaier}
+
+\begin{document}
+    \maketitle
+
+    \section*{Aufgabe 1: Teiler}
+    \begin{algorithm}
+        \begin{algorithmic}[1]
+            \Procedure{berechneTeilerzahl}{start, end}
+            \For {$n \gets start \textbf{ to } end$}
+                \State $\textit{teiler} \gets 0$
+                \For {$t \gets 2 \textbf{ to } n$}
+                    \If {$n \text{ mod } t == 0$}
+                        \State $\textit{teiler} \gets \textit{teiler}  + 1$
+                    \EndIf
+                \EndFor
+                \State \textbf{print} \textit{teiler}
+            \EndFor
+            \EndProcedure
+            \end{algorithmic}
+    \end{algorithm}
+   
+
+    \section*{Aufgabe 2: Präzedenzregeln}
+    \begin{lstlisting}
+        42  +  5  *  -  2  !  =  4  %  2  +  2
+        42  +  5  * (-2)   !=  4  %  2  +  2
+        42  +  (5 * (-2))  !=  (4  %  2)  +  2
+        (42 +  (5 * (-2))) !=  ((4  %  2)  +  2)
+    \end{lstlisting}
+
+
+    \section*{Aufgabe 3: Ausgaben}
+    Die Ausgaben lauten:
+    \begin{lstlisting}
+        0.8999999999999999
+        198!
+        3
+        Rechnung: 3-30
+    \end{lstlisting}
+    Erklärungen zu jeder Zeile: 
+    \begin{enumerate}
+        \item Da nur floats addiert werden, findet innerhalb des \textit{println} statements eine arithmetische Addition der drei Zahlen statt. Erst am Ende wird die resultierende Zahl in einen String verwandelt und dann ausgegeben. Der Grund warum nicht wie erwartet die $0.9$, sondern $0.8999999999999999$ ausgegeben wird, ist die endliche Genauigkeit, mit der floats gespeichert werden können. Bei der Verrechnung können daher kleine Ungenauigkeiten auftreten.
+        \item Da die Buchstaben A, B und C als \textit{chars} deklariert wurden (erkennbar an der Verwendung der Hochkommas statt Anführungszeichen) werden diese in einen \textit{int} gemäß der ASCII-Konvention umgewandelt. Diese sind 65, 66 und 67. Die Summe dieser drei Zahlen ist 198. Da erst im Anschluss ein tatsächlicher \textit{string} folgt, findet erst dann eine Umwandlung des \textit{int} 198 in einen \textit{string} statt. Dieser wird dann um das Ausrufezeichen ergänzt.
+        \item Da sowohl die 11 als auch die 3 ein \textit{int} sind, entsteht bei der Division ebenfalls eine Ganzzahl (Kommastellen werden abgeschnitten). Das Ergebnis ist der \textit{int} 3, der dann ausgegeben wird. 
+        \item Da zu Beginn der \textit{string} \lstinline{"Rechnung  "} steht, werden die nachfolgenden "`Additionen"' als \textit{string}-Zusammenfügungen verstanden. Folglich werden die \textit{ints} 3, -3 und 0 jeweils in \textit{strings} umgewandelt und dann hintereinander ausgegeben. 
+    \end{enumerate}
+
+    
+    \section*{Aufgabe 4: Grumpy cats}
+    \begin{lstlisting}
+        public class aufgabe4 {
+            public static void main(String[] args){
+                String prefix, suffix;
+                for (int i = 2; i <= 100; i++) {
+                    if (i % 5 == 0) {
+                        prefix = "look! ";
+                    } else {
+                        prefix = "";
+                    }
+                    if (i % 3 == 0) {
+                        suffix = " grumpy";
+                    } else {
+                        suffix = "";
+                    }
+                    System.out.println(prefix + i + suffix + " cats");
+                }
+            }
+        }
+    \end{lstlisting}
+
+
+    \section*{Zusatzaufgabe (1/6): Primteiler}
+    \begin{lstlisting}
+        import java.util.ArrayList;
+
+        public class zusatzaufgabe {
+            public static void main(String[] args){
+                // Zahl n von der Konsole einlesen
+                Long n = Long.parseLong(args[0]);
+
+                // Beliebig erweiterbare ArrayList verwenden um alle Faktoren zu sammeln
+                ArrayList<Long> factors = new ArrayList<Long>(0);
+
+                // Alle Teiler von 2 bis maximal sqrt(n) durchprobieren
+                long t = 2;
+                while (t * t < n) {
+                    // Wenn t ein Teiler ist, diesen zur Liste hinzufuegen. Gleichzeitig n durch t teilen
+                    if (n % t == 0) {
+                        factors.add(t);
+                        n /= t;
+                    // Wenn kein Teiler, naechsthoehere Zahl probieren
+                    } else {
+                        t++;
+                    }
+                }
+                // Das finale n ist eine Primzahl und wird auch zu den Faktoren ergaenzt
+                factors.add(n);
+
+                // Ausgabe erstellen durch Ergaenzung aller Primfaktoren zum Outputstring
+                String output = "Primfaktorzerlegung von " + n + " = ";
+                for (Long factor : factors) {
+                    output += factor + "*";
+                }
+                output = output.substring(0, output.length()-1);
+
+                // Finale Ausgabe
+                System.out.println(output);
+            }
+        }
+    \end{lstlisting}
+\end{document}
