@@ -1,0 +1,133 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\definecolor{darkviolet}{rgb}{0.5,0,0.4}
+\definecolor{darkgreen}{rgb}{0,0.4,0.2} 
+\definecolor{darkblue}{rgb}{0.1,0.1,0.9}
+\definecolor{darkgrey}{rgb}{0.5,0.5,0.5}
+\definecolor{lightblue}{rgb}{0.4,0.4,1}
+
+\lstset{
+    language=Java,
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{darkviolet}\bfseries,
+    commentstyle=\color{darkgreen},
+    stringstyle=\color{darkblue},
+    morecomment=[s][\color{lightblue}]{/**}{*/},
+    showstringspaces=false,
+    numbers=right
+}
+
+\title{Einführung in die Informatik: Übung 4}
+\author{Alexander Waldenmaier}
+
+\begin{document}
+    \maketitle
+
+    \section*{Präsenzaufgabe}
+    \begin{enumerate}
+        \item[a)] 
+        \begin{lstlisting}
+            import java.util.Scanner;
+
+            public class MyLoop{
+                public static void main(String[] args) {
+                    Scanner scan = new Scanner(System.in);
+                    System.out.print("Insert a number: ");
+                    int k = scan.nextInt();
+
+                    int i = 1; 
+                    do {
+                        System.out.println(i*i);
+                        i++;
+                    } while i < (k-1);
+                }
+            }
+        \end{lstlisting} \hfill\\
+        \item[b)] 
+        \begin{lstlisting}
+            int k = ...;
+            int x = 0;
+
+            for (i=0; i<k;) {
+                x += k * ++i;
+            }
+            System.out.println("x: " + x);
+        \end{lstlisting}\hfill \\
+        \item[c)] 
+        \begin{lstlisting}
+            int k = ...;
+            if (k>0) {
+                int m = 0;
+                for (i=1, i<k, i++) {
+                    if (k*i > m)
+                        m = k + i;
+                }
+                System.out.println("m: " + m);
+            } 
+        \end{lstlisting}
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 1: Schwobifying Light}
+    Siehe Abgabe "`aufgabe1.java"'.
+
+
+    \subsection*{Aufgabe 2: Zufallsmuster}
+    Siehe Abgabe "`aufgabe2.java"'.\\\\
+    Der Algorithmus terminiert immer. Theoretisch wäre es möglich, dass unendlich oft der Zufall eine 0 ergibt und nie eine 1, dennoch aber würde nach jeder 0 geprüft werden, ob bereits $n$ Nullen erreicht sind. Wenn ja, werden alle verfügbaren Nullen ausgegeben und der Algorithmus beendet sich.
+
+
+    \subsection*{Aufgabe 3: Verschlüsselung}
+    \begin{enumerate}
+        \item[a)] Siehe Abgabe "`Decrypt.java"'. Die verschlüsselten Sätze (und zugehörige Rotation) lauten:
+        \begin{itemize}
+            \item oppa gangnam style (ROT 81)
+            \item What does the fox say? (ROT 77)
+            \item Tuebingen warum bist du so huegelig? (ROT 89)
+            \item MS-Dos Manfred und Loetkolben Ludwig (ROT 91)
+        \end{itemize}
+        \item[b)] Siehe Abgabe "`Decrypt2.java"'. Die Ergebnisse lauten:
+        \begin{itemize}
+            \item Fall 1:
+            \begin{lstlisting}[numbers=none]
+                64: <`eu<j\cu\iek\kue\leu<i[Y\\i\e
+                73: Ein Esel erntet neun Erdbeeren
+            \end{lstlisting}
+            \item Fall 2 (mit der vorgegebenen Wahrscheinlichkeit 10\%):
+            \begin{lstlisting}[numbers=none]
+                58: +HZe/\OUeMYPZ[eRLPUe.YHZ
+            \end{lstlisting}
+            Wählt man eine geringere Wahrscheinlichkeit, zum Beispiel 1\%, ergibt sich folgendes: 
+            \begin{lstlisting}[numbers=none, language=bash]
+                18: a 2=e4'-=%1(23=*$(-=d1 2
+                19: b!3>f5(.>&2)34>+%).>e2!3
+                22: e$6Ai8+1A)5,67A.(,1Ah5$6
+                58: +HZe/\OUeMYPZ[eRLPUe.YHZ
+                67: 4Qcn8eX^nVbYcdn[UY^n7bQc
+                68: 5Rdo9fY_oWcZdeo\VZ_o8cRd
+                69: 6Sep:gZ`pXd[efp]W[`p9dSe
+                70: 7Tfq;h[aqYe\fgq^X\aq:eTf
+                74: ;Xju?l_eu]i`jkub\`eu>iXj
+                77: >[mxBobhx`lcmnxe_chxAl[m
+                79: @]ozDqdjzbneopzgaejzCn]o
+                80: A^p{Erek{cofpq{hbfk{Do^p
+                82: C`r}Gtgm}eqhrs}jdhm}Fq`r
+                83: Das Huhn frist kein Gras
+                87: Hew$Lylr$jvmwx$oimr$Kvew
+            \end{lstlisting}    
+        \end{itemize} 
+        Bei einer Verschiebung um 83 Zeichen ergibt sich bei Fall 2 tatsächlich der Satz "Das Huhn frist kein Gras". Dabei wird auch der Nachteil dieses Verfahrens ersichtlich: Bei kurzen Sätzen oder gar einfachen Wörtern gelingt es selten, den tatsächlichen Durchschnitt von 17,4 \% "`e"' zu erreichen. In diesen Fällen muss die erforderliche Prozentzahl deutlich niedriger gewählt werden. 
+    \end{enumerate}
+
+\end{document}

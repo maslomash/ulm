@@ -23,9 +23,9 @@
         	\begin{tabular}{crl}
         		  & 10111011$\cdot$1001101 & = \\ \hline
         		  &         10111011000000 &   \\
-        		  &            10111011000 &   \\
-        		  &             1011101100 &   \\
-        		  &               10111011 &   \\ \hline
+        		+ &            10111011000 &   \\
+        		+ &             1011101100 &   \\
+        		+ &               10111011 &   \\ \hline
         		  &         11100000111111 &
         	\end{tabular}
         \end{center}
@@ -36,8 +36,8 @@
         	  & 10011010$\cdot$111001 & = \\ \hline
         	  &         1001101000000 &   \\
         	+ &          100110100000 &   \\
-        	  &           10011010000 &   \\
-        	  &              10011010 &   \\ \hline
+        	+ &           10011010000 &   \\
+        	+ &              10011010 &   \\ \hline
         	  &        10001001001010 &
         \end{tabular}
         \end{center}
@@ -159,7 +159,7 @@
         	\begin{tabular}{crl}
         		  & $0011\cdot 0100$ & = \\ \hline
         		  &  $0000\:0010$ &   \\
-        		+ &  $0001\:0000$ &   \\ \hline
+        		  &  $\color{gray} 0001\:0000$ &   \\ \hline
         		  &  $0001\:0010$ &$=12_{10}$
         	\end{tabular}
         \end{minipage}
@@ -254,20 +254,17 @@
 		\item[b)]
 		\begin{align*}
 			i(x_1, x_2) &= \overline{((\overline{x_1 x_2})(\overline{x_1 x_2}))} \\
-			&\stackrel{\text{P8}}{=} \overline{\overline{x_1 x_2}} + \overline{\overline{x_1 x_2}} \\
-			&\stackrel{\text{P7}}{=} x_1 x_2 + x_1 x_2 \\
-			&\stackrel{\text{P4}}{=} 2\cdot x_1 x_2
-			% &\stackrel{\text{P8}}{=} \overline{((\overline{x_1} + \overline{x_2}) (\overline{x_1} + \overline{x_2}))} \\
-			% &\stackrel{\text{P4}}{=} \overline{(\overline{x_1} (\overline{x_1} + \overline{x_2}) + \overline{x_2}(\overline{x_1} + \overline{x_2}))} \\
-			% &\stackrel{\text{P4}}{=} \overline{(\overline{x_1}\overline{x_1} + \overline{x_1}\overline{x_2} + \overline{x_2}\overline{x_1} + \overline{x_2}\overline{x_2})}\\
-			% &\stackrel{\text{P1,P4}}{=} \overline{(\overline{x_1}\overline{x_1} + 2\cdot \overline{x_1}\overline{x_2} + \overline{x_2}\overline{x_2})}
+			&\stackrel{\text{P3}}{=} \overline{\overline{x_1 x_2}} \\
+			&\stackrel{\text{P7}}{=} x_1 x_2
 		\end{align*}
 		\item[c)]
 		\begin{align*}
 			j(x_1, x_2, x_3, x_4) &= x_1 + x_2 x_4 + x_3 + x_1 x_4 \\
-			&\stackrel{\mathclap{\text{P1}}}{=} x_1 + x_4 x_2+ x_3 + x_4 x_1 \\
-			&\stackrel{\mathclap{\text{P1'}}}{=} x_1 + x_3 + x_4 x_1 + x_4 x_2 \\
-			&\stackrel{\mathclap{\text{P4}}}{=} x_1 + x_3 + x_4(x_1 + x_2)
-		\end{align*} 
+			&\stackrel{\mathclap{\text{P1'}}}{=} x_1 + x_1 x_4 + x_2 x_4 + x_3 \\
+			&\stackrel{\mathclap{\text{P5}}}{=} x_1 1 + x_1 x_4 + x_2 x_4 + x_3 \\
+			&\stackrel{\mathclap{\text{P4}}}{=} x_1(1 + x_4) + x_2 x_4 + x_3 \\
+			&\stackrel{\mathclap{\text{P6'}}}{=} x_1 x_4 + x_2 x_4 + x_3 \\
+			% &\stackrel{\mathclap{\text{P4}}}{=} x_4(x_1 + x_2) + x_3
+		\end{align*}
 	\end{enumerate}
 \end{document}
