@@ -1,0 +1,282 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{karnaugh-map}
+
+\title{Grundlagen der Rechnerarchitektur: Übungsblatt 4}
+\author{Maryia Masla, Alexander Waldenmaier}
+
+\def\orr{\text{ OR }}
+\def\andd{\text{ AND }}
+\def\nor{\text{ NOR }}
+\def\nand{\text{ NAND }}
+\newcommand{\nyet}{\overline}
+
+\begin{document}
+    \maketitle
+
+	\subsection*{Aufgabe 1: Teileralgebra}
+	Alle Elemente von $T$ sind Teiler der 30: $30 = 2\cdot 15 = 3 \cdot 10 = 5 \cdot 6 = 1 \cdot 2 \cdot 3 \cdot 5$. Für alle Elemente $a \in T$, für die offensichtlich gilt $30>a$ und $a$ ein Teiler von 30, folgt: 
+	\begin{itemize}
+		\item Neutralelement: $ggT(a, 30) = a$
+		\item Absorption: $kgV(ggT(a, 30), 30) \stackrel{\substack{\text{Neutral-} \\ \text{element}}}{=} kgV(a, 30) = 30$
+	\end{itemize}
+	
+
+	\subsection*{Aufgabe 2: De-morgansche Gesetze}
+	Um zu belegen, dass die Aussagen übereinstimmen, kann zum einen Wertetabelle mit den Resultaten der linken bzw. rechten Seite befüllt werden. Anderseits kann geprüft werden, ob die eine Seite verundet mit dem Komplement der anderen Seite 0 ergibt, bzw. ob die eine Seite verodert mit dem Komplement der anderen Seite 1 ergibt. 
+	\begin{enumerate}
+		\item[a)]
+		\begin{minipage}[t]{0.27\textwidth}
+			Wertetabelle:\\\\
+			\begin{tabular}[t]{cc|cc}
+				$a$ & $b$ & $\nyet{x_1 + x_2}$ & $ \nyet{x_1} \cdot \nyet{x_2}$ \\ \hline
+				0 & 0 & 1 & 1 \\
+				0 & 1 & 0 & 0 \\
+				1 & 0 & 0 & 0 \\
+				1 & 1 & 0 & 0
+			\end{tabular}
+		\end{minipage}
+		\begin{minipage}[t]{0.35\textwidth}
+			Algebraischer Beweis: 
+			\begin{align*}
+				\nyet{x_1} \nyet{x_2} \cdot \nyet{\nyet{x_1 + x_2}} &\stackrel{!}{=} 0 \\
+				&\stackrel{\text{P7}}{=} \nyet{x_1} \nyet{x_2} \cdot (x_1 + x_2) \\
+				&\stackrel{\text{P4}}{=} \nyet{x_1} \nyet{x_2} x_1 + \nyet{x_1} \nyet{x_2} x_2 \\
+				&\stackrel{\text{P9, P6}}{=} 0 + 0 \\
+				&\stackrel{\text{P5'}}{=} 0 \quad \checkmark
+			\end{align*}
+		\end{minipage}
+		\begin{minipage}[t]{0.3\textwidth}
+			\vspace{0.3em}
+			\begin{align*}
+				\nyet{x_1} \nyet{x_2} + \nyet{\nyet{x_1 + x_2}} &\stackrel{!}{=} 1 \\
+				&\stackrel{\text{P7}}{=} \nyet{x_1} \nyet{x_2} + x_1 + x_2 
+			\end{align*}
+		\end{minipage}\\\\
+		\item[b)]
+		\begin{minipage}[t]{0.27\textwidth}
+			Wertetabelle:\\\\
+			\begin{tabular}[t]{cc|cc}
+				$a$ & $b$ & $\nyet{x_1 \cdot x_2}$ & $ \nyet{x_1} + \nyet{x_2}$ \\ \hline
+				0 & 0 & 1 & 1 \\
+				0 & 1 & 1 & 1 \\
+				1 & 0 & 1 & 1 \\
+				1 & 1 & 0 & 0
+			\end{tabular}
+		\end{minipage}
+		\begin{minipage}[t]{0.35\textwidth}
+			Algebraischer Beweis: 
+			\begin{align*}
+				(\nyet{x_1} + \nyet{x_2}) \cdot \nyet{\nyet{x_1 x_2}} &\stackrel{!}{=} 0 \\
+				&\stackrel{\text{P7}}{=} (\nyet{x_1} + \nyet{x_2}) \cdot x_1 x_2 \\
+				&\stackrel{\text{P4}}{=} \nyet{x_1} x_1 x_2 + \nyet{x_2} x_1 x_2 \\
+				&\stackrel{\text{P9, P6}}{=} 0 + 0 \\
+				&\stackrel{\text{P5'}}{=} 0 \quad \checkmark
+			\end{align*}
+		\end{minipage}
+		\begin{minipage}[t]{0.3\textwidth}
+			\vspace{0.3em}
+			\begin{align*}
+				\nyet{x_1} + \nyet{x_2} + \nyet{\nyet{x_1 x_2}} &\stackrel{!}{=} 1 \\
+				&\stackrel{\text{P7}}{=} \nyet{x_1} + \nyet{x_2} + x_1 x_2 
+			\end{align*}
+		\end{minipage}
+	\end{enumerate}
+
+
+	\subsection*{Aufgabe 3: Äquivalenz Beweisen}
+	Die linken Seiten liegen bereits in DNF vor, daher müssen jeweils die rechten Seiten noch umgewandelt werden.\\\\
+	\begin{minipage}[t]{0.5\textwidth}
+		a)
+		\begin{align*}
+			&\phantom{=} x_1x_2 + \nyet{x_1}x_3 + \nyet{x_2} \nyet{x_3} \\
+			&= \nyet{(\nyet{x_1}+\nyet{x_2}) \cdot (x_1 + \nyet{x_3}) \cdot (x_2 + x_3)} \\
+			&\stackrel{\text{P8}}{=} \nyet{\nyet{x_1}+\nyet{x_2}} + \nyet{(x_1 + \nyet{x_3}) \cdot (x_2 + x_3)} \\
+			&\stackrel{\text{P8}}{=} \nyet{\nyet{x_1}+\nyet{x_2}} + \nyet{x_1 + \nyet{x_3}} + \nyet{x_2 + x_3} \\
+			&\stackrel{\text{P8'}}{=} x_1 x_2 + \nyet{x_1} x_3 + \nyet{x_2} \nyet{x_3} \quad \checkmark
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}[t]{0.5\textwidth}
+		b)
+		\begin{align*}
+			&\phantom{=} x_1 \nyet{x_2} + \nyet{x_1} x_2 \\
+			&= \nyet{\nyet{x_1 \cdot \nyet{x_2 x_2}} \cdot \nyet{\nyet{x_1 x_1} \cdot x_2}} \\
+			&\stackrel{\text{P8}}{=} \nyet{\nyet{x_1 \cdot \nyet{x_2 x_2}}} + \nyet{\nyet{\nyet{x_1 x_1} \cdot x_2}} \\
+			&\stackrel{\text{P7}}{=} x_1 \cdot \nyet{x_2 x_2} + \nyet{x_1 x_1} \cdot x_2 \\
+			&\stackrel{\text{P3}}{=} x_1 \nyet{x_2} + \nyet{x_1} x_2  \quad \checkmark
+		\end{align*}
+	\end{minipage}
+
+
+	\subsection*{Aufgabe 4: Minimierung macht alles einfacher!}
+    \begin{itemize}
+    	\item[a)]
+    	\begin{align*}
+    		g(x_1,x_2) & = \nyet{\nyet{x_1 \cdot x_2} \cdot x_1} \\
+    		& \stackrel{\text{P8}}{=} \nyet{\nyet{x_1 \cdot x_2}} + \nyet{x_1} \\
+    		& \stackrel{\text{P7}}{=} (x_1 \cdot x_2) + \nyet{x_1} \\
+    		& \stackrel{\text{P4'}}{=} (x_1 + \nyet{x_1}) \cdot (\nyet{x_1} + x_2) \\
+    		& \stackrel{\text{P9'}}{=} 1 \cdot (\nyet{x_1} + x_2) \\
+    		& \stackrel{\text{P5}}{=} \nyet{x_1} + x_2
+    	\end{align*}
+    	\item[b)]
+    	\begin{align*}
+    		h(x_1,x_2,x_3,x_4) & = (x_1 \cdot x_2) + (x_1 \cdot x_3) + x_1 \cdot (x_2 + x_3 \cdot x_4) + x_1 \\
+    		& \stackrel{\text{P4}}{=} (x_1 \cdot x_2) + (x_1 \cdot x_3) + (x_1 \cdot x_2) + (x_1 \cdot x_3 \cdot x_4) + x_1 \\
+    		& \stackrel{\text{P3'}}{=} (x_1 \cdot x_2) + (x_1 \cdot x_3) + (x_1 \cdot x_3 \cdot x_4) + x_1 \\
+    		& \stackrel{\text{P4}}{=} (x_1 \cdot x_2) + (x_1 \cdot x_3) \cdot (1 + x_4) + x_1 \\
+    		& \stackrel{\text{P6'}}{=} (x_1 \cdot x_2) + (x_1 \cdot x_3) \cdot 1 + x_1 \\
+    		& \stackrel{\text{P5}}{=} (x_1 \cdot x_2) + (x_1 \cdot x_3) + x_1 \\
+    		& \stackrel{\text{P4}}{=} x_1 \cdot (x_2 + x_3 + 1) \\
+    		& \stackrel{\text{P6'}}{=} x_1 \cdot 1 \\
+    		& \stackrel{\text{P5}}{=} x_1
+    	\end{align*}
+    	\item[c)]
+    	\begin{align*}
+    		k(x_1,x_2,x_3) & = ((x_1 + x_3 \cdot (x_2 +x_3)) \cdot 1) \cdot 1 \\
+    		& \stackrel{\text{P5}}{=} (x_1 + x_3 \cdot (x_2 +x_3)) \cdot 1 \\
+    		& \stackrel{\text{P5}}{=} x_1 + x_3 \cdot (x_2 +x_3) \\
+    		& \stackrel{\text{P11'}}{=} x_1 + x_3
+    	\end{align*}
+    \end{itemize}
+    
+    
+    \subsection*{Aufgabe 5: Kanonen? Nein kanonisch!}
+    \[
+    f(x_2,x_1,x_0) = \begin{cases}
+    	1 \text{ falls der Dezimalwert von }(x_2,x_1,x_0) \text{ mod 2 = 0} \\
+    	0 \text{ sonst}
+    	\end{cases}    
+    \]\\\\
+    $(x_2,x_1,x_0)$ eine vorzeichenlose Binärzahl, $x_0$ ist LSB.\\
+    $(x_2,x_1,x_0)$ mod 2 = 0, wenn $(x_2,x_1,x_0)$ eine gerade Zahl ist d.h. $x_0 = 0$
+    \begin{itemize}
+    	\item[a)]
+    	\begin{tabular}[t]{lll|l}
+    		$x_2$&$x_1$&$x_0$&$f$ \\
+    		\hline
+    		0&0&0&1 \\
+    		0&0&1&0 \\
+    		0&1&0&1 \\
+    		0&1&1&0 \\
+    		1&0&0&1 \\
+    		1&0&1&0 \\
+    		1&1&0&1 \\
+    		1&1&1&0 \\
+    	\end{tabular}
+    	\item[b)]DKNF von $f$: $$f(x_2,x_1,x_0) = \nyet{x_2}\cdot\nyet{x_1}\cdot\nyet{x_0} + \nyet{x_2}\cdot x_1\cdot\nyet{x_0} + x_2\cdot\nyet{x_1}\cdot\nyet{x_0} + x_2\cdot x_1\cdot\nyet{x_0}$$
+    	KKNF von $f$: $$f(x_2,x_1,x_0) = (x_2+x_1+\nyet{x_0})\cdot(x_2+\nyet{x_1}+\nyet{x_0})\cdot(\nyet{x_2}+x_1+\nyet{x_0})\cdot(\nyet{x_2}+\nyet{x_1}+\nyet{x_0})$$
+    	\item[c)]
+    	\begin{align*}
+    		f(x_2,x_1,x_0) & = \nyet{x_2}\cdot\nyet{x_1}\cdot\nyet{x_0} + \nyet{x_2}\cdot x_1\cdot\nyet{x_0} + x_2\cdot\nyet{x_1}\cdot\nyet{x_0} + x_2\cdot x_1\cdot\nyet{x_0} \\
+    		& \stackrel{\text{P4}}{=} \nyet{x_2} \cdot\nyet{x_0}\cdot(\nyet{x_1} + x_1) + x_2 \cdot\nyet{x_0}\cdot(\nyet{x_1} + x_1) \\
+    		& \stackrel{\text{P9'}}{=} \nyet{x_2} \cdot\nyet{x_0} + x_2 \cdot\nyet{x_0} \\
+    		& \stackrel{\text{P4}}{=} \nyet{x_0}\cdot(\nyet{x_2} + x_2) \\
+    		& \stackrel{\text{P9'}}{=} \nyet{x_0}
+    	\end{align*}
+	\end{itemize}
+	
+
+	\subsection*{Aufgabe 6: Nicht oder und, oder?}
+	Wir machen uns folgende Tatsachen zunutze:
+	\begin{enumerate}
+		\item $\nyet{a} = a \nand 1 = a \nor 0$
+		\item $a \andd b = \nyet{a \nand b} = \nyet{a} \nor \nyet{b}$
+		\item $a \orr b = \nyet{a} \nand \nyet{b} = \nyet{a \nor b}$
+	\end{enumerate}
+	\begin{enumerate}
+		\item[a)]
+		\begin{align*}
+			&\phantom{=} x_1 \oplus x_2 \\
+			&= (x_1 \andd \nyet{x_2}) \orr (\nyet{x_1} \andd x_2) \\
+			&= (\nyet{x_1} \nor x_2) \orr (x_1 \nor \nyet{x_2}) \\
+			&= ((x_1 \nor 0) \nor x_2) \orr (x_1 \nor (x_2 \nor 0)) \\
+			&= \nyet{((x_1 \nor 0) \nor x_2) \nor (x_1 \nor (x_2 \nor 0))} \\
+			&= (((x_1 \nor 0) \nor x_2) \nor (x_1 \nor (x_2 \nor 0))) \nor 0 \\
+			\\
+			&= x_1 \andd \nyet{x_2} \orr \nyet{x_1} \andd x_2 \\
+			&= \nyet{x_1 \nand \nyet{x_2}} \orr \nyet{\nyet{x_1} \nand x_2} \\
+			&= \nyet{x_1 \nand (x_2 \nand 1)} \orr \nyet{(x_1 \nand 1) \nand x_2} \\
+			&= ((x_1 \nand (x_2 \nand 1)) \nand 1) \orr (((x_1 \nand 1) \nand x_2) \nand 1) \\
+			&= \nyet{((x_1 \nand (x_2 \nand 1)) \nand 1)} \nand \nyet{(((x_1 \nand 1) \nand x_2) \nand 1)} \\
+			&= (((x_1 \nand (x_2 \nand 1)) \nand 1) \nand 1) \nand ((((x_1 \nand 1) \nand x_2) \nand 1) \nand 1) \\
+		\end{align*}
+		\item[b)]
+		\begin{align*}
+			&\phantom{=} (x_1 \andd \nyet{x_2}) \orr (\nyet{x_2} \andd \nyet{x_3}) \orr (x_3 \andd \nyet{x_0}) \orr (x_0 \andd \nyet{x_1}) \\
+			&= \nyet{(x_1 \andd \nyet{x_2})} \nand \nyet{(\nyet{x_2} \andd \nyet{x_3})} \nand \nyet{(x_3 \andd \nyet{x_0})} \nand \nyet{(x_0 \andd \nyet{x_1})} \\
+			&= \nyet{\nyet{(x_1 \nand \nyet{x_2})}} \nand \nyet{\nyet{(\nyet{x_2} \nand \nyet{x_3})}} \nand \nyet{\nyet{(x_3 \nand \nyet{x_0})}} \nand \nyet{\nyet{(x_0 \nand \nyet{x_1})}} \\
+			&\stackrel{\text{P7}}{=} (x_1 \nand \nyet{x_2}) \nand (\nyet{x_2} \nand \nyet{x_3}) \nand (x_3 \nand \nyet{x_0}) \nand (x_0 \nand \nyet{x_1}) \\
+			&= (x_1 \nand (x_2 \nand 1)) \nand ((x_2 \nand 1) \nand (x_3 \nand 1)) \nand \\ 
+			& \phantom{=} (x_3 \nand (x_0 \nand 1)) \nand (x_0 \nand (x_1 \nand 1)) 
+		\end{align*} 
+	\end{enumerate}
+
+
+	\subsection*{Aufgabe 7: KV \& Shannon}
+	\begin{enumerate}
+		\item[a)]KV-Diagramm:\\
+		\begin{karnaugh-map}[4][2][1][$x_2, x_0$][$x_1$]
+			\manualterms{0,1,0,0,1,1,1,0}
+			\implicant{1}{5}
+			\implicantedge{4}{4}{6}{6}
+		\end{karnaugh-map}\\
+		$\Rightarrow f(x_0, x_1, x_2) = \textcolor{red}{x_0 \nyet{x_2}} + \textcolor{green}{\nyet{x_0} x_1}$ \\\\
+		Shannon-Zerlegung:
+		\begin{align*}
+			f(x_0, x_1, x_2) &= x_0 \nyet{x_2} + \nyet{x_0} x_1 \\\\
+			&= \nyet{x_0} \cdot f_{\nyet{x_0}}(x) + x_0 \cdot f_{x_0}(x) \\
+			&= \nyet{x_0} \cdot (0 \cdot \nyet{x_2} + 1 \cdot x_1) + x_0 \cdot (1 \cdot \nyet{x_2} + 0 \cdot x_1) \\
+			&= \nyet{x_0} x_1 + x_0 \nyet{x_2} \\\\
+			&= \nyet{x_1} \cdot f_{\nyet{x_1}}(x) + x_1 \cdot f_{x_1}(x) \\
+			&= \nyet{x_1} \cdot (\nyet{x_0} \cdot 0 + x_0 \nyet{x_2}) + x_1 \cdot (\nyet{x_0} \cdot 1 + x_0 \nyet{x_2}) \\
+			&= x_0 \nyet{x_1} \nyet{x_2} + \nyet{x_0} x_1 + x_0 x_1 \nyet{x_2} \\\\
+			&= \nyet{x_2} \cdot f_{\nyet{x_2}}(x) + x_2 \cdot f_{x_2}(x) \\
+			&= \nyet{x_2} \cdot (x_0 \nyet{x_1} \cdot 1 + \nyet{x_0} x_1 + x_0 x_1 \cdot 1) + x_2 \cdot (x_0 \nyet{x_1} \cdot 0 + \nyet{x_0} x_1 + x_0 x_1 \cdot 0) \\
+			&= x_0 \nyet{x_1} \nyet{x_2} + \nyet{x_0} x_1 \nyet{x_2} + x_0 x_1 \nyet{x_2} + \nyet{x_0} x_1 x_2 \quad \checkmark
+		\end{align*}
+
+		\item[b)]
+		KV-Diagramm:\\
+		\begin{karnaugh-map}[4][4][1][$x_2, x_0$][$x_3, x_1$]
+			\manualterms{0,1,1,0,1,0,1,0,0,1,1,0,1,0,1,0}
+			\implicantedge{1}{1}{9}{9}
+			\implicantedge{4}{12}{6}{14}
+			\implicant{2}{10}
+		\end{karnaugh-map}\\
+		$\Rightarrow g(x_0, x_1, x_2, x_3) = \textcolor{red}{x_0 \nyet{x_1} \nyet{x_2}} + \textcolor{green}{\nyet{x_0} x_1} + \textcolor{yellow}{\nyet{x_0} x_2}$ \\\\
+		Shannon-Zerlegung:
+		\begin{align*}
+			&\phantom{=} g(x_0, x_1, x_2, x_3) \\
+			&= x_0 \nyet{x_1} \nyet{x_2} + \nyet{x_0} x_1 + \nyet{x_0} x_2 \\\\
+			&= \nyet{x_0} \cdot g_{\nyet{x_0}}(x) + x_0 \cdot g_{x_0}(x) \\
+			&= \nyet{x_0} \cdot (0\cdot \nyet{x_1} \nyet{x_2} + 1\cdot x_1 + 1\cdot x_2) + x_0 \cdot (1\cdot \nyet{x_1} \nyet{x_2} + 0\cdot x_1 + 0\cdot x_2) \\
+			&= \nyet{x_0} x_1 + \nyet{x_0} x_2 +  x_0 \nyet{x_1} \nyet{x_2} \\\\
+			&= \nyet{x_1} \cdot g_{\nyet{x_1}}(x) + x_1 \cdot g_{x_1}(x) \\
+			&= \nyet{x_1} \cdot (\nyet{x_0} \cdot 0 + \nyet{x_0} x_2 +  x_0 \cdot 1 \cdot \nyet{x_2}) + x_1 \cdot (\nyet{x_0} \cdot 1 + \nyet{x_0} x_2 +  x_0 \cdot 0 \cdot \nyet{x_2}) \\
+			&= \nyet{x_0} \nyet{x_1} x_2 + x_0 \nyet{x_1} \nyet{x_2} + \nyet{x_0} x_1 + \nyet{x_0} x_1 x_2 \\\\
+			&= \nyet{x_2} \cdot g_{\nyet{x_2}}(x) + x_2 \cdot g_{x_2}(x) \\
+			&= \nyet{x_2} \cdot (\nyet{x_0} \nyet{x_1} \cdot 0 + x_0 \nyet{x_1} \cdot 1 + \nyet{x_0} x_1 + \nyet{x_0} x_1 \cdot 0) + x_2 \cdot (\nyet{x_0} \nyet{x_1} \cdot 1 + x_0 \nyet{x_1} \cdot 0 + \nyet{x_0} x_1 + \nyet{x_0} x_1 \cdot 1) \\
+			&= x_0 \nyet{x_1} \nyet{x_2} + \nyet{x_0} x_1 \nyet{x_2} + \nyet{x_0} \nyet{x_1} x_2 + \nyet{x_0} x_1 x_2 + \nyet{x_0} x_1 x_2 \\\\
+			&= \nyet{x_3} \cdot g_{\nyet{x_3}}(x) + x_3 \cdot g_{x_3}(x) \\
+			&= \nyet{x_3} \cdot (x_0 \nyet{x_1} \nyet{x_2} + \nyet{x_0} x_1 \nyet{x_2} + \nyet{x_0} \nyet{x_1} x_2 + \nyet{x_0} x_1 x_2 + \nyet{x_0} x_1 x_2) + x_3 \cdot (x_0 \nyet{x_1} \nyet{x_2} + \nyet{x_0} x_1 \nyet{x_2} + \nyet{x_0} \nyet{x_1} x_2 + \nyet{x_0} x_1 x_2 + \nyet{x_0} x_1 x_2) \\
+			&= x_0 \nyet{x_1} \nyet{x_2} \nyet{x_3} + \nyet{x_0} x_1 \nyet{x_2} \nyet{x_3} + \nyet{x_0} \nyet{x_1} x_2 \nyet{x_3} + \nyet{x_0} x_1 x_2 \nyet{x_3} + \nyet{x_0} x_1 x_2 \nyet{x_3} \\
+			&+ x_0 \nyet{x_1} \nyet{x_2} x_3 + \nyet{x_0} x_1 \nyet{x_2} x_3 + \nyet{x_0} \nyet{x_1} x_2 x_3 + \nyet{x_0} x_1 x_2 x_3 + \nyet{x_0} x_1 x_2 x_3 \\\\
+			&= x_0 \nyet{x_1} \nyet{x_2} \nyet{x_3} + \nyet{x_0} \nyet{x_1} x_2 \nyet{x_3} + \nyet{x_0} x_1 \nyet{x_2} \nyet{x_3} \\
+			&+ \nyet{x_0} x_1 x_2 \nyet{x_3} + \nyet{x_0} x_1 \nyet{x_2} x_3 + \nyet{x_0} x_1 x_2 x_3 \\
+			&+ x_0 \nyet{x_1} \nyet{x_2} x_3 + \nyet{x_0} \nyet{x_1} x_2 x_3 \quad \checkmark
+		\end{align*}
+	\end{enumerate}
+
+	\newpage
+	
+	\textit{Wüsste man nicht, dass man Informatik studiert, würde man nach dieser Abgabe denken, man sei ein Computer.}
+\end{document}

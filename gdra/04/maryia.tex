@@ -1,0 +1,159 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{mathtools}
+
+\title{Grundlagen der Rechnerarchitektur: Übungsblatt 4}
+\author{Alexander Waldenmaier, Maryia Masla}
+
+\begin{document}
+    \maketitle
+
+    \subsection*{Aufgabe 1: Teilalgebra}
+    
+    
+    \subsection*{Aufgabe 2: De-morgansche Gesetze}
+    \begin{itemize}
+    	\item[a)]Um $\overline{x_1 + x_2} = \overline{x_1} \cdot \overline{x_2}$ zu beweisen, nutzen wir Komplementarität und zeigen, dass $\overline{x_1} \cdot \overline{x_2} \cdot (x_1 + x_2) = 0$ und $\overline{x_1} \cdot \overline{x_2} + (x_1 + x_2) = 1$ gilt\\
+    	\begin{align*}
+    		\overline{x_1} \cdot \overline{x_2} \cdot (x_1 + x_2) & \stackrel{\text{P4}}{=} \overline{x_1} \cdot x_1 \cdot \overline{x_2} + \overline{x_1} \cdot \overline{x_2} \cdot x_2 \\
+    		& \stackrel{\text{P9}}{=} 0 \cdot \overline{x_2} + \overline{x_1} \cdot 0 \\
+    		& \stackrel{\text{P6}}{=} 0 + 0 \\
+    		& \stackrel{\text{P5'}}{=} 0
+    	\end{align*}
+    	\begin{align*}
+    		\overline{x_1} \cdot \overline{x_2} + (x_1 + x_2) & \stackrel{\text{P4'}}{=} (\overline{x_1} + x_1 + x_2) \cdot (x_1 + x_2 + \overline{x_2}) \\
+    		& \stackrel{\text{P9'}}{=} (1 + x_2) \cdot (x_1 + 1) \\
+    		& \stackrel{\text{P6'}}{=} 1 \cdot 1 \\
+    		& \stackrel{\text{P5}}{=} 1
+    	\end{align*}\\\\
+    	\begin{tabular}{l|l|l|l}
+    		$x_1$ & $x_2$ & $\overline{x_1 + x_2}$ & $\overline{x_1} \cdot \overline{x_2}$ \\
+    		\hline
+    		0&0&1&1 \\
+    		0&1&0&0 \\
+    		1&0&0&0 \\
+    		1&1&0&0
+    	\end{tabular}\\\\
+    	\item[b)] $\overline{x_1 \cdot x_2} = \overline{x_1} + \overline{x_2}$ gilt, wenn $(\overline{x_1} + \overline{x_2}) \cdot x_1 \cdot x_2 = 0$ und $(\overline{x_1} + \overline{x_2}) + x_1 \cdot x_2 = 1$ gilt (Komplementarität)
+    	\begin{align*}
+    		(\overline{x_1} + \overline{x_2}) \cdot x_1 \cdot x_2 & \stackrel{\text{P4}}{=} \overline{x_1} \cdot x_1 \cdot x_2 + x_1 \cdot x_2 \cdot \overline{x_2} \\
+    		& \stackrel{\text{P9}}{=} 0 \cdot x_2 + x_1 \cdot 0 \\
+    		& \stackrel{\text{P6}}{=} 0 + 0 \\
+    		& \stackrel{\text{P5'}}{=} 0
+    	\end{align*}
+    	\begin{align*}
+    		\overline{x_1} + \overline{x_2} + (x_1 \cdot x_2) & \stackrel{\text{P4'}}{=} (\overline{x_1} + \overline{x_2} + x_1) \cdot (\overline{x_1} + \overline{x_2} + x_2) \\
+    		& \stackrel{\text{P9'}}{=} (1 + \overline{x_2}) \cdot (\overline{x_1} + 1) \\
+    		& \stackrel{\text{P6'}}{=} 1 \cdot 1 \\
+    		& \stackrel{\text{P5}}{=} 1
+    	\end{align*}\\\\
+    	\begin{tabular}{l|l|l|l}
+    		$x_1$ & $x_2$ & $\overline{x_1 \cdot x_2}$ & $\overline{x_1} + \overline{x_2}$ \\
+    		\hline
+    		0&0&1&1 \\
+    		0&1&1&1 \\
+    		1&0&1&1 \\
+    		1&1&0&0
+    	\end{tabular}\\\\
+    \end{itemize}
+    
+    \subsection*{Aufgabe 3: Äquivalenz Beweisen}
+    \begin{itemize}
+    	\item[a)]
+    	\begin{align*}
+    		\overline{(\overline{x_1} + \overline{x_2}) \cdot (x_1 + \overline{x_3}) \cdot (x_2 + x_3)} & \stackrel{\text{P8}}{=} \overline{(\overline{x_1} + \overline{x_2})} + \overline{(x_1 + \overline{x_3})} + \overline{(x_2 + x_3)} \\
+    		& \stackrel{\text{P8}}{=} (\overline{\overline{x_1}} \cdot \overline{\overline{x_1}}) + (\overline{x_1} \cdot \overline{\overline{x_3}}) + (\overline{x_2} \cdot \overline{x_3}) \\
+    		& \stackrel{\text{P7}}{=} (x_1 \cdot x_1) + (\overline{x_1} \cdot x_3) + (\overline{x_2} \cdot \overline{x_3}) \\
+    	\end{align*}
+    	$\Rightarrow (x_1 \cdot x_1) + (\overline{x_1} \cdot x_3) + (\overline{x_2} \cdot \overline{x_3}) = \overline{(\overline{x_1} + \overline{x_2}) \cdot (x_1 + \overline{x_3}) \cdot (x_2 + x_3)}$
+    	\item[b)]
+    	\begin{align*}
+    		\overline{\overline{(x_1 \cdot \overline{(x_2 \cdot x_2)})} \cdot \overline{(\overline{(x_1 \cdot x_1)} \cdot x_2)}} & \stackrel{\text{P3}}{=} \overline{\overline{(x_1 \cdot \overline{x_2})} \cdot \overline{(\overline{x_1} \cdot x_2)}} \\
+    		& \stackrel{\text{P8}}{=} \overline{\overline{(x_1 \cdot \overline{x_2})}} + \overline{\overline{(\overline{x_1} \cdot x_2)}} \\
+    		& \stackrel{\text{P7}}{=} (x_1 \cdot \overline{x_2}) + (\overline{x_1} \cdot x_2)
+    	\end{align*}
+    	$\Rightarrow (x_1 \cdot \overline{x_2}) + (\overline{x_1} \cdot x_2) = \overline{\overline{(x_1 \cdot \overline{(x_2 \cdot x_2)})} \cdot \overline{(\overline{(x_1 \cdot x_1)} \cdot x_2)}}$
+    \end{itemize}
+    
+    \subsection*{Aufgabe 4: Minimierung macht alles einfacher!}
+    \begin{itemize}
+    	\item[a)]
+    	\begin{align*}
+    		g(x_1,x_2) & = \overline{\overline{x_1 \cdot x_2} \cdot x_1} \\
+    		& \stackrel{\text{P8}}{=} \overline{\overline{x_1 \cdot x_2}} + \overline{x_1} \\
+    		& \stackrel{\text{P7}}{=} (x_1 \cdot x_2) + \overline{x_1} \\
+    		& \stackrel{\text{P4'}}{=} (x_1 + \overline{x_1}) \cdot (\overline{x_1} + x_2) \\
+    		& \stackrel{\text{P9'}}{=} 1 \cdot (\overline{x_1} + x_2) \\
+    		& \stackrel{\text{P5}}{=} \overline{x_1} + x_2
+    	\end{align*}
+    	\item[b)]
+    	\begin{align*}
+    		h(x_1,x_2,x_3,x_4) & = (x_1 \cdot x_2) + (x_1 \cdot x_3) + x_1 \cdot (x_2 + x_3 \cdot x_4) + x_1 \\
+    		& \stackrel{\text{P4}}{=} (x_1 \cdot x_2) + (x_1 \cdot x_3) + (x_1 \cdot x_2) + (x_1 \cdot x_3 \cdot x_4) + x_1 \\
+    		& \stackrel{\text{P3'}}{=} (x_1 \cdot x_2) + (x_1 \cdot x_3) + (x_1 \cdot x_3 \cdot x_4) + x_1 \\
+    		& \stackrel{\text{P4}}{=} (x_1 \cdot x_2) + (x_1 \cdot x_3) \cdot (1 + x_4) + x_1 \\
+    		& \stackrel{\text{P6'}}{=} (x_1 \cdot x_2) + (x_1 \cdot x_3) \cdot 1 + x_1 \\
+    		& \stackrel{\text{P5}}{=} (x_1 \cdot x_2) + (x_1 \cdot x_3) + x_1 \\
+    		& \stackrel{\text{P4}}{=} x_1 \cdot (x_2 + x_3 + 1) \\
+    		& \stackrel{\text{P6'}}{=} x_1 \cdot 1 \\
+    		& \stackrel{\text{P5}}{=} x_1
+    	\end{align*}
+    	\item[c)]
+    	\begin{align*}
+    		k(x_1,x_2,x_3) & = ((x_1 + x_3 \cdot (x_2 +x_3)) \cdot 1) \cdot 1 \\
+    		& \stackrel{\text{P5}}{=} (x_1 + x_3 \cdot (x_2 +x_3)) \cdot 1 \\
+    		& \stackrel{\text{P5}}{=} x_1 + x_3 \cdot (x_2 +x_3) \\
+    		& \stackrel{\text{P11'}}{=} x_1 + x_3
+    	\end{align*}
+    \end{itemize}
+    
+    
+    \subsection*{Aufgabe 5: Kanonen? Nein kanonisch!}
+    \[
+    f(x_2,x_1,x_0) = \begin{cases}
+    	1 \text{ falls der Dezimalwert von }(x_2,x_1,x_0) \text{ mod 2 = 0} \\
+    	0 \text{ sonst}
+    	\end{cases}    
+    \]\\\\
+    $(x_2,x_1,x_0)$ eine vorzeichenlose Binärzahl, $x_0$ ist LSB.\\
+    $(x_2,x_1,x_0)$ mod 2 = 0, wenn $(x_2,x_1,x_0)$ eine gerade Zahl ist d.h. $x_0 = 0$
+    \begin{itemize}
+    	\item[a)]
+    	\begin{tabular}[t]{lll|l}
+    		$x_2$&$x_1$&$x_0$&$f$ \\
+    		\hline
+    		0&0&0&1 \\
+    		0&0&1&0 \\
+    		0&1&0&1 \\
+    		0&1&1&0 \\
+    		1&0&0&1 \\
+    		1&0&1&0 \\
+    		1&1&0&1 \\
+    		1&1&1&0 \\
+    	\end{tabular}
+    	\item[b)]DKNF von $f$: $$f(x_2,x_1,x_0) = \overline{x_2}\cdot\overline{x_1}\cdot\overline{x_0} + \overline{x_2}\cdot x_1\cdot\overline{x_0} + x_2\cdot\overline{x_1}\cdot\overline{x_0} + x_2\cdot x_1\cdot\overline{x_0}$$
+    	KKNF von $f$: $$f(x_2,x_1,x_0) = (x_2+x_1+\overline{x_0})\cdot(x_2+\overline{x_1}+\overline{x_0})\cdot(\overline{x_2}+x_1+\overline{x_0})\cdot(\overline{x_2}+\overline{x_1}+\overline{x_0})$$
+    	\item[c)]
+    	\begin{align*}
+    		f(x_2,x_1,x_0) & = \overline{x_2}\cdot\overline{x_1}\cdot\overline{x_0} + \overline{x_2}\cdot x_1\cdot\overline{x_0} + x_2\cdot\overline{x_1}\cdot\overline{x_0} + x_2\cdot x_1\cdot\overline{x_0} \\
+    		& \stackrel{\text{P4}}{=} \overline{x_2} \cdot\overline{x_0}\cdot(\overline{x_1} + x_1) + x_2 \cdot\overline{x_0}\cdot(\overline{x_1} + x_1) \\
+    		& \stackrel{\text{P9'}}{=} \overline{x_2} \cdot\overline{x_0} + x_2 \cdot\overline{x_0} \\
+    		& \stackrel{\text{P4}}{=} \overline{x_0}\cdot(\overline{x_2} + x_2) \\
+    		& \stackrel{\text{P9'}}{=} \overline{x_0}
+    	\end{align*}
+    \end{itemize}
+    
+    
+    \subsection*{Aufgabe 6: Nicht oder und, oder?}
+    
+    
+    \subsection*{Aufgabe 7: KV \& Shannon}
+    
+\end{document}
