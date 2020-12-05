@@ -23,7 +23,7 @@
     \maketitle
 
 	\subsection*{Aufgabe 1: Teileralgebra}
-	Alle Elemente von $T$ sind Teiler der 30: $30 = 2\cdot 15 = 3 \cdot 10 = 5 \cdot 6 = 1 \cdot 2 \cdot 3 \cdot 5$. Für alle Elemente $a \in T$, für die offensichtlich gilt $30>a$ und $a$ ein Teiler von 30, folgt: 
+	Alle Elemente von $T$ sind Teiler der 30: $30 = 2\cdot 15 = 3 \cdot 10 = 5 \cdot 6 = 1 \cdot 2 \cdot 3 \cdot 5$. Für alle Elemente $a \in T$, gilt offensichtlich: $30>a$ und $a$ ist ein Teiler von 30. Daraus folgt: 
 	\begin{itemize}
 		\item Neutralelement: $ggT(a, 30) = a$
 		\item Absorption: $kgV(ggT(a, 30), 30) \stackrel{\substack{\text{Neutral-} \\ \text{element}}}{=} kgV(a, 30) = 30$
@@ -31,13 +31,12 @@
 	
 
 	\subsection*{Aufgabe 2: De-morgansche Gesetze}
-	Um zu belegen, dass die Aussagen übereinstimmen, kann zum einen Wertetabelle mit den Resultaten der linken bzw. rechten Seite befüllt werden. Anderseits kann geprüft werden, ob die eine Seite verundet mit dem Komplement der anderen Seite 0 ergibt, bzw. ob die eine Seite verodert mit dem Komplement der anderen Seite 1 ergibt. 
 	\begin{enumerate}
-		\item[a)]
+		\item[a)] Um $\overline{x_1 + x_2} = \overline{x_1} \cdot \overline{x_2}$ zu beweisen, nutzen wir Komplementarität und zeigen, dass $\overline{x_1} \cdot \overline{x_2} \cdot (x_1 + x_2) = 0$ und $\overline{x_1} \cdot \overline{x_2} + (x_1 + x_2) = 1$ gilt:\\\\
 		\begin{minipage}[t]{0.27\textwidth}
-			Wertetabelle:\\\\
+			\textbf{Wertetabelle}:\\\\
 			\begin{tabular}[t]{cc|cc}
-				$a$ & $b$ & $\nyet{x_1 + x_2}$ & $ \nyet{x_1} \cdot \nyet{x_2}$ \\ \hline
+				$x_1$ & $x_2$ & $\nyet{x_1 + x_2}$ & $ \nyet{x_1} \cdot \nyet{x_2}$ \\ \hline
 				0 & 0 & 1 & 1 \\
 				0 & 1 & 0 & 0 \\
 				1 & 0 & 0 & 0 \\
@@ -45,9 +44,9 @@
 			\end{tabular}
 		\end{minipage}
 		\begin{minipage}[t]{0.35\textwidth}
-			Algebraischer Beweis: 
+			\textbf{Algebraischer Beweis}: 
 			\begin{align*}
-				\nyet{x_1} \nyet{x_2} \cdot \nyet{\nyet{x_1 + x_2}} &\stackrel{!}{=} 0 \\
+				0 &\stackrel{!}{=} \nyet{x_1} \nyet{x_2} \cdot \nyet{\nyet{x_1 + x_2}} \\
 				&\stackrel{\text{P7}}{=} \nyet{x_1} \nyet{x_2} \cdot (x_1 + x_2) \\
 				&\stackrel{\text{P4}}{=} \nyet{x_1} \nyet{x_2} x_1 + \nyet{x_1} \nyet{x_2} x_2 \\
 				&\stackrel{\text{P9, P6}}{=} 0 + 0 \\
@@ -57,15 +56,19 @@
 		\begin{minipage}[t]{0.3\textwidth}
 			\vspace{0.3em}
 			\begin{align*}
-				\nyet{x_1} \nyet{x_2} + \nyet{\nyet{x_1 + x_2}} &\stackrel{!}{=} 1 \\
-				&\stackrel{\text{P7}}{=} \nyet{x_1} \nyet{x_2} + x_1 + x_2 
+				1 &\stackrel{!}{=} \nyet{x_1} \nyet{x_2} + \nyet{\nyet{x_1 + x_2}} \\
+				&\stackrel{\text{P7}}{=} \nyet{x_1} \nyet{x_2} + x_1 + x_2 \\
+				&\stackrel{\text{P4'}}{=} (x_1 + x_2 + \nyet{x_1})(x_1 + x_2 + \nyet{x_2}) \\
+				&\stackrel{\text{P9'}}{=} (x_2 + 1)(x_1 + 1) \\
+				&\stackrel{\text{P6'}}{=} 1\cdot 1 \\
+				&\stackrel{\text{P3}}{=} 1 \quad \checkmark
 			\end{align*}
 		\end{minipage}\\\\
-		\item[b)]
+		\item[b)] $\overline{x_1 \cdot x_2} = \overline{x_1} + \overline{x_2}$ gilt, wenn $(\overline{x_1} + \overline{x_2}) \cdot x_1 \cdot x_2 = 0$ und $(\overline{x_1} + \overline{x_2}) + x_1 \cdot x_2 = 1$ gilt (Komplementarität): \\\\
 		\begin{minipage}[t]{0.27\textwidth}
-			Wertetabelle:\\\\
+			\textbf{Wertetabelle}:\\\\
 			\begin{tabular}[t]{cc|cc}
-				$a$ & $b$ & $\nyet{x_1 \cdot x_2}$ & $ \nyet{x_1} + \nyet{x_2}$ \\ \hline
+				$x_1$ & $x_2$ & $\nyet{x_1 \cdot x_2}$ & $ \nyet{x_1} + \nyet{x_2}$ \\ \hline
 				0 & 0 & 1 & 1 \\
 				0 & 1 & 1 & 1 \\
 				1 & 0 & 1 & 1 \\
@@ -73,9 +76,9 @@
 			\end{tabular}
 		\end{minipage}
 		\begin{minipage}[t]{0.35\textwidth}
-			Algebraischer Beweis: 
+			\textbf{Algebraischer Beweis}:
 			\begin{align*}
-				(\nyet{x_1} + \nyet{x_2}) \cdot \nyet{\nyet{x_1 x_2}} &\stackrel{!}{=} 0 \\
+				0 &\stackrel{!}{=} (\nyet{x_1} + \nyet{x_2}) \cdot \nyet{\nyet{x_1 x_2}}  \\
 				&\stackrel{\text{P7}}{=} (\nyet{x_1} + \nyet{x_2}) \cdot x_1 x_2 \\
 				&\stackrel{\text{P4}}{=} \nyet{x_1} x_1 x_2 + \nyet{x_2} x_1 x_2 \\
 				&\stackrel{\text{P9, P6}}{=} 0 + 0 \\
@@ -85,8 +88,12 @@
 		\begin{minipage}[t]{0.3\textwidth}
 			\vspace{0.3em}
 			\begin{align*}
-				\nyet{x_1} + \nyet{x_2} + \nyet{\nyet{x_1 x_2}} &\stackrel{!}{=} 1 \\
-				&\stackrel{\text{P7}}{=} \nyet{x_1} + \nyet{x_2} + x_1 x_2 
+				1 &\stackrel{!}{=} \nyet{x_1} + \nyet{x_2} + \nyet{\nyet{x_1 x_2}} \\
+				&\stackrel{\text{P7}}{=} \nyet{x_1} + \nyet{x_2} + x_1 x_2 \\
+				&\stackrel{\text{P4'}}{=} (\nyet{x_1} + \nyet{x_2} + x_1)(\nyet{x_1} + \nyet{x_2} + x_2) \\
+				&\stackrel{\text{P9'}}{=} (\nyet{x_2} + 1)(\nyet{x_1} + 1) \\
+				&\stackrel{\text{P6'}}{=} 1\cdot 1 \\
+				&\stackrel{\text{P3}}{=} 1 \quad \checkmark
 			\end{align*}
 		\end{minipage}
 	\end{enumerate}
@@ -186,7 +193,7 @@
 	
 
 	\subsection*{Aufgabe 6: Nicht oder und, oder?}
-	Wir machen uns folgende Tatsachen zunutze:
+	Wir machen uns folgende Tatsachen zunutze (die Nummerierung wird bei der Gleichungsumformung unten wiederverwendet):
 	\begin{enumerate}
 		\item $\nyet{a} = a \nand 1 = a \nor 0$
 		\item $a \andd b = \nyet{a \nand b} = \nyet{a} \nor \nyet{b}$
@@ -195,27 +202,39 @@
 	\begin{enumerate}
 		\item[a)]
 		\begin{align*}
-			&\phantom{=} x_1 \oplus x_2 \\
-			&= (x_1 \andd \nyet{x_2}) \orr (\nyet{x_1} \andd x_2) \\
-			&= (\nyet{x_1} \nor x_2) \orr (x_1 \nor \nyet{x_2}) \\
-			&= ((x_1 \nor 0) \nor x_2) \orr (x_1 \nor (x_2 \nor 0)) \\
-			&= \nyet{((x_1 \nor 0) \nor x_2) \nor (x_1 \nor (x_2 \nor 0))} \\
-			&= (((x_1 \nor 0) \nor x_2) \nor (x_1 \nor (x_2 \nor 0))) \nor 0 \\
-			\\
-			&= x_1 \andd \nyet{x_2} \orr \nyet{x_1} \andd x_2 \\
-			&= \nyet{x_1 \nand \nyet{x_2}} \orr \nyet{\nyet{x_1} \nand x_2} \\
-			&= \nyet{x_1 \nand (x_2 \nand 1)} \orr \nyet{(x_1 \nand 1) \nand x_2} \\
-			&= ((x_1 \nand (x_2 \nand 1)) \nand 1) \orr (((x_1 \nand 1) \nand x_2) \nand 1) \\
-			&= \nyet{((x_1 \nand (x_2 \nand 1)) \nand 1)} \nand \nyet{(((x_1 \nand 1) \nand x_2) \nand 1)} \\
-			&= (((x_1 \nand (x_2 \nand 1)) \nand 1) \nand 1) \nand ((((x_1 \nand 1) \nand x_2) \nand 1) \nand 1) \\
+			x_1 \oplus x_2 &= (x_1 \nyet{x_2}) + (\nyet{x_1} x_2) \\\\
+			&\stackrel{\text{P8}}{=} \nyet{\nyet{(x_1 \nyet{x_2})} \cdot \nyet{(\nyet{x_1} x_2)}}\\
+			&\stackrel{\text{2.}}{=} \nyet{(x_1 \nand \nyet{x_2}) \cdot (\nyet{x_1} \nand x_2)} \\
+			&\stackrel{\text{2.}}{=} (x_1 \nand \nyet{x_2}) \nand (\nyet{x_1} \nand x_2) \\
+			&\stackrel{\text{1.}}{=} (x_1 \nand (x_2 \nand 1)) \nand ((x_1 \nand 1) \nand x_2) \\\\
+			&\stackrel{\text{P7}}{=} \nyet{\nyet{(x_1 \nyet{x_2}) + (\nyet{x_1} x_2)}} \: \stackrel{\text{P8'}}{=} \: \nyet{\nyet{(x_1 \nyet{x_2})} \cdot \nyet{(\nyet{x_1} x_2)}} \\
+			&\stackrel{\text{P8}}{=} \nyet{(\nyet{x_1} x_2) \cdot (x_1 \nyet{x_2})} \: \stackrel{\text{P4}}{=} \: \nyet{\nyet{x_1}x_1 + \nyet{x_1}\nyet{x_2} + ab + x_2\nyet{x_2}} \\
+			&\stackrel{\text{P9}}{=} \nyet{\nyet{x_1}\nyet{x_2} + ab} \stackrel{\text{3.}}{=} (\nyet{x_1}\nyet{x_2}) \nor (ab) \\
+			&\stackrel{\text{3.}}{=} (x_1 \nor x_2) \nor (\nyet{x_1} \nor \nyet{x_2}) \\
+			&\stackrel{\text{1.}}{=} (x_1 \nor x_2) \nor ((x_1 \nor 0) \nor (x_2 \nor 0))
 		\end{align*}
+		% \begin{align*}
+		% 	&\phantom{=} x_1 \oplus x_2 \\
+		% 	&= (x_1 \andd \nyet{x_2}) \orr (\nyet{x_1} \andd x_2) \\
+		% 	&= (\nyet{x_1} \nor x_2) \orr (x_1 \nor \nyet{x_2}) \\
+		% 	&= ((x_1 \nor 0) \nor x_2) \orr (x_1 \nor (x_2 \nor 0)) \\
+		% 	&= \nyet{((x_1 \nor 0) \nor x_2) \nor (x_1 \nor (x_2 \nor 0))} \\
+		% 	&= (((x_1 \nor 0) \nor x_2) \nor (x_1 \nor (x_2 \nor 0))) \nor 0 \\
+		% 	\\
+		% 	&= x_1 \andd \nyet{x_2} \orr \nyet{x_1} \andd x_2 \\
+		% 	&= \nyet{x_1 \nand \nyet{x_2}} \orr \nyet{\nyet{x_1} \nand x_2} \\
+		% 	&= \nyet{x_1 \nand (x_2 \nand 1)} \orr \nyet{(x_1 \nand 1) \nand x_2} \\
+		% 	&= ((x_1 \nand (x_2 \nand 1)) \nand 1) \orr (((x_1 \nand 1) \nand x_2) \nand 1) \\
+		% 	&= \nyet{((x_1 \nand (x_2 \nand 1)) \nand 1)} \nand \nyet{(((x_1 \nand 1) \nand x_2) \nand 1)} \\
+		% 	&= (x_1 \nand (x_2 \nand 1)) \nand ((x_1 \nand 1) \nand x_2) \\
+		% \end{align*}
 		\item[b)]
 		\begin{align*}
 			&\phantom{=} (x_1 \andd \nyet{x_2}) \orr (\nyet{x_2} \andd \nyet{x_3}) \orr (x_3 \andd \nyet{x_0}) \orr (x_0 \andd \nyet{x_1}) \\
-			&= \nyet{(x_1 \andd \nyet{x_2})} \nand \nyet{(\nyet{x_2} \andd \nyet{x_3})} \nand \nyet{(x_3 \andd \nyet{x_0})} \nand \nyet{(x_0 \andd \nyet{x_1})} \\
-			&= \nyet{\nyet{(x_1 \nand \nyet{x_2})}} \nand \nyet{\nyet{(\nyet{x_2} \nand \nyet{x_3})}} \nand \nyet{\nyet{(x_3 \nand \nyet{x_0})}} \nand \nyet{\nyet{(x_0 \nand \nyet{x_1})}} \\
+			&\stackrel{\text{P2', 2.}}{=} \nyet{(x_1 \andd \nyet{x_2})} \nand \nyet{(\nyet{x_2} \andd \nyet{x_3})} \nand \nyet{(x_3 \andd \nyet{x_0})} \nand \nyet{(x_0 \andd \nyet{x_1})} \\
+			&\stackrel{\text{2.}}{=} \nyet{\nyet{(x_1 \nand \nyet{x_2})}} \nand \nyet{\nyet{(\nyet{x_2} \nand \nyet{x_3})}} \nand \nyet{\nyet{(x_3 \nand \nyet{x_0})}} \nand \nyet{\nyet{(x_0 \nand \nyet{x_1})}} \\
 			&\stackrel{\text{P7}}{=} (x_1 \nand \nyet{x_2}) \nand (\nyet{x_2} \nand \nyet{x_3}) \nand (x_3 \nand \nyet{x_0}) \nand (x_0 \nand \nyet{x_1}) \\
-			&= (x_1 \nand (x_2 \nand 1)) \nand ((x_2 \nand 1) \nand (x_3 \nand 1)) \nand \\ 
+			&\stackrel{\text{1.}}{=} (x_1 \nand (x_2 \nand 1)) \nand ((x_2 \nand 1) \nand (x_3 \nand 1)) \nand \\ 
 			& \phantom{=} (x_3 \nand (x_0 \nand 1)) \nand (x_0 \nand (x_1 \nand 1)) 
 		\end{align*} 
 	\end{enumerate}
@@ -275,8 +294,4 @@
 			&+ x_0 \nyet{x_1} \nyet{x_2} x_3 + \nyet{x_0} \nyet{x_1} x_2 x_3 \quad \checkmark
 		\end{align*}
 	\end{enumerate}
-
-	\newpage
-	
-	\textit{Wüsste man nicht, dass man Informatik studiert, würde man nach dieser Abgabe denken, man sei ein Computer.}
 \end{document}
