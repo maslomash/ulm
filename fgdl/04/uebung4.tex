@@ -27,11 +27,11 @@
     \begin{table}[h]
         \centering
         \begin{tabular}{c|cccc||cccc}
-            $(x_1, x_2, \ldots, x_n)_{10}$ & $x_1$ & $x_2$ & $\cdots$ & $x_n$ & $f_1$ & $f_2$ & $\cdots$ & $f_{2n+1}$\\ \hline
+            $(x_1, x_2, \ldots, x_n)_{10}$ & $x_1$ & $x_2$ & $\cdots$ & $x_n$ & $f_1$ & $f_2$ & $\cdots$ & $f_{2^n+1}$\\ \hline
             0 & 0 & 0 & $\cdots$ & 0 & 0 & 0 & $\cdots$ & 1 \\
             1 & 0 & 0 & $\cdots$ & 1 & 0 & 0 & $\cdots$ & 1 \\
             $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\
-            $2n-1$ & 1 & 1 & $\cdots$ & 1 & 0 & 1 & $\cdots$ & 1 \\
+            $2^n-1$ & 1 & 1 & $\cdots$ & 1 & 0 & 1 & $\cdots$ & 1 \\
         \end{tabular}
     \end{table}\\
     Betrachtet man die möglichen Funktionen $f_i$ in der Tabelle rechts, so erkennt man, dass für größer werdende $i$ die "`Grenze"', bei der die Funktion nicht mehr 0 sondern 1 herausgibt, sich je um eins nach oben verschiebt, bis irgendwann für jeden beliebigen Input $x$ der Funktionswert stets 1 ergibt. 

@@ -1,0 +1,162 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{amssymb}
+\usepackage[noend]{algpseudocode}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{slashbox}
+\usepackage{listings}
+\usepackage[noend]{algpseudocode}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+\title{Algorithmen und Datenstrukturen: Übung 5}
+\author{Tanja Zast, Alexander Waldenmaier}
+
+\begin{document}
+    \maketitle
+
+    \subsection*{Aufgabe 5.1}
+    Die optimale Konstellation erhält man, indem man die Gegenstände 1, 2 und 4 mit Gesamtgewicht 8 und Gesamtwert 6 kombiniert. 
+    \begin{table*}[h]
+        \centering
+        \begin{tabular}{c|ccccccccc}
+            \backslashbox{i}{h} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+            \hline
+                              0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+                              1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+                              2 & 0 & 1 & 1 & 2 & 3 & 3 & 3 & 3 & 3 \\
+                              3 & 0 & 1 & 1 & 2 & 3 & 3 & 3 & 4 & 4 \\
+                              4 & 0 & 1 & 1 & 2 & 3 & 4 & 4 & 4 & 6 \\
+                              5 & 0 & 1 & 1 & 2 & 3 & 4 & 4 & 4 & \circled{6}
+        \end{tabular}
+    \end{table*}
+
+
+    \subsection*{Aufgabe 5.2}
+    \begin{enumerate}
+        \item[a)] Es sind ingesamt 3 Editierungen notwendig, um von \lstinline{HOORAY} auf \lstinline{HURRA} zu kommen. Demnach beträgt die Länge der längsten gemeinsamen Teilfolge $6-3 = 3$. Die Editierdistanz zwischen den einzelnen Teilwörtern ist in der folgenden Tabelle dargestellt:
+        \begin{table*}[h]
+            \centering
+            \begin{tabular}{c|ccccccc}
+                A & 5 & 4 & 4 & 4 & 3 & 2 & \circled{3} \\
+                R & 4 & 3 & 3 & 3 & 2 & 3 & 4 \\
+                R & 3 & 2 & 2 & 2 & 3 & 4 & 5 \\
+                U & 2 & 1 & 1 & 2 & 3 & 4 & 5 \\
+                H & 1 & 0 & 1 & 2 & 3 & 4 & 5 \\
+                  & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
+                  &   & H & O & O & R & A & Y \\
+            \end{tabular}
+        \end{table*} 
+        \item[b)] Siehe Algorithm 1 "`Längste gemeinsame Teilfolge"'.
+        \begin{algorithm}[h]
+            \begin{algorithmic}[1]
+                \Procedure{lgT}{str1, str2}
+                \State $\textit{str1} \gets$ """\space""" $ + \textit{str1}$
+                \State $\textit{str2} \gets$ """\space""" $ + \textit{str2}$
+                \State $n \gets \text{length}(str1)$
+                \State $m \gets \text{length}(str2)$
+                \\
+                \State \textbf{Initialize} $mat[0 \ldots n-1, 0 \ldots m-1] = 0$
+                \\
+                \For {$i \gets 0 \textbf{ to } n-1$}
+                    \For {$j \gets 0 \textbf{ to } m-1$}
+                        \If {$i$ == 0 \textbf{or} $j$ == 0}
+                            \State \textbf{Continue}
+                        \ElsIf {$str1[i]$ == $str2[j]$}
+                            \State $mat[i, j] \gets mat[i-1, j-1] + 1$
+                        \Else
+                            \State $mat[i, j] \gets \text{max}(mat[i-1, j], mat[i, j-1])$
+                        \EndIf
+                    \EndFor
+                \EndFor
+                \\
+                \State \textbf{return} $mat[-1, -1]$
+                \EndProcedure
+                \end{algorithmic}
+                \textit{Die Schreibweise $mat[-1, -1]$ referenziert das Matrixelement in der letzen Spalte und Zeile.}
+                \caption{Funktion: Längste gemeinsame Teilfolge}
+        \end{algorithm}
+        \item[c)] Die Tabelle hat stets die Größe $n \times m$, wobei $n, m$ die Längen der Wörter $s_1, s_2$ sind, die jeweils um ein führendes Leerzeichen erweitert wurden. Da jede Tabellenzelle einmals mit einer Berechnung von konstanter Ausführungszeit bestimmt wird, beträgt ist die Laufzeit $\in \mathcal{O}(n\cdot m)$.
+        \item[d)] Bestenfalls sind beide Wörter identisch: $s_1 = s_2$ und $m=n$. In diesem Fall ist $lgT(s_1, s_2) = m$ und die rechte Seite der Ungleichung ergibt sich zu $m+n - 2 lgT(s_1, s_2) = m+n - 2m = 0$. Da die Editierdistanz $x=0$ beträgt herrscht Gleichheit der beiden Seiten. 
+        
+        Werden nun beliebig die Wörter verlängert ohne dabei $lgT(s_1, s_2)$ zu verändern, so vergrößert sich die rechte Seite exakt um die Anzahl der ergänzten Buchstaben. Die Editierdistanz vergrößert sich maximal um die Anzahl der ergänzten Buchstaben (alle Buchstaben werden einem Wort ergänzt) und minimal um die Hälfte der Anzahl (die Buchstaben werden gleichmäßig beiden Wörtern angefügt). Im Maximalfall herrscht erneut Gleichheit. Das exakt gleiche Szenario ergibt sich, wenn die Buchstaben am Anfang statt am Ende eingefügt werden.
+
+        Daraus ergibt sich, dass genau dann Gleichheit herrscht, wenn eines der beiden Wörter vollständig und am Stück an irgend einer Stelle im anderen Wort enthalten ist. Dies gilt auch für den Fall, dass das eine Wort leer ist, da das leere Wort auch ein Unterwort eines Wortes mit Länge größer 0 ist. Für alle anderen Fälle ist die linke Seite kleiner als die rechte. 
+    \end{enumerate}
+    
+
+    \subsection*{Aufgabe 5.3}
+    \begin{enumerate}
+        \item[a)] In jedem Funktionsaufruf, egal ob $n=1000000$ oder $n=10$, wird $n\le 1$ getestet - dieser eine Fall sollte ausgegrenzt werden. Außerdem wird jeder Funktionswert zweimal berechnet: Einmal, wenn er der $n-1$-te ist und einmal, wenn er der $\floor{n/2}$-te ist. Die Ausführungszeit ließe sich ca. verdoppeln, wenn bereits berechnete Funktionswerte wiederverwendet werden würden. 
+        \item[b) / c)] Ja. Durch die Verwendung eines eindimensionalen Arrays mit Länge $n$ lassen sich alle Funktionswerte abspeichern, die bereits bestimmt wurden, und zwar an der zugehörigen $i$-ten Stelle. Um $F(n)$ zu berechnen, legt man zunächst ein leeres Array der Länge $n$ an und initialisiert das erste Element mit einer 1 (Basisfall). Dann iteriert man alle Zahlen von 2 bis $n$ durch und bestimmt für jedes den Funktionswert. Die erforderlichen Werte $F(n-1)$ und $F(\floor{n/2})$ sind bereits im Array vorhanden und können einfach ausgelesen werden. 
+        
+        Durch dieses Vorgehen kann der Funktionswert $F(n)$ mit $n-1$ Multiplikationen ($3\cdot F(n-1)$) und $n-1$ Additionen ($3\cdot F(n-1) + F(\floor{n/2})$) durchgeführt werden. Damit ist die Funktion $\in \mathcal{O}(n)$. Der Algorithmus ist in Algorithm 2 "`F(n)"' dargestellt. 
+
+        \begin{algorithm}[h]
+            \begin{algorithmic}[1]
+                \Procedure{F}{n}
+                \State \textbf{Declare} $arr[0 \ldots n-1]$
+                \State $arr[0] \gets 1$
+                \For {$i \gets 1 \textbf{ to } n-1$}
+                    \State $arr[i] \gets 3* arr[i-1] + arr[\text{floor}(i/2)]$
+                \EndFor
+                \\
+                \State \textbf{return} $arr[-1]$
+                \EndProcedure
+                \end{algorithmic}
+                \textit{floor(x) rundet x auf die nächste Ganzzahl ab. Die Schreibweise $arr[-1]$ referenziert das letzte Arrayelement.}
+                \caption{Funktion: F(n)}
+        \end{algorithm}
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 5.4}
+    \begin{enumerate}
+        \item[a)] Gesucht ist eine Darstellung einer beliebigen Potenzemenge $S$ in Form einer einzelnen Zahl $\in \{0, \ldots, 2^{n-1}-1$. Die naheliegendste Möglichkeit dafür ist, jedem Element der Grundmenge $\Omega$ eine Zweierpotenz zuzuweisen, bzw. eine Stelle in der Binärdarstellung der Zahl. Beispielsweise könnten den Elementen $\{2,3,4,5,6,\ldots\}$ jeweils die Werte $\{2^0, 2^1, 2^2, 2^3, 2^4, \ldots \}$ zugewiesen werden. Die gesuchte Zahl ergibt sich aus der Addition der zugehörigen Zweierpotenzen aller vorhanden Elemente in $S$.
+        \item[b)] Unter Verwendung der Konvention aus a):
+        \begin{itemize}
+            \item $i \in S \Leftrightarrow C(S) \geq 2^{i-2}$
+            \item $C(S') = C(S) - 2^{i-2}$
+        \end{itemize} 
+    \end{enumerate}
+
+
+
+    \subsection*{Aufgabe 5.5}
+    \begin{enumerate}
+        \item[a)] Es gilt:
+        \begin{align*}
+            \sigma(i-1) &= |a_{i-1} - a_1| + |a_{i-1} - a_2| + \ldots + |a_{i-1} - a_{i-1}|&&+ &&|a_{i-1} - a_{i}| + \ldots + |a_{i-1} - a_n| \\
+            \sigma(i) &= \underbrace{|a_{i} - a_1| + |a_{i} - a_2| + \ldots + |a_{i} - a_{i-1}|}_{\text{Werden je größer um } a_i - a_{i-1}} &&+ &&\underbrace{|a_{i} - a_{i}| + \ldots + |a_{i} - a_n|}_{\text{Werden je kleiner um }a_i - a_{i-1}}
+        \end{align*}
+        Die ersten $i-1$ Terme sind bei $\sigma(i)$ je um den Betrag $\Delta a = a_i - a_{i-1}$ größer als die zugehörigen Terme von $\sigma(i-1)$, da das Argument der Beträge stets größer Null war (dies ergibt sich aus der steigenden Sortierung der Zahlen) und nun um genau die Differenz $\Delta a$ größer wurde. Bei diesen Termen wird die Null im Argument noch nicht überschritten. Erst im $i$-ten Term wird das Argument gerade 0, weshalb dieser und alle darauffolgenden Terme sich jeweils um $\Delta a$ verringern. Folglich gilt:
+        \begin{align*}
+            \sigma(i) &= \sigma(i-1) + (a_i - a_{i-1}) \cdot ((i-1) - (n-(i-1))) \\
+            &= \sigma(i-1) + (a_i - a_{i-1}) \cdot (2(i-1)-n)
+        \end{align*}
+        \item[b)]
+        \begin{align*}
+            \sigma_{min} = \sigma(i_{min}) \text{ mit }
+            \begin{cases}
+                i_{min} = (n+1)/2 & n \text{ ungerade} \\
+                i_{min} \in \{\frac{n}{2}, \frac{n}{2} + 1\} & n \text{ gerade}
+            \end{cases}
+        \end{align*}
+        Das erste Element der Folge habe den Funktionswert $\sigma(1)$. Für jedes darauffolgende Element gibt es zuächst mehr Terme die kleiner werden, als Terme, die größer werden. Da sie sich jeweils um den gleichen Betrag vergrößern bzw. verkleinern, sinkt $\sigma(i)$ für zunehmende $i$. Dieses Verhalten stoppt, sobald die "`Mitte"' der Folge erreicht ist. Ab diesem Punkt gibt es mehr Terme die größer werden, als solche, die kleiner werden. Folglich steigt $\sigma(i)$ dann wieder, bis das Ende der Folge erreicht ist. 
+        \item[c)] Abgabe in DOMjudge. Teamname: "`test"'
+    \end{enumerate}
+   
+
+\end{document}

@@ -1,0 +1,155 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{karnaugh-map}
+
+\title{Grundlagen der Rechnerarchitektur: Übungsblatt 5}
+\author{Alexander Waldenmaier, Maryia Masla}
+
+\begin{document}
+    \maketitle
+	\subsection*{Aufgabe 1: Minimierung zu Ehren Maurice Karnaugh}
+	Die Wahrheitstabelle von $f(x_1,x_2,x_3)$ und $g(x_1,x_2,x_3)$:
+	\begin{table*}[h]
+		\centering
+		\begin{tabular}{c|c|c|c|c}
+			$x_3$ & $x_2$ & $x_1$ & $f(x_1,x_2,x_3)$ & $g(x_1,x_2,x_3)$ \\ \hline
+			0     & 0     & 0     & 1                & 0                \\
+			0     & 0     & 1     & 0                & 1                \\
+			0     & 1     & 0     & 0                & 0                \\
+			0     & 1     & 1     & 1                & 0                \\
+			1     & 0     & 0     & 0                & 1                \\
+			1     & 0     & 1     & 1                & 1                \\
+			1     & 1     & 0     & 1                & 0                \\
+			1     & 1     & 1     & 1                & 1
+		\end{tabular}
+	\end{table*}
+	\begin{itemize}
+		\item[a)] Die DKNF und KKNF lassen sich für beide Funktionen aus der Wahrheitstabelle ablesen.\\\\
+		DKNF:
+		\begin{align*}
+			&f(x_1,x_2,x_3)=\overline{x_3x_2x_1} + \overline{x_3}x_2x_1 + x_3\overline{x_2}x_1 + x_3x_2\overline{x_1} + x_3x_2x_1 \\
+			&g(x_1,x_2,x_3)=\overline{x_3x_2}x_1 + x_3\overline{x_2x_1} + x_3\overline{x_2}x_1 + x_3x_2x_1
+		\end{align*}
+		KKNF:
+		\begin{align*}
+			&f(x_1,x_2,x_3)=(x_3+ x_2+\overline{x_1}) \cdot (x_3 +\overline{x_2}+ x_1) \cdot (\overline{x_3}+ x_2 + x_1) \\
+			&g(x_1,x_2,x_3)=(x_3 + x_2 + x_1) \cdot (x_3 + \overline{x_2} + x_1) \cdot (x_3 + \overline{x_2} + \overline{x_1}) \cdot (\overline{x_3} + \overline{x_2} + x_1)
+		\end{align*}\\
+		\item[b)]
+		\begin{minipage}[t]{0.45\textwidth}
+			Vollständig minimierte DKNF von f(): \\\\
+			$f(x_1,x_2,x_3)=\overline{x_3x_2x_1} + x_3x_2 + x_3x_1 + x_2x_1$
+		\end{minipage}
+		\begin{minipage}[h]{0.5\textwidth}
+			\begin{karnaugh-map}[4][2][1][$x_3x_2$][$x_1$]
+				\minterms{0,7,3,6,5}
+				\autoterms[0]
+				\implicant{5}{7}
+				\implicant{7}{6}
+				\implicant{3}{7}
+				\implicant{0}{0}
+			\end{karnaugh-map}
+		\end{minipage}
+		\item[c)] 
+		\begin{minipage}[t]{0.45\textwidth}
+			Vollständig minimierte KKNF von g(): \\\\
+			$g(x_1,x_2,x_3)=(x_3 + \overline{x_2}) \cdot (x_3 + x_1) \cdot (\overline{x_2} + x_1)$
+		\end{minipage}
+		\begin{minipage}[h]{0.5\textwidth}
+			\begin{karnaugh-map}[4][2][1][$x_3x_2$][$x_1$]
+				\maxterms{0,1,3,5}
+				\autoterms[1]
+				\implicant{0}{1}
+				\implicant{1}{3}
+				\implicant{1}{5}
+			\end{karnaugh-map}
+		\end{minipage}
+	\end{itemize}
+	
+	
+    \subsection*{Aufgabe 2: Moment - Warum eigentlich minimieren?}
+    \begin{itemize}
+    	\item[a)]Die Wertetabelle der Funktion $f(x_1,x_2,x_3,x_4)$:
+		\begin{table*}[h]
+			\centering
+    		\begin{tabular}{c|c|c|c|c|c}
+    			$x_1$ & $x_2$ & $x_3$ & $x_4$ & $(x_1, x_2, x_3, x_4)_{10}$ & $f(x_1,x_2,x_3,x_4)$ \\ \hline
+    			0   &   0   &   0   &   0   &  0 &        1           \\
+    			0   &   0   &   0   &   1   &  1 &          0           \\
+    			0   &   0   &   1   &   0   &  2 &          1           \\
+    			0   &   0   &   1   &   1   &  3 &          1           \\
+    			0   &   1   &   0   &   0   &  4 &          1           \\
+    			0   &   1   &   0   &   1   &  5 &          1           \\
+    			0   &   1   &   1   &   0   &  6 &          1           \\
+    			0   &   1   &   1   &   1   &  7 &          0           \\
+    			1   &   0   &   0   &   0   &  8 &          1           \\
+    			1   &   0   &   0   &   1   &  9 &          1           \\
+    			1   &   0   &   1   &   0   & 10 &          1           \\
+    			1   &   0   &   1   &   1   & 11 &          0           \\
+    			1   &   1   &   0   &   0   & 12 &          1           \\
+    			1   &   1   &   0   &   1   & 13 &          1           \\
+    			1   &   1   &   1   &   0   & 14 &          1           \\
+    			1   &   1   &   1   &   1   & 15 &          1
+    		\end{tabular}
+		\end{table*}\\
+		mit
+    	\begin{equation*}
+    		f(x_1,..,x_4) =
+    		\begin{cases}
+    			1 &\text{falls } (x_1x_2x_3x_4)_{10} \mod 4 = 1 \\
+    			1 &\text{falls die Quersumme von } (x_1x_2x_3x_4)_{10} = 6 \text{ ist} \\
+    			1 &\text{falls } (x_1x_2x_3x_4)_{10} \mod 2 = 0 \\
+    			1 &\text{falls } (x_1x_2x_3x_4)_{10} = 3 \\
+    			0 &\text{sonst}
+    		\end{cases}
+    	\end{equation*}
+    	\item[b)] DKNF:
+    	\begin{align*}
+    		f(x_1,x_2,x_3,x_4) &= \overline{x_1x_2x_3x_4} + \overline{x_1x_2}x_3\overline{x_4} + \overline{x_1x_2}x_3x_4 + \overline{x_1}x_2\overline{x_3x_4} + \overline{x_1}x_2\overline{x_3}x_4 + \overline{x_1}x_2x_3\overline{x_4} + x_1\overline{x_2x_3x_4} \\
+    		& + x_1\overline{x_2x_3}x_4 + x_1\overline{x_2}x_3\overline{x_4} + x_1x_2\overline{x_3x_4} + x_1 x_2 \overline{x_3} x_4 + x_1x_2x_3\overline{x_4} + x_1x_2x_3x_4
+    	\end{align*}
+    	\item[c)] KKNF:
+    	\begin{align*}
+    		f(x_1,x_2,x_3,x_4) &= (x_1 + x_2 + x_3 + \overline{x_4}) \cdot (x_1 + \overline{x_2} + \overline{x_3} + \overline{x_4}) \cdot (\overline{x_1} + x_2 + \overline{x_3} + \overline{x_4})
+    	\end{align*}\newpage
+    	\item[d)] DNF und KNF:\newline
+		\begin{minipage}[h]{0.6\textwidth}
+			\vspace{-3cm}
+    		\begin{align*}
+    			f(x_1,x_2,x_3,x_4) &= \overline{x_1} \overline{x_2} x_3 + x_2 \overline{x_3} + x_1 \overline{x_3} + x_1 x_2 + \overline{x_4} \\\\
+				&= (x_1 + x_2 + x_3 + \overline{x_4}) \cdot (x_1 \overline{x_2} + \overline{x_3} + \overline{x_4}) \\
+				&\;\;\cdot (\overline{x_1} + x_2 + \overline{x_3} + \overline{x_4})
+    		\end{align*}
+    	\end{minipage}
+    	\begin{minipage}[h]{0.3\textwidth}
+			\begin{karnaugh-map}[4][4][1][$x_3x_4$][$x_1x_2$]
+				\minterms{0,2,3,4,5,6,8,9,10,12,13,14,15}
+				\maxterms{1,7,11}
+				\implicant{3}{2}
+				\implicant{4}{13}
+				\implicant{12}{14}
+				\implicant{12}{9}
+				\implicantedge{0}{8}{2}{10}	
+			\end{karnaugh-map}
+    	\end{minipage}
+    	\item[e)]Aus dem KV-Diagramm von $f$ lässt sich ablesen, dass die KKNF nicht weiter minimiert werden kann d.h. die Maxterme sind gleichzeitig Primimplikanten. Die DKNF kann von 13 Mintermen auf 4 Primimplikanten reduziert werden. Außerdem beinhalten Primimplikanten weniger Literale: vorher $13\cdot 4=52$, nach Minimierung $10$.\\\\
+    	Die Minimierung von (Schalt-) Funktionen bringt in Hinsicht auf elektrische Schaltungen folgende Vorteile:
+    	\begin{itemize}
+    		\item Reduzierung vom benötigten Platz/Raum (kleinere Funktion $\rightarrow$ weniger Verknüpfungen/Operationen $\rightarrow$ kleinere Größe der Schaltung $C(S)$)
+    		\item Laufzeitoptimierung (bei Minimierung der Funktion eventuell kleinere Tiefe der Schaltung $D(S)$)
+    		\item Kostenreduzierung durch ersparte Materialien und Energie 
+    	\end{itemize}
+    \end{itemize}	
+
+
+
+
+
+
+
+\end{document}
