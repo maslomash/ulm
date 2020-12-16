@@ -147,7 +147,37 @@
     \end{itemize}	
 
 
-
+	\subsection*{Aufgabe 3: A B C-MOS}
+	\begin{enumerate}
+		\item[a)] Der Ausgang $f$ ist direkt mit der Spannung $V_{cc}$ verbunden, wodurch der zunächst eine logische 1 wiedergibt. Eine logische 0 kann dort nur entstehen, wenn an dem Knoten zwischen $f$ und der Spannung eine Verbindung zur Masse hergestellt wird. Daraus lässt sich leicht eine KNF ablesen: 
+		\begin{align*}
+			f_N(x_1, x_2, x_3) &= \overline{(x_1 x_2 + x_2 x_3 + \overline{x_1} \overline{x_2} x_3)} \\
+			&= (\overline{x_1} + \overline{x_2}) \cdot (\overline{x_2} + \overline{x_3}) \cdot (x_1 + x_2 + \overline{x_3}) \\
+			&= (\overline{x_1} + \overline{x_2}) \cdot (x_1 + \overline{x_3})
+		\end{align*} 
+		\item[b)] Wertetabelle:
+		\begin{table*}[h]
+			\centering
+			\begin{tabular}{ccc|c}
+				$x_1$ & $x_2$ & $x_3 $ & $f(x_1, x_2, x_3)$ \\ \hline
+				0 & 0 & 0 & 1 \\
+				0 & 0 & 1 & 0 \\
+				0 & 1 & 0 & 1 \\
+				0 & 1 & 1 & 0 \\
+				1 & 0 & 0 & 1 \\
+				1 & 0 & 1 & 1 \\
+				1 & 1 & 0 & 0 \\
+				1 & 1 & 1 & 0
+			\end{tabular}
+		\end{table*}
+		\item[c)] Um von der NMOS-Schaltung zur PMOS-Schaltung zu gelangen, invertieren wir zunächst die Funktion $f_N$:
+		\begin{align*}
+			f_P(x_1, x_2, x_3) &= \overline{f_N(x_1, x_2, x_3)} = \overline{(\overline{x_1} + x_2) \cdot (x_1 + \overline{x_3})} \\
+			&= \overline{(\overline{x_1} + x_2)} + \overline{(x_1 + \overline{x_3})} \\
+			&= x_1 x_2 + \overline{x_1} x_3
+		\end{align*}
+		
+	\end{enumerate}
 
 
 

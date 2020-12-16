@@ -1,0 +1,552 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{slashbox}
+\usepackage{listings}
+\usepackage[noend]{algpseudocode}
+\usepackage{subcaption}
+\usepackage{hhline}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+\title{Algorithmen und Datenstrukturen: Übung 6}
+\author{Tanja Zast, Alexander Waldenmaier}
+
+\begin{document}
+    \maketitle
+
+    \subsection*{Aufgabe 6.1}
+    Im Folgenden wir der Kruskal-Algorithmus sukkzesive für aufsteigende Kantengewichte durchgeführt. Für jedendes Gewicht werden akzeptierte Kanten grün eingezeichnet, abgelehnte Kanten rot und Kanten von vorigen Gewichten schwarz.\\
+    \hfill\\
+    \begin{minipage}[h]{0.5\textwidth}
+        $g=1$:\\\\
+        \begin{tikzpicture}
+            \draw 
+                (0,1) node[circle, draw] (a) {a}
+                (0,3) node[circle, draw] (b) {b}
+                (2,0) node[circle, draw] (c) {c}
+                (2,2) node[circle, draw] (d) {d}
+                (2,4) node[circle, draw] (e) {e}
+                (4,0) node[circle, draw] (f) {f}
+                (4,2) node[circle, draw] (g) {g}
+                (4,4) node[circle, draw] (h) {h}
+                (6,1) node[circle, draw] (i) {i}
+                (6,3) node[circle, draw] (j) {j};
+            \path[-,draw]
+                (h) edge[color=green] node[above]{1} (j)
+                (a) edge[color=green] node[above]{1} (d);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        $g=2$:\\\\
+        \begin{tikzpicture}
+            \draw 
+                (0,1) node[circle, draw] (a) {a}
+                (0,3) node[circle, draw] (b) {b}
+                (2,0) node[circle, draw] (c) {c}
+                (2,2) node[circle, draw] (d) {d}
+                (2,4) node[circle, draw] (e) {e}
+                (4,0) node[circle, draw] (f) {f}
+                (4,2) node[circle, draw] (g) {g}
+                (4,4) node[circle, draw] (h) {h}
+                (6,1) node[circle, draw] (i) {i}
+                (6,3) node[circle, draw] (j) {j};
+            \path[-,draw]
+                (h) edge[] node[above]{1} (j)
+                (a) edge[] node[above]{1} (d)
+                (e) edge[color=green] node[above]{2} (h)
+                (e) edge[color=green] node[above]{2} (g)
+                (f) edge[color=green] node[above]{2} (i)
+                (h) edge[color=red] node[right]{2} (g);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        $g=3$:\\\\
+        \begin{tikzpicture}
+            \draw 
+                (0,1) node[circle, draw] (a) {a}
+                (0,3) node[circle, draw] (b) {b}
+                (2,0) node[circle, draw] (c) {c}
+                (2,2) node[circle, draw] (d) {d}
+                (2,4) node[circle, draw] (e) {e}
+                (4,0) node[circle, draw] (f) {f}
+                (4,2) node[circle, draw] (g) {g}
+                (4,4) node[circle, draw] (h) {h}
+                (6,1) node[circle, draw] (i) {i}
+                (6,3) node[circle, draw] (j) {j};
+            \path[-,draw]
+                (h) edge[] node[above]{1} (j)
+                (a) edge[] node[above]{1} (d)
+                (e) edge[] node[above]{2} (h)
+                (e) edge[] node[above]{2} (g)
+                (f) edge[] node[above]{2} (i)
+                (g) edge[color=green] node[above]{3} (c)
+                (g) edge[color=green] node[above]{3} (i);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        $g=4$:\\\\
+        \begin{tikzpicture}
+            \draw 
+                (0,1) node[circle, draw] (a) {a}
+                (0,3) node[circle, draw] (b) {b}
+                (2,0) node[circle, draw] (c) {c}
+                (2,2) node[circle, draw] (d) {d}
+                (2,4) node[circle, draw] (e) {e}
+                (4,0) node[circle, draw] (f) {f}
+                (4,2) node[circle, draw] (g) {g}
+                (4,4) node[circle, draw] (h) {h}
+                (6,1) node[circle, draw] (i) {i}
+                (6,3) node[circle, draw] (j) {j};
+            \path[-,draw]
+                (h) edge[] node[above]{1} (j)
+                (a) edge[] node[above]{1} (d)
+                (e) edge[] node[above]{2} (h)
+                (e) edge[] node[above]{2} (g)
+                (f) edge[] node[above]{2} (i)
+                (g) edge[] node[above]{3} (c)
+                (g) edge[] node[above]{3} (i)
+                (b) edge[color=green] node[above]{4} (e)
+                (j) edge[color=red] node[right]{4} (i)
+                (c) edge[color=red] node[above]{4} (f);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        $g=5$:\\\\
+        \begin{tikzpicture}
+            \draw 
+                (0,1) node[circle, draw] (a) {a}
+                (0,3) node[circle, draw] (b) {b}
+                (2,0) node[circle, draw] (c) {c}
+                (2,2) node[circle, draw] (d) {d}
+                (2,4) node[circle, draw] (e) {e}
+                (4,0) node[circle, draw] (f) {f}
+                (4,2) node[circle, draw] (g) {g}
+                (4,4) node[circle, draw] (h) {h}
+                (6,1) node[circle, draw] (i) {i}
+                (6,3) node[circle, draw] (j) {j};
+            \path[-,draw]
+                (h) edge[] node[above]{1} (j)
+                (a) edge[] node[above]{1} (d)
+                (e) edge[] node[above]{2} (h)
+                (e) edge[] node[above]{2} (g)
+                (f) edge[] node[above]{2} (i)
+                (g) edge[] node[above]{3} (c)
+                (g) edge[] node[above]{3} (i)
+                (b) edge[] node[above]{4} (e)
+                (g) edge[color=red] node[right]{5} (f)
+                (g) edge[color=red] node[above]{5} (j);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        $g=6$:\\\\
+        \begin{tikzpicture}
+            \draw 
+                (0,1) node[circle, draw] (a) {a}
+                (0,3) node[circle, draw] (b) {b}
+                (2,0) node[circle, draw] (c) {c}
+                (2,2) node[circle, draw] (d) {d}
+                (2,4) node[circle, draw] (e) {e}
+                (4,0) node[circle, draw] (f) {f}
+                (4,2) node[circle, draw] (g) {g}
+                (4,4) node[circle, draw] (h) {h}
+                (6,1) node[circle, draw] (i) {i}
+                (6,3) node[circle, draw] (j) {j};
+            \path[-,draw]
+                (h) edge[] node[above]{1} (j)
+                (a) edge[] node[above]{1} (d)
+                (e) edge[] node[above]{2} (h)
+                (e) edge[] node[above]{2} (g)
+                (f) edge[] node[above]{2} (i)
+                (g) edge[] node[above]{3} (c)
+                (g) edge[] node[above]{3} (i)
+                (b) edge[] node[above]{4} (e)
+                (d) edge[color=green] node[above]{6} (g);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        $g=7$:\\\\
+        \begin{tikzpicture}
+            \draw 
+                (0,1) node[circle, draw] (a) {a}
+                (0,3) node[circle, draw] (b) {b}
+                (2,0) node[circle, draw] (c) {c}
+                (2,2) node[circle, draw] (d) {d}
+                (2,4) node[circle, draw] (e) {e}
+                (4,0) node[circle, draw] (f) {f}
+                (4,2) node[circle, draw] (g) {g}
+                (4,4) node[circle, draw] (h) {h}
+                (6,1) node[circle, draw] (i) {i}
+                (6,3) node[circle, draw] (j) {j};
+            \path[-,draw]
+                (h) edge[] node[above]{1} (j)
+                (a) edge[] node[above]{1} (d)
+                (e) edge[] node[above]{2} (h)
+                (e) edge[] node[above]{2} (g)
+                (f) edge[] node[above]{2} (i)
+                (g) edge[] node[above]{3} (c)
+                (g) edge[] node[above]{3} (i)
+                (b) edge[] node[above]{4} (e)
+                (d) edge[] node[above]{6} (g)
+                (b) edge[color=red] node[right]{7} (a);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        $g=8$:\\\\
+        \begin{tikzpicture}
+            \draw 
+                (0,1) node[circle, draw] (a) {a}
+                (0,3) node[circle, draw] (b) {b}
+                (2,0) node[circle, draw] (c) {c}
+                (2,2) node[circle, draw] (d) {d}
+                (2,4) node[circle, draw] (e) {e}
+                (4,0) node[circle, draw] (f) {f}
+                (4,2) node[circle, draw] (g) {g}
+                (4,4) node[circle, draw] (h) {h}
+                (6,1) node[circle, draw] (i) {i}
+                (6,3) node[circle, draw] (j) {j};
+            \path[-,draw]
+                (h) edge[] node[above]{1} (j)
+                (a) edge[] node[above]{1} (d)
+                (e) edge[] node[above]{2} (h)
+                (e) edge[] node[above]{2} (g)
+                (f) edge[] node[above]{2} (i)
+                (g) edge[] node[above]{3} (c)
+                (g) edge[] node[above]{3} (i)
+                (b) edge[] node[above]{4} (e)
+                (d) edge[] node[above]{6} (g)
+                (a) edge[color=red] node[above]{8} (c);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        \hfill \\
+        $g=9$:\\\\
+        \begin{tikzpicture}
+            \draw 
+                (0,1) node[circle, draw] (a) {a}
+                (0,3) node[circle, draw] (b) {b}
+                (2,0) node[circle, draw] (c) {c}
+                (2,2) node[circle, draw] (d) {d}
+                (2,4) node[circle, draw] (e) {e}
+                (4,0) node[circle, draw] (f) {f}
+                (4,2) node[circle, draw] (g) {g}
+                (4,4) node[circle, draw] (h) {h}
+                (6,1) node[circle, draw] (i) {i}
+                (6,3) node[circle, draw] (j) {j};
+            \path[-,draw]
+                (h) edge[] node[above]{1} (j)
+                (a) edge[] node[above]{1} (d)
+                (e) edge[] node[above]{2} (h)
+                (e) edge[] node[above]{2} (g)
+                (f) edge[] node[above]{2} (i)
+                (g) edge[] node[above]{3} (c)
+                (g) edge[] node[above]{3} (i)
+                (b) edge[] node[above]{4} (e)
+                (d) edge[] node[above]{6} (g)
+                (b) edge[color=red] node[above]{9} (d);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        \hfill \\
+        Finaler Baum:\\\\
+        \begin{tikzpicture}
+            \draw 
+                (0,1) node[circle, draw] (a) {a}
+                (0,3) node[circle, draw] (b) {b}
+                (2,0) node[circle, draw] (c) {c}
+                (2,2) node[circle, draw] (d) {d}
+                (2,4) node[circle, draw] (e) {e}
+                (4,0) node[circle, draw] (f) {f}
+                (4,2) node[circle, draw] (g) {g}
+                (4,4) node[circle, draw] (h) {h}
+                (6,1) node[circle, draw] (i) {i}
+                (6,3) node[circle, draw] (j) {j};
+            \path[-,draw]
+                (h) edge[] node[above]{1} (j)
+                (a) edge[] node[above]{1} (d)
+                (e) edge[] node[above]{2} (h)
+                (e) edge[] node[above]{2} (g)
+                (f) edge[] node[above]{2} (i)
+                (g) edge[] node[above]{3} (c)
+                (g) edge[] node[above]{3} (i)
+                (b) edge[] node[above]{4} (e)
+                (d) edge[] node[above]{6} (g);
+        \end{tikzpicture}
+    \end{minipage}
+    \hfill \\\\
+    Das Gewicht des Baums beträgt: $2\cdot 1 + 3 \cdot 2 + 2 \cdot 3 + 1 \cdot 4 + 1 \cdot 6 = 24$
+
+
+    \subsection*{Aufgabe 6.2}
+    Wir implementieren einen \textit{Selection Sort} Algorithmus. Dieser wählt in $n$ Iterationen jeweils aus dem Input-Array $A$ das Minimum aus und fügt dieses dann der Reihe nach dem Output-Array $out$ hinzu. Dabei wird dieses Element auch aus $A$ entfernt, wodurch sich $A$ stetig verkleinert, bis am Ende kein Element mehr übrig ist. Wir gehen davon aus, dass $\forall x \in A: x \in \mathbb{N}_0$.
+    \begin{algorithm}
+        \begin{algorithmic}[1]
+            \Procedure{selectionSort}{A}
+            \State $n \gets \text{len}(A)$
+            \State \textbf{Initialize} $out[0, \ldots, n-1] = -1$
+            \For {$i \gets 0 \textbf{ to } n-1$}
+                \State $idx \gets 0$
+                \State $val \gets A[0]$
+                \For {$j \gets 0 \textbf{ to } n-i$}
+                    \If {$A[j] < val$}
+                        \State $val \gets A[j]$
+                        \State $idx \gets j$
+                    \EndIf
+                \EndFor
+                \State $out[i] \gets \text{pop}(A, idx)$
+            \EndFor
+            \State \textbf{return} \textit{out}
+            \EndProcedure
+            \end{algorithmic}
+    \textit{Die Funktion "`len(A)"' gibt die Länge des Arrays heraus. Die Funktion "`pop(A, i)"' entfernt das i-te Elemente aus A und gibt es heraus (Die Länge von A wird dadurch um 1 kleiner).}
+    \end{algorithm}\\
+    Das Innere des zweiten for-loops wird stets $n+(n-1)+(n-2)+\ldots+1 \leq n\cdot n \in \Theta(n^2)$ Mal ausgeführt, unabhängig von der Zusammensetzung des Input-Arrays.  
+
+    Hierbei handelt es sich um einen Greedy-Algorithmus, der das Gesamtproblem in $n$ Teilprobleme immer kleinerer Größe unterteilt. Innerhalb jedes Teilproblems schreibt die Gewichtsfunktion $g(A_i) = A_i$ jedem Element sein Gewicht zu, was genau dem Wert dieses Elements entspricht. Die Anforderung lautet, das Gewicht zu minimieren, also stets den geringsten Wert der Teilmenge zu finden. 
+
+
+    \subsection*{Aufgabe 6.3}
+    In einer Adjazenzliste steht an jedem Eintrag $u$ die Liste aller Zielknoten $v$. Folglich kann eine das Vorhandensein einer Kante $(u, v)$ geprüft werden, indem die Liste von $u$ nach $v$ durchsucht wird. Im schlimmsten Fall ist diese Liste $n$ lang. Bei der Adjazenzmatrix hingegen geschieht die Überprüfung in einem Aufruf, und zwar exakt an der Stelle $(u,v)$. 
+
+    Um alle von $u$ ausgehenden Kanten aufzulisten, muss in der Adjazenzliste einfach die Liste bei $u$ durchgegangen werden, was schlimmstenfalls $n$ Schritte benötigt. In der Matrix muss einfach die gesamte Zeile durchgegangen werden und jedes Element mit einer 1 herausgegeben werden (das dauert exakt $n$ Schritte). 
+
+    Um hingegen alle zu $v$ führenden Kanten aufzulisten, muss im Fall der Adjuzenzliste jedes Element $u$ überprüft werden und darin nach dem Element $v$ gesucht werden. Im schlimmsten Fall benötigt das bei $n \log n$ Kanten genau so viele Schritte. Bei der Adjuzenzmatrix hingegen kann analog zum vorigen Fall einfach die \textit{Spalte} $v$ ausgelesen werden und dabei jedes Element mit einer 1 herausgegeben werden. Erneut werden hier nur $n$ Schritte benötigt.
+    
+    Hat der Graph nicht $\mathcal{O}(n \log n)$ sondern $\mathcal{O}(n^2)$ viele Kanten, so ändert sich lediglich die maximale Suchzeit in der Adjuzenzliste im Fall c), da nun schlimmstenfalls $n^2$ viele Kanten durchsucht werden müssen. \\\\
+    Die Ergebnisse sind in der folgenden Tabelle zusammengefasst: 
+    \begin{table*}[h]
+        \centering
+        \renewcommand{\arraystretch}{1.5}
+        \begin{tabular}[h]{r|l|l}
+            & Adjazenzliste & Adjazenzmatrix \\ \hline
+            a) & $\mathcal{O}(n)$ & $\mathcal{O}(1)$ \\
+            b) & $\mathcal{O}(n)$ & $\mathcal{O}(n)$\\
+            c) & $\mathcal{O}(n \log n)$ ($\mathcal{O}(n^2)$ im Fall d)& $\mathcal{O}(n)$ \\ \hline
+            Beispiel & \begin{tikzpicture}[baseline=(current bounding box.north)]
+                \coordinate (0);
+                \draw node[above left, xshift=-1.2em] (0,0) {u};
+                \foreach \t/\n[count=\i from 0,evaluate=\i as\j using int(\i+1)] in {
+                    1 \slash / ,
+                    \textcolor{green}{2} \slash / ,
+                    \textcolor{green}{2} $\rightarrow$ 3 \slash / ,
+                    0 \slash /
+                }
+                \node at(\i.south)[anchor=north,draw,minimum height=1cm,minimum width=1cm,outer sep=0pt](\j){\n}
+                    node at(\j.west)[align=right,left]{\i} 
+                    node at(\j.east)[align=left,right,xshift=-.7em]{$\rightarrow$ \t};
+                \fill [red, opacity=0.4] (-0.5,-2) rectangle (0.5,-3);
+            \end{tikzpicture}
+            & \begin{tikzpicture}[baseline=(current bounding box.north)]
+                \draw 
+                    (0,0) rectangle (4,4) 
+                    node[above] at (2.5,4) (v) {v=2}
+                    node[left] at (0,1.5) (u) {u=2};
+                \draw
+                    (1,0) -- (1,4)
+                    (2,0) -- (2,4)
+                    (3,0) -- (3,4)
+                    (0,1) -- (4,1)
+                    (0,2) -- (4,2)
+                    (0,3) -- (4,3);
+                \draw 
+                    node[xshift=0.5cm, yshift=0.5cm] at (0,0) {1}
+                    node[xshift=0.5cm, yshift=0.5cm] at (0,1) {0}
+                    node[xshift=0.5cm, yshift=0.5cm] at (0,2) {0}
+                    node[xshift=0.5cm, yshift=0.5cm] at (0,3) {0}
+                    node[xshift=0.5cm, yshift=0.5cm] at (1,0) {0}
+                    node[xshift=0.5cm, yshift=0.5cm] at (1,1) {0}
+                    node[xshift=0.5cm, yshift=0.5cm] at (1,2) {0}
+                    node[xshift=0.5cm, yshift=0.5cm] at (1,3) {1}
+                    node[xshift=0.5cm, yshift=0.5cm] at (2,0) {0}
+                    node[xshift=0.5cm, yshift=0.5cm] at (2,1) {1}
+                    node[xshift=0.5cm, yshift=0.5cm] at (2,2) {1}
+                    node[xshift=0.5cm, yshift=0.5cm] at (2,3) {0}
+                    node[xshift=0.5cm, yshift=0.5cm] at (3,0) {0}
+                    node[xshift=0.5cm, yshift=0.5cm] at (3,1) {1}
+                    node[xshift=0.5cm, yshift=0.5cm] at (3,2) {0}
+                    node[xshift=0.5cm, yshift=0.5cm] at (3,3) {0};
+                \fill [green, opacity=0.4] (2,0) rectangle (3,4);
+                \fill [red, opacity=0.4] (0,1) rectangle (4,2);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{table*}
+
+
+    \newcommand{\union}{\text{UFunion}}
+    \newcommand{\find}{\text{UFfind}}
+    \subsection*{Aufgabe 6.4}
+    \begin{enumerate}
+        \item[a)]
+        \newlength{\wid} 
+        \setlength{\wid}{\linewidth/16} 
+        \textbf{Ausgangszustand:}\\
+        \begin{tikzpicture}[baseline=(current bounding box.north)]
+            \coordinate (p);
+            \foreach \val[count=\i from 1,evaluate=\i as\j using int(\i+1)] in {
+                2,4,4,4,6,8,8,8,10,12,12,12,14,16,16,16
+            }{
+                \draw (\i \wid, 0) rectangle node[yshift=\wid] {\i} node {\val} +(\wid, \wid) ;
+            }
+        \end{tikzpicture}\\\\\\
+        \textbf{union(1,5)}:
+        \begin{align*}
+            \union(1,5) &\Rightarrow \union(\find(1), \find(5)) \\
+            &\Rightarrow \union(\find(2), \find(6)) \\
+            &\Rightarrow \union(\find(4), \find(8)) \\
+            &\Rightarrow \union(4, 8) \\\\
+            &\Rightarrow \underbrace{A[1] = A[2] = 4}_{\find(1)}, \underbrace{A[5] = A[6] = 8}_{\find(5)}, \underbrace{A[4] = 8}_{\union(4,8)}
+        \end{align*}
+        \begin{tikzpicture}[baseline=(current bounding box.north)]
+            \coordinate (p);
+            \foreach \val[count=\i from 1,evaluate=\i as\j using int(\i+1)] in {
+                \textbf{4},\textbf{4},4,\textbf{8},\textbf{8},\textbf{8},8,8,10,12,12,12,14,16,16,16
+            }{
+                \draw (\i \wid, 0) rectangle node[yshift=\wid] {\i} node {\val} +(\wid, \wid) ;
+            }
+        \end{tikzpicture}\\\\\\
+        \textbf{union(11,13)}:
+        \begin{align*}
+            \union(11,13) &\Rightarrow \union(\find(11), \find(13)) \\
+            &\Rightarrow \union(\find(12), \find(14)) \\
+            &\Rightarrow \union(12, \find(16)) \\
+            &\Rightarrow \union(12, 16) \\\\
+            &\Rightarrow \underbrace{A[11] = 12}_{\find(11)}, \underbrace{A[13] = A[14] = 16}_{\find(13)}, \underbrace{A[16] = 12}_{\union(12,16)}
+        \end{align*}
+        \begin{tikzpicture}[baseline=(current bounding box.north)]
+            \coordinate (p);
+            \foreach \val[count=\i from 1,evaluate=\i as\j using int(\i+1)] in {
+                4,4,4,8,8,8,8,8,10,12,\textbf{12},12,\textbf{14},\textbf{16},16,\textbf{12}
+            }{
+                \draw (\i \wid, 0) rectangle node[yshift=\wid] {\i} node {\val} +(\wid, \wid) ;
+            }
+        \end{tikzpicture}\\\\\\
+        \textbf{union(1,10)}:
+        \begin{align*}
+            \union(1,10) &\Rightarrow \union(\find(1), \find(10)) \\
+            &\Rightarrow \union(\find(4), \find(12)) \\
+            &\Rightarrow \union(\find(8), 12)) \\
+            &\Rightarrow \union(8, 12) \\\\
+            &\Rightarrow \underbrace{A[1] = A[4] = 8}_{\find(1)}, \underbrace{A[10] = 12}_{\find(10)}, \underbrace{A[8] = 12}_{\union(8,12)}
+        \end{align*}
+        \begin{tikzpicture}[baseline=(current bounding box.north)]
+            \coordinate (p);
+            \foreach \val[count=\i from 1,evaluate=\i as\j using int(\i+1)] in {
+                \textbf{8},4,4,\textbf{8},8,8,8,\textbf{12},10,\textbf{12},12,12,14,16,16,12
+            }{
+                \draw (\i \wid, 0) rectangle node[yshift=\wid] {\i} node {\val} +(\wid, \wid) ;
+            }
+        \end{tikzpicture}\\\\\\\newpage
+        \item[b)]
+        \textbf{find(2) ohne Pfadverkürzung}:
+        \begin{align*}
+            \find(2) &\Rightarrow \find(4) \Rightarrow \find(8) \Rightarrow \find(12) = 12
+        \end{align*}
+        \begin{tikzpicture}[baseline=(current bounding box.north)]
+            \coordinate (p);
+            \foreach \val[count=\i from 1,evaluate=\i as\j using int(\i+1)] in {
+                8,4,4,8,8,8,8,12,10,12,12,12,14,16,16,12
+            }{
+                \draw (\i \wid, 0) rectangle node[yshift=\wid] {\i} node {\val} +(\wid, \wid) ;
+            }
+        \end{tikzpicture}\\\\\\
+        \textbf{find(2) mit Pfadverkürzung}:
+        \begin{align*}
+            \find(2) &\Rightarrow \find(4) \Rightarrow \find(8) \Rightarrow \find(12) = 12 \\
+            &\Rightarrow A[2] = A[4] = A[8] = 12
+        \end{align*}
+        \begin{tikzpicture}[baseline=(current bounding box.north)]
+            \coordinate (p);
+            \foreach \val[count=\i from 1,evaluate=\i as\j using int(\i+1)] in {
+                8,\textbf{12},4,\textbf{12},8,8,8,\textbf{12},10,12,12,12,14,16,16,12
+            }{
+                \draw (\i \wid, 0) rectangle node[yshift=\wid] {\i} node {\val} +(\wid, \wid) ;
+            }
+        \end{tikzpicture}
+    \end{enumerate}
+
+
+    
+    \subsection*{Aufgabe 6.5}
+    % Wenn nach dem beschriebenen Prinzip vorgegangen wird, dann finden insgesamt $(n-2)/2+2 = n/2+2$ Entnahmen statt. Wir definieren die Größe $d_i$ als die Differenz zwischen dem Gesamtwert aller Steine für Gauner 1 zu dem Gesamtwert aller Steine für Gauner 2 nach Entnahme $i$, mit $1\leq i \leq n$. Bei einer optimalen Verteilung soll gelten: $d_n = 0$ (Beide Gauner erhalten den selben Gesamtwert).
+    % \begin{table*}[h]
+    %     \centering
+    %     \renewcommand{\arraystretch}{1.5}
+    %     \begin{tabular}{c|c||c|c||c|c}
+    %         & & \multicolumn{2}{c||}{$w(i) = n-i$} & \multicolumn{2}{c}{$w(i) = (n-i)^2$} \\ \cline{3-6}
+    %         G & i & $w(i)$ & $d_i$ & $w(i)$ & $d_i$ \\ \hhline{=|=||=|=||=|=}
+    %         1 & 1 & $(n-1)$ & $n-1$ & $n^2$ & $n^2$ \\ \hline
+    %           & 2 & $(n-2)$ & & $(n-2)^2$ & \\
+    %         2 & 3 & $(n-3)$ & $-n +2$ & $(n-2)^2$ & $n^2$ \\ \hline
+    %           & 4 & $(n-4)$ & & $(n-1)^2$ & \\
+    %         1 & 5 & $(n-5)$ & $n-4$ & $(n-2)^2$ & $n^2$ \\ \hline
+    %         \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\ \hline
+    %           & $(n-2)$ & 2 &  & $(n-2)^2$ & $n^2$ \\
+    %         2 & $(n-1)$ & 1 & & $(n-1)^2$ & \\ \hline
+    %         1 & $(n-0)$ & 0 & $n-4$ & $(n-2)^2$ & $n^2$ \\
+    %     \end{tabular}
+    % \end{table*}
+    \begin{enumerate}
+        \item[a)] Man kann die naheliegende Vermutung aufstellen, dass eine nicht-lineare Funktion $w$ ein nicht-optimales bzw. ungleichmäßiges Ergebnis hervorruft. Wählen wir also zum Beispiel $w(i) = (n-i)^2$ und probieren $n=8$ und betrachten welchen Gesamtwert Gauner 1 und Gauner 2 am Ende je erhalten würden:
+        \begin{table*}[h]
+            \centering
+            \begin{tabular}{c|c|cc}
+                $i$ & $w(i)$ & $G_1(i)$ & $G_2(i)$ \\ \hline
+                1 & 49 & 49 & 0 \\ \hline
+                2 & 36 & 49 & 36 \\
+                3 & 25 & 49 & 61 \\ \hline
+                4 & 16 & 65 & 61 \\
+                5 & 9  & 74 & 61 \\ \hline
+                6 & 4  & 74 & 65 \\
+                7 & 1  & 74 & 66 \\ \hline
+                8 & 0  & 74 & 66
+            \end{tabular}
+        \end{table*} \\
+        Tatsächlich weichen am Ende die Gesamtwerte um 8 voneinander ab, weshalb diese Funktion kein optimales Ergebnis liefert. Somit ist $w(i) = (n-i)^2$ eine mögliche Antwort auf die Aufgabenstellung.
+        \item[b)]
+        Wählen wir stattdessen eine beliebige Funktion mit konstanter Ableitung, dann resultiert aus der Strategie stets eine optimale Lösung. Als Beispiel wählen wir $w(i) = 4(n-i)$ und erneut $n=8$:
+        \begin{table*}[h]
+            \centering
+            \begin{tabular}{c|c|cc}
+                $i$ & $w(i)$ & $G_1(i)$ & $G_2(i)$ \\ \hline
+                1 & 28 & 28 & 0 \\ \hline
+                2 & 24 & 28 & 24 \\
+                3 & 20 & 28 & 44 \\ \hline
+                4 & 16 & 44 & 44 \\
+                5 & 12 & 56 & 44 \\ \hline
+                6 & 8  & 56 & 52 \\
+                7 & 4  & 56 & 56 \\ \hline
+                8 & 0  & 56 & 56
+            \end{tabular}
+        \end{table*}\\
+        Zumindest in diesem Beispiel ist das resultierende Ergebnis optimal - beide Gauner erhalten den selben Gesamtwert von 56. Dass dies für jeden konstanten Faktor und beliebige $n$ der Fall ist, soll im Folgenden bewiesen werden: 
+
+        Wir betrachten uns die finale Differenz der Gesamtwerte $G_1(n)$ und $G_2(n)$, die sich aus allen Einzelwerten wie folgt zusammensetzt. Als Funktion wählen wir die beliebige Funktion $w(i) = c\cdot (n-i)$ mit $c \in \mathbb{N}$:
+        \begin{align*}
+            G_1(n) - G_2(n) &\stackrel{!}{=}0 \\
+            \Rightarrow 0 &= c \cdot (n-1) - c \cdot ((n-2) + (n-3)) + \ldots + c \cdot (4+  3)- c \cdot (2 + 1) + c \cdot 0 \qquad | \div c \\
+            &= \underbrace{(n-1)}_{\text{G1}} \underbrace{- ((n-2) + (n-3))}_{\text{G2}} + \ldots \underbrace{+(4+3)}_{\text{G1}} \underbrace{- (2 + 1)}_{\text{G2}} + \underbrace{0}_{\text{G1}}  \\
+            &= (n-1) + \sum_{i=2}^{n-1} \left( (-1)^{\floor{i/2}} (n-i)\right) + 0 \\
+            &= (n-1) - \sum_{i=2}^{(n-4)/2} \left( 2(n-i)-1 \right) + \sum_{i=4}^{(n-2)/2} \left( 2(n-i) -1 \right) \\
+            &= (n-1) - \sum_{i=2}^{n/2-2} \left( 2(n-i)-1 \right) + \sum_{i=4}^{n/2-1} \left( 2(n-i) -1 \right) \\
+            &= (n-1) - \\
+            &-\left(\sum_{i=2}^{n/2} ( 2(n-i)-1) - (2(n-(n/2-1)) -1) - (2(n-n/2)-1)\right) + \\
+            &+\left(\sum_{i=2}^{n/2} ( 2(n-i)-1) - (2(n-2)-1) - (2(n-3)-1) - (2(n-n/2)-1)\right) \\
+            &= (n-1) + (2(n-(n/2-1)) -1) - (2(n-2)-1) - (2(n-3)-1) \\
+            &= 2(6-n) \neq 0
+        \end{align*}
+    \end{enumerate}
+
+\end{document}
