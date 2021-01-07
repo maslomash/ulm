@@ -1,0 +1,145 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{slashbox}
+\usepackage{listings}
+\usepackage[noend]{algpseudocode}
+\usepackage{subcaption}
+\usepackage{hhline}
+\usepackage{tikz-qtree}
+\usepackage{forest}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+\title{Algorithmen und Datenstrukturen: Übung 7}
+\author{Tanja Zast, Alexander Waldenmaier}
+
+\begin{document}
+    \maketitle
+
+    \subsection*{Aufgabe 7.1}
+    \begin{enumerate}
+        \item[a)]\hfill \\
+        % \begin{tikzpicture}
+        %     % \tikzstyle{every node} = [draw, minimum height=2em, minimum width=2em]
+        %     % \foreach \element/\weight[count=\i from 0] in {
+        %     %     \node /5,
+        %     %     a/7
+        %     % }
+        %     % \node at (\i,0) [draw,minimum height=2em,minimum width=2em,outer sep=0pt](\letter){\letter}
+        %     %     node[above] at (\letter.north) {\weight};
+        %     \node at (0,0) [draw, minimum height=2em, minimum width=2em] (k) {k} node[above] at (k.north) {5};
+        %     \node at (1,0) [draw, minimum height=2em, minimum width=2em] (a) {a} node[above] at (a.north) {7};
+        %     \node at (2,0) [draw, minimum height=2em, minimum width=2em] (l) {l} node[above] at (l.north) {9};
+        %     \node at (3,0) [draw, minimum height=2em, minimum width=2em] (e) {e} node[above] at (e.north) {10};
+        %     \node at (4,0) [draw, minimum height=2em, minimum width=2em] (p) {p} node[above] at (p.north) {11};
+        %     \node at (5,0) [draw, minimum height=2em, minimum width=2em] (m) {m} node[above] at (m.north) {16};
+        %     \node at (6,0) [draw, minimum height=2em, minimum width=2em] (s) {s} node[above] at (s.north) {22};
+        %     \node at (7,0) [draw, minimum height=2em, minimum width=2em] (i) {i} node[above] at (i.north) {42};
+        % \end{tikzpicture}
+        \begin{center}
+            \begin{forest}
+                for tree={
+                  if n=1{edge label={node [midway, above left, anchor=south east] {0} } }{edge label={node [midway, above right, anchor=south west] {1} } },
+                  draw,
+                  circle,
+                  minimum width=2em,
+                  if level=0{}{!u.s sep/.wrap pgfmath arg={#1}{30mm/(level())}},
+                  anchor=mid,
+                }
+                [122
+                    [73
+                        [i]
+                        [31
+                            [12
+                                [k]
+                                [a]
+                            ]
+                            [19
+                                [l]
+                                [e]
+                            ]
+                        ]
+                    ]
+                    [49
+                        [27
+                            [p]
+                            [m]
+                        ]
+                        [s]
+                    ]
+                ]
+              \end{forest}
+        \end{center}
+        \item[b]
+        Präfixcode: 
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{cccccccc}
+                k & a & l & e & p & m & s & i \\
+                0100 & 0101 & 0110 & 0111 & 100 & 101 & 11 & 00
+            \end{tabular}
+        \end{table}\\
+        \texttt{mississippi} = 101 00 11 11 00 11 11 00 100 100 00
+        \item[c)] Die acht Buchstaben können auch in 3er-Blöcken von Binärzahlen dargestellt werden. Da das Wort \texttt{mississippi} insgesamt 11 Buchstaben hat, würde diese Art der Kodierung einen Speicherplatz von $3\cdot 11 = 33$ Bits benötigen. Bei der Kodierung mit dem Huffman-Algorithmus kamen wir auf eine Länge von $3 \cdot 3 + 2 \cdot 8 = 25$ Bits. Es wurde also knapp 24\% Speicherplatz eingespart. 
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 7.2}
+    \begin{enumerate}
+        \item[a)]
+        Zu Beginn liegen dem Huffman-Algorithmus nur "`ungruppierte"' Buchstaben mit ihren Gewichten vor. Diese werden zunächst sortiert und dann die zwei kleinsten zu einem Zwei zusammengefasst, der nun als Gewicht die Summe der beiden Buchstaben erhält. Die zwei Buchstaben werden nun nicht mehr als einzelne betrachtet, sondern der neu entstandene Zweig wieder in die Liste der anderen Elemente einsortiert. 
+        
+        Beim Einsortieren gibt es genau zwei Möglichkeiten: Entweder der Zweig wird an erster oder zweiter Stelle einsortiert, oder er landet weiter hinten. Im ersten Fall ist der Ausgang der nächsten Zweig-Erstellung logisch: Der alte Zweig wird mit einem weiteren Element kombiniert, wodurch ein neuer Zweig mit höherer Gesamtsumme entsteht. Landet er jedoch (im zweiten Fall) weiter hinten, so könnte man vermuten, dass die nun zwei kleinsten Elemente in Summe kleiner sein können, als der Zweig. Würde man diese zwei kleinsten Elemente nun kombinieren, entstünde ein neuer Zweig der ein kleineres Gewicht hat als unser erster Zweig. 
+
+        Wir betrachten $n$ Symbole $a_i$, die ihrer Häufigkeit nach sortiert seien: $a_1 < ... < a_n$. Im ersten Algorithmus-Durchlauf werden die Elemente $a_1$ und $a_2$ kombiniert, wodurch der Zweig $b_1 = a_1 + a_2$ entsteht. Dieser wird nun wieder in die Liste einsortiert. Dabei können genau zwei Fälle auftreten:
+        \begin{align*}
+            \text{I: } &b_1 < a_3 ... < a_n \text{ oder } a_3 < b_1 < a_4 < ... < a_n \\
+            \text{II: } &a_3 < a_4 < ... < b_1 < ... a_n 
+        \end{align*}
+        Im Fall I landet der Zweig $b_1$ ganz am Anfang oder an zweiter Stelle und wird folglich im nächsten Durchlauf sofort mit dem Symbol $a_3$ kombiniert. Für den resultierenden Zweig $b_2$ gilt, wie gefordert, $b_2 = a_3 + b_1 > b_1$.
+        Im Fall 2 muss gewährleistet sein, dass $b_2 = a_3 + a_4 > b_1$ gilt. Zum Beweis helfen dabei diese Abschätzungen: $b_1 < 2a_2$ (da $a_1 < a_2$) und $b_2 > 2a_3$ (da $a_4$ > $a_3$). In die Bedingung eingesetzt ergibt sich:
+        \begin{align*}
+            b_2 &\stackrel{!}{>} b_1 \\
+            b_2 > 2a_3 &\stackrel{!}{>} 2a_2 > b_1 \\
+            a_3 &> a_2 \quad \checkmark
+        \end{align*}
+        Ein neu erstellter Zweig ist also stets größer, als ein zuvor erstellter Zweig. 
+        \item[b)]
+        
+    \end{enumerate}
+
+
+    \subsection*{Aufgabe 7.3}
+    \begin{table*}[h]
+        \centering
+        \begin{tabular}{c|cccccc}
+            $i$ & A & B & C & D & E & F \\ \hline
+            0   & \textbf{0} & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $\infty$ \\
+            1   & 0 & \textbf{2} & $\infty$ & 7 & $\infty$ & $\infty$ \\
+            2   & 0 & 2 & 7 & 5 & \textbf{3} & $\infty$ \\
+            3   & 0 & 2 & 7 & \textbf{5} & 3 & 12 \\
+            4   & 0 & 2 & \textbf{6} & 5 & 3 & 12 \\
+            5   & 0 & 2 & 6 & 5 & 3 & \textbf{12} \\
+        \end{tabular}
+        \caption{Ausführung des Dijkstra-Algorithmus. Jede Zeile entspricht einem "`Sprung"' zu einem weiteren Knoten. Der Algorithmus entscheidet sich in jeder Zeile für den fett markierten Knoten.}
+    \end{table*}\hfill\\
+    Kürzeste Wegstrecken: $\overline{\text{AB}} = 2, \overline{\text{ABEDC}} = 6, \overline{\text{ABD}} = 5, \overline{\text{ABE}} = 3, \overline{\text{ABEF}} = 12$.
+
+
+    \subsection*{Aufgabe 7.4}
+
+\end{document}

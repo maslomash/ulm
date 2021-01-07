@@ -499,54 +499,73 @@
     %     \end{tabular}
     % \end{table*}
     \begin{enumerate}
-        \item[a)] Man kann die naheliegende Vermutung aufstellen, dass eine nicht-lineare Funktion $w$ ein nicht-optimales bzw. ungleichmäßiges Ergebnis hervorruft. Wählen wir also zum Beispiel $w(i) = (n-i)^2$ und probieren $n=8$ und betrachten welchen Gesamtwert Gauner 1 und Gauner 2 am Ende je erhalten würden:
+        \item[a)] Man kann die naheliegende Vermutung aufstellen, dass eine nicht-lineare Funktion $w$ ein nicht-optimales bzw. ungleichmäßiges Ergebnis hervorruft. Wählen wir also zum Beispiel $w(i) = i^2$ und probieren $n=8$ und betrachten welchen Gesamtwert Gauner 1 und Gauner 2 am Ende je erhalten würden:
         \begin{table*}[h]
             \centering
             \begin{tabular}{c|c|cc}
                 $i$ & $w(i)$ & $G_1(i)$ & $G_2(i)$ \\ \hline
-                1 & 49 & 49 & 0 \\ \hline
-                2 & 36 & 49 & 36 \\
-                3 & 25 & 49 & 61 \\ \hline
-                4 & 16 & 65 & 61 \\
-                5 & 9  & 74 & 61 \\ \hline
-                6 & 4  & 74 & 65 \\
-                7 & 1  & 74 & 66 \\ \hline
-                8 & 0  & 74 & 66
+                1 & 1  & 1  & 0  \\ \hline
+                2 & 4  & 1  & 4  \\
+                3 & 9  & 1  & 13 \\ \hline
+                4 & 16 & 17 & 13 \\
+                5 & 25 & 42 & 13 \\ \hline
+                6 & 36 & 42 & 49 \\
+                7 & 49 & 42 & 98 \\ \hline
+                8 & 64 & 106 & 98
             \end{tabular}
         \end{table*} \\
-        Tatsächlich weichen am Ende die Gesamtwerte um 8 voneinander ab, weshalb diese Funktion kein optimales Ergebnis liefert. Somit ist $w(i) = (n-i)^2$ eine mögliche Antwort auf die Aufgabenstellung.
+        Tatsächlich weichen am Ende die Gesamtwerte um 8 voneinander ab, die Funktion $w(i) = i^2$ liefert also kein optimales Ergbenis unter der genannten Strategie.
         \item[b)]
-        Wählen wir stattdessen eine beliebige Funktion mit konstanter Ableitung, dann resultiert aus der Strategie stets eine optimale Lösung. Als Beispiel wählen wir $w(i) = 4(n-i)$ und erneut $n=8$:
+        Wählen wir stattdessen eine beliebige Funktion mit konstanter Ableitung, dann resultiert aus der Strategie stets eine optimale Lösung. Als Beispiel wählen wir $w(i) = 4i$ und erneut $n=8$:
         \begin{table*}[h]
             \centering
             \begin{tabular}{c|c|cc}
                 $i$ & $w(i)$ & $G_1(i)$ & $G_2(i)$ \\ \hline
-                1 & 28 & 28 & 0 \\ \hline
-                2 & 24 & 28 & 24 \\
-                3 & 20 & 28 & 44 \\ \hline
+                1 & 4  & 4 & 0 \\ \hline
+                2 & 8  & 28 & 24 \\
+                3 & 12 & 28 & 44 \\ \hline
                 4 & 16 & 44 & 44 \\
-                5 & 12 & 56 & 44 \\ \hline
-                6 & 8  & 56 & 52 \\
-                7 & 4  & 56 & 56 \\ \hline
-                8 & 0  & 56 & 56
+                5 & 20 & 56 & 44 \\ \hline
+                6 & 24 & 56 & 52 \\
+                7 & 28 & 56 & 56 \\ \hline
+                8 & 32 & 56 & 56
             \end{tabular}
         \end{table*}\\
         Zumindest in diesem Beispiel ist das resultierende Ergebnis optimal - beide Gauner erhalten den selben Gesamtwert von 56. Dass dies für jeden konstanten Faktor und beliebige $n$ der Fall ist, soll im Folgenden bewiesen werden: 
 
-        Wir betrachten uns die finale Differenz der Gesamtwerte $G_1(n)$ und $G_2(n)$, die sich aus allen Einzelwerten wie folgt zusammensetzt. Als Funktion wählen wir die beliebige Funktion $w(i) = c\cdot (n-i)$ mit $c \in \mathbb{N}$:
+        Wir betrachten uns die finale Differenz der Gesamtwerte $G_1(n)$ und $G_2(n)$, die sich aus allen Einzelwerten wie folgt zusammensetzt. Als Funktion wählen wir die beliebige Funktion $w(i) = c\cdot i$ mit $c \in \mathbb{N}$ und führen den Beweis per Induktion.
+    
+        \textbf{Aussage:}
         \begin{align*}
-            G_1(n) - G_2(n) &\stackrel{!}{=}0 \\
-            \Rightarrow 0 &= c \cdot (n-1) - c \cdot ((n-2) + (n-3)) + \ldots + c \cdot (4+  3)- c \cdot (2 + 1) + c \cdot 0 \qquad | \div c \\
-            &= \underbrace{(n-1)}_{\text{G1}} \underbrace{- ((n-2) + (n-3))}_{\text{G2}} + \ldots \underbrace{+(4+3)}_{\text{G1}} \underbrace{- (2 + 1)}_{\text{G2}} + \underbrace{0}_{\text{G1}}  \\
-            &= (n-1) + \sum_{i=2}^{n-1} \left( (-1)^{\floor{i/2}} (n-i)\right) + 0 \\
-            &= (n-1) - \sum_{i=2}^{(n-4)/2} \left( 2(n-i)-1 \right) + \sum_{i=4}^{(n-2)/2} \left( 2(n-i) -1 \right) \\
-            &= (n-1) - \sum_{i=2}^{n/2-2} \left( 2(n-i)-1 \right) + \sum_{i=4}^{n/2-1} \left( 2(n-i) -1 \right) \\
-            &= (n-1) - \\
-            &-\left(\sum_{i=2}^{n/2} ( 2(n-i)-1) - (2(n-(n/2-1)) -1) - (2(n-n/2)-1)\right) + \\
-            &+\left(\sum_{i=2}^{n/2} ( 2(n-i)-1) - (2(n-2)-1) - (2(n-3)-1) - (2(n-n/2)-1)\right) \\
-            &= (n-1) + (2(n-(n/2-1)) -1) - (2(n-2)-1) - (2(n-3)-1) \\
-            &= 2(6-n) \neq 0
+            A(n)&= G_1(n) - G_2(n) =0 \quad | \quad w(i) = c\cdot i, c \in \mathbb{N}\\\\
+            0&= c\cdot 1 - c \cdot (2+3) + c \cdot (4+5) - \ldots + c \cdot (n-4 + n-3) - c \cdot (n-2+n-1) + c \cdot n \\
+            0&= 1 - (2+3) + (4+5) - \ldots + (n-4 + n-3) - (n-2+n-1) + n \quad \text{\textbf{(IH)}}
+        \end{align*} 
+        \textbf{IA:} $A(4)=0$
+        \begin{align*}
+            A(4): c\cdot 1 - c \cdot (2+3) + c \cdot 4 = c \cdot (1-2-3+4) = 0 \quad \checkmark
         \end{align*}
+        \textbf{IS:} $A(n) \rightarrow A(n+4)$
+        \begin{align*}
+            &A(n+4) \\
+            &= \underbrace{1 - (2+3) + (4+5) - \ldots + (n-4 + n-3) - (n-2+n-1) + (n}_{\text{IH: } =0} + n+1) - (n+2 +n+3)+n+4 \\
+            &= n+1-(n+2+n+3)+n+4 \\
+            &= n+1-n-2-n-3+n+4 \\
+            &= 0 \quad \checkmark
+        \end{align*}
+        Somit ist die Strategie optimal, wenn die Wertefunktion $w(i) = c\cdot i$ gilt. 
+        % \begin{align*}
+        %     \Rightarrow 0 &= c \cdot (n-1) - c \cdot ((n-2) + (n-3)) + \ldots + c \cdot (4+  3)- c \cdot (2 + 1) + c \cdot 0 \qquad | \div c \\
+        %     &= \underbrace{(n-1)}_{\text{G1}} \underbrace{- ((n-2) + (n-3))}_{\text{G2}} + \ldots \underbrace{+(4+3)}_{\text{G1}} \underbrace{- (2 + 1)}_{\text{G2}} + \underbrace{0}_{\text{G1}}  \\
+        %     &= (n-1) + \sum_{i=2}^{n-1} \left( (-1)^{\floor{i/2}} (n-i)\right) + 0 \\
+        %     &= (n-1) - \sum_{j=1}^{n/2-2} \left( 2(n-2j)-1 \right) + \sum_{j=2}^{n/2-1} \left( 2(n-2j) -1 \right) \\
+        %     &= (n-1) - \\
+        %     &-\left(\sum_{j=1}^{n/2-1} ( 2(n-2j)-1) - (2(n-2(n/2-1)) -1) \right) + \\
+        %     &+\left(\sum_{j=1}^{n/2-1} ( 2(n-2j)-1) - (2(n-2\cdot1)-1) \right) \\
+        %     &= (n-1) + (2(n-2(n/2-1)) -1) - (2(n-2\cdot1)-1) \\
+        %     &= (n-1) + (2(n-n+2)-1) - (2n-4-1) \\
+        %     &= 7-n \neq 0
+        % \end{align*}
     \end{enumerate}
 
 \end{document}
