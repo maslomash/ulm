@@ -28,154 +28,26 @@
     numbers=right
 }
 
-\title{Einführung in die Informatik: Übung 6}
+\title{Einführung in die Informatik: Übung 7}
 \author{Alexander Waldenmaier}
 
 \begin{document}
     \maketitle
 
-    \subsection*{Aufgabe 1: Verschachteln}
-    Ausgabe: 
-    \begin{lstlisting}[numbers=none, language=bash]
-        x: 0
-        y: 0
-        z: false
-        x: 5
-        y: 0
-        z: false
-        x: 5
-        y: 25
-        z: true
-    \end{lstlisting}
-
-    Zunächst werden im class body die Variablen \lstinline{x}, \lstinline{y}, und \lstinline{z} initialisiert, die fortan als globale Variablen zur Verfügung stehen. 
-    
-    Beim Aufruf der Funktion \lstinline{methode1} werden die globalen Variablen \lstinline{x} und \lstinline{y} mitgegeben und innerhalb der Funktion nun als lokale Variablen verändert. Diese Änderung überträgt sich allerdings nicht zurück in die \lstinline{main}, weshalb dort zum Zeitpunkt 1 die Werte \lstinline{0, 0, false} ausgegeben werden - also die Initialisierungswerte der globalen Variablen.
-    
-    Nun wird \lstinline{methode2} mit den Werten von \lstinline{x} und \lstinline{y} aufgerufen. Innerhalb der Methode wird der Wert von \lstinline{x} der lokalen Variable \lstinline{a} zugeschrieben und der Wert von \lstinline{y} der lokalen Variable \lstinline{y}. Da somit kein lokales \lstinline{x} vorhanden ist, wird bei der Zuweisung \lstinline{x = a + 3} das globale \lstinline{x} verändert, das damit den Wert 5 erhält. Somit werden zum Zeitpunkt 2 die globalen Werte \lstinline{5, 0, false} ausgegeben. 
-
-    Schlielßlich wird die Funktion \lstinline{methode3} mit genau diesen Werten aufgerufen. Innerhalb der Methode erhalten die drei Werte jedoch die Bezeichner \lstinline{a, b, c} - somit referenziert jeder Aufruf von \lstinline{x, y, z} nun die globalen Variablen. Die Rechnung läuft dann wie folgt ab:
-    \begin{lstlisting}[numbers=none]
-        a = y;  // a = 0
-        b = a + 5;  // b = 10
-        x = a + b;  // x = 10
-        y = x * 5;  // y = 25
-        if (y < x)  // false
-            c = true;
-        else
-            z = true;  // z = true
-    \end{lstlisting}
-    Folglich werden dann zum Zeitpunkt 3 die Werte \lstinline{5, 25, true} ausgegeben. 
-
-    \subsection*{Aufgabe 2: Funktionsüberladung}
+    \subsection*{Aufgabe 1: Fahrrad fahren}
     \begin{enumerate}
-        \item[a)/b)] Siehe auch "`Konkatenieren.java"'. Das Programm wurde um die folgenden beiden Methoden erweitert:
-        \begin{lstlisting}[numbers=none]
-            private static String concat(String a, String b) {
-                String retval = a + b;
-                if (retval.contains("Katze")) cat();
-                return a + b;
-            }
-        
-            private static String concat(char a, String b) {
-                String s = String.valueOf(a);
-                return concat(s, b);
-            }
-        \end{lstlisting} 
-        Beide Methoden tragen den selben Namen, \lstinline{concat}, allerdings unterscheiden sich ihre Methodensignaturen. Die eine Funktion nimmt zwei Strings an, die andere einen Char an erster Stelle und einen String an zweiter Stelle. Ruft man \lstinline{concat} mit einem Char und einem String auf, so wird die zweite Methode ausgeführt. Diese konvertiert den Char in einen String und ruft dann erneut \lstinline{concat} auf, was in diesem Fall aber die erste Methode erreicht (da nun zwei Strings im Aufruf übergeben werden). In der ersten Methode werden die beiden Strings zusammengefügt ("`konkateniert"') und zurückgegeben. Sollte das Teilwort "`Katze"' im String enthalten sein, wird zunächst noch die Funktion \lstinline{cat} aufgerufen. 
-
-        Die Überladung ist notwendig, da in der \lstinline{main}-Metode \lstinline{concat} sowohl mit der Kombination Char + String, als auch mit der Kombination String + String aufgerufen wird, und dabei jedes Mal ein String als Resultat erwartet wird. 
-
-        Unter Überladung versteht man also generell die Definition mehrerer Methoden mit dem selben Namen, aber unterschiedlichen Methodensignaturen - also unterschiedlichen zu übergebenden Parametern. Entscheidend ist dabei der Typ der Parameter, die Reihenfolge und die Anzahl, nicht aber deren lokal zugewiesene Variablennamen. Übergibt man also die Parameter Char + String (in dieser Reihenfolge) ist klar, dass damit nur die zweite \lstinline{concat}-Methode gemeint sein kann, die genau diese Datentypen in dieser Reihenfolge annimmt. Genauso verweist die Übergabe zweier Strings eindeuting auf die erste Definition. Übergibt man hingegen String + Char (in dieser Reihenfolge) würde Java eine Fehlermeldung produzieren, da keine Methode für diesen Funktionsaufruf vorhanden ist. 
-
-        \item[c)] Nein. Da beide Methoden den selben Namen tragen, müssen sich ihre Methodensignaturen unterscheiden. Da beide Funktionen aber exakt einen String akzeptieren (die Variablennamen spielen keine Rolle), kann beim Funktionsaufruf nicht unterschieden werden, ob die eine oder die andere gemeint ist. Der Return-Typ der Funktion spielt bei dieser Beurteilung keinerlei Rolle. 
+        \item[a)] Siehe \texttt{BicycleDemo2.java}.
+        \item[b)] Siehe \texttt{BicycleDemo3.java}.
     \end{enumerate}
+
+
+    \subsection*{Aufgabe 2: Studierende und Mitarbeiter}
+    \begin{enumerate}
+        \item[a)-c)] Siehe \texttt{PersonDemo.java}.
+        \item[d)] Im Array \texttt{Person[] p\_arr} sind sowohl Objekte vom Typ \texttt{Student} als auch welche vom Typ \texttt{Mitarbeiter} abgespeichert, die jedoch beide vom der Klasse \texttt{Person} erben. Nur auf diese Weise können Objekte von unterschiedlichem Typ in ein und der selben Liste zusammengefasst werden. 
     
+        Wird von einem Objekt in der Liste \texttt{p\_arr} die Methode \texttt{ausgabe()} aufgerufen, so wird entweder die Ausgabe-Methode der Klasse \texttt{Student} aufgerufen, oder die die der Klasse \texttt{Mitarbeiter} - je nachdem, um welches Objekt es sich handelt. Die Methoden sind also dynamisch an das Objekt gebunden. 
 
-
-    \subsection*{Aufgabe 3: Call-by}
-    Die Ausgaben der Programme sind jeweils hinter den print-Aufrufen kommentiert.
-    \subsubsection*{Call by reference}
-    \begin{lstlisting}
-        public class Program {
-            
-            // Erstelle globale Variablen a, b, c
-            static String a = "Blumen"
-            static int b = 20;
-            static boolean c = false;
-
-            // Erhaelt Referenzen zu a, b, c
-            static int m (String x, int y, boolean c) {  
-                // Setze Wert von Referenz x, also globales a, 
-                // auf "Ich habe 20 Blumen"
-                x = "Ich habe " + y + " " + x; 
-                // Setze Wert von Referenz c, also globales c, auf true
-                c = true;
-                // Setze Wert von Referenz y, also globales b, auf 30
-                y = b + 10;
-                return b;  // Rueckgabe der Referenz auf globales b
-            }
-
-            // Erhealt Referenz auf b
-            static void n(int i) {
-                if (c)  // c = true 
-                    // Setze Wert von Referenz i, also globales b, auf 60
-                    i = i + i;  
-                else
-                    i = i - 2;
-            }
-
-            public static void main(String[] args) {
-                // Uebergebe Referenzen von a, b, c an m().
-                // Uebergebe dann Referenz zu return-Wert von m() an n().
-                n(m(a, b, c))  
-
-                System.out.println(a);  // Ausgabe: Ich habe 20 Blumen
-                System.out.println(b);  // Ausgabe: 60
-                System.out.println(c);  // Ausgabe: true
-            }
-        }
-    \end{lstlisting}
-
-    \subsubsection*{Call by value}
-    \begin{lstlisting}
-        public class Program {
-            
-            // Erstelle globale Variablen a, b, c
-            static String a = "Blumen"
-            static int b = 20;
-            static boolean c = false;
-
-            // Erhaelt Werte von a, b, c in lokalen Variablen x, y, c
-            static int m (String x, int y, boolean c) {  
-                // Setze lokales x auf "Ich habe 20 Blumen"
-                x = "Ich habe " + y + " " + x; 
-                // Setze lokales c auf true
-                c = true;
-                // Setze lokales y auf 30
-                y = b + 10;
-                return b;  // Rueckgabe des globalen Werts 20
-            }
-
-            // Erhaelt Wert 20
-            static void n(int i) {
-                if (c)  // c = false 
-                    i = i + i;  
-                else
-                    // Setze lokales i auf 18
-                    i = i - 2;
-            }
-
-            public static void main(String[] args) {
-                // Uebergebe Werte der globalen Variablen a, b, c an m()
-                // Uebergebe Rueckgabewert von m() an n()
-                n(m(a, b, c))  
-
-                System.out.println(a);  // Ausgabe: Blumen
-                System.out.println(b);  // Ausgabe: 20
-                System.out.println(c);  // Ausgabe: false
-            }
-        }
-    \end{lstlisting}
-
+        Davon lässt sich immer dann sprechen, wenn Methoden einer Oberklasse in einer Subklasse überschrieben werden (overriding).  
+    \end{enumerate}
 \end{document}

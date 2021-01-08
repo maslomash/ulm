@@ -119,7 +119,11 @@
         \end{align*}
         Ein neu erstellter Zweig ist also stets größer, als ein zuvor erstellter Zweig. 
         \item[b)]
-        
+        Zur Umsetzung betrachten wir zwei Queues, $A$ und $B$ die jeweils mit Knoten-Objekten gefüllt werden können. Diese Knoten-Objekte besitzen als Attribute ihr Gewicht, sowie Pointer zu ihren Kind-Knoten. $A$ sei zu Beginn gefüllt mit den bereits ihrer Reihe nach sortierten Knoten-Objekten der Symbole. Die Kind-Knoten all dieser Objekte sind Null-Pointer.
+
+        Nun betrachte man in jedem Schleifendurchlauf jeweils bis zu zwei erste (kleinste) Objekte der Queues $A$ und $B$ und suche aus diesen bis zu vier Knoten-Objekten die zwei mit dem geringsten Gewicht. Diese zwei entferne man aus den Queues, füge sie zu einem gemeinsamen neuen Knoten-Objekt als Kinder hinzu und reihe diesen neuen Knoten am Ende von $B$ ein. Die Ordnung von $B$ wird dabei nicht gestört, da jeder neue Knoten größer als jeder der zuvor erstellten ist (wie in a) bewiesen). 
+
+        Dieses Vorgehen wird so lange fortgeführt, bis irgendwann in Queue $A$ keine Knoten mehr enthalten sind und in Queue $B$ nur noch ein Knoten enthalten ist. Dieser ist dann der Wurzelknoten. 
     \end{enumerate}
 
 
@@ -141,5 +145,38 @@
 
 
     \subsection*{Aufgabe 7.4}
+    \begin{minipage}{0.4\linewidth}
+        Der nebenstehende Graph zeigt ein Gegenbeispiel für den vorgeschlagenen Algorithmus. Der längste Weg von A nach C wäre $\overline{\text{ADBC}}= 21$, jedoch findet der Algorithmus den Weg $\overline{\text{ABC}} = 20$. 
+    \end{minipage} \hspace{0.05\linewidth}
+    \begin{minipage}{0.2\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw
+                (0,0) node[circle, draw] (D) {D}
+                (2,0) node[circle, draw] (C) {C}
+                (2,2) node[circle, draw] (B) {B}
+                (0,2) node[circle, draw] (A) {A}
+                node[above] at (A.north) {Start}
+                node[below] at (C.south) {Ende};
+            \path[-, draw]
+                (A) edge node[above]{10} (B)
+                (B) edge node[right]{10} (C)
+                (A) edge node[left]{6} (D)
+                (C) edge node[below]{3} (D)
+                (B) edge node[above]{5} (D);
+        \end{tikzpicture}
+    \end{minipage}\hspace{0.05\linewidth}
+    \begin{minipage}{0.3\linewidth}
+        \centering
+        \begin{tabular}{c|cccc}
+            $i$ & A & B & C & D \\ \hline
+            0   & \textbf{0} & $-\infty$ & $-\infty$ & $-\infty$ \\
+            1   & 0 & \textbf{10} & $-\infty$ & 6 \\
+            2   & 0 & 10 & \textbf{20} & 15 \\
+            3   & 0 & 10 & 20 & \textbf{23} \\
+        \end{tabular}
+    \end{minipage}
 
+    \subsection*{Aufgabe 7.5}
+    Abgabe in DOMjudge. Teamname: "`test"'
 \end{document}
